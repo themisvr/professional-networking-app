@@ -1,0 +1,30 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.app-footer {
+    justify-content: space-between;
+    background-color: #3f51b5;
+    color: #fff;
+    position: absolute;
+    bottom:0px;
+    left:0px;
+    right: 0px;
+    z-index:2;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+}
+
+.terms {
+    font-size: 100%;
+    flex: 1 1 auto;
+}
+
+
+.footer-font{
+    font-size: 200%;
+}
+
+.icons {
+    grid-area: 1 / 2 / 3 / 3;
+    font-size: 200%;
+}
