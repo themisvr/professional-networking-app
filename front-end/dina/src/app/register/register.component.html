@@ -8,28 +8,30 @@
   
         <mat-card-content>
           <mat-form-field class="full-width">
-            <input matInput placeholder="Username">
+            <input matInput placeholder="Username" required>
           </mat-form-field>
   
           <mat-form-field class="full-width">
-            <input matInput placeholder="Email">
+            <input matInput placeholder="Email" required>
           </mat-form-field>
   
           <mat-form-field class="full-width">
-            <input matInput placeholder="Password">
+            <input matInput #login_pass minlength="8" [type]="hide ? 'password' : 'text'" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" placeholder="Password" required>
+            <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hide = !hide" >
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button> 
           </mat-form-field>
-  
+
           <mat-form-field class="full-width">
-            <mat-label>Choose a role...</mat-label>
-            <mat-select>
-              <mat-option [value]="roles" *ngFor="let roles of Roles">{{roles}}
-              </mat-option>
-            </mat-select>
+            <input matInput #login_pass minlength="8" [type]="hide ? 'password' : 'text'" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" placeholder="Confirm Password" required>
+            <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hide = !hide" >
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button> 
           </mat-form-field>
   
         </mat-card-content>
   
-        <button mat-stroked-button color="accent" class="btn-block">Confirm</button>
+        <button mat-stroked-button color="basic" class="btn-block">Confirm</button>
   
       </form>
     </mat-card>
