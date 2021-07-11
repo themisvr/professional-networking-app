@@ -1,26 +1,31 @@
-from db import User, get_session
-
+from db import User, db
+from utils import make_response, make_response_error, json_to_table
+from http_constants.status import HttpStatus
 from flask import Blueprint, request
-from werkzeug.security import check_password_hash, generate_password_hash
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+
 @bp.route("/register", methods=["POST"])
 def register():
-    session = get_session()
     content = request.get_json()
 
-    username = content["username"]
-    password = content["password"]
+    email = content.get("email")
+    password = content.get("password")
 
-    if not username:
-        return "Username not provided"
+    if not email:
+        return make_response_error("Email not provided", HttpStatus.BAD_REQUEST)
     elif not password:
-        return "Password not provided"
-    elif session.query(User).filter(User.username == username).first() is not None:
-        return f"User {username} is already registered"
+        return make_response_error("Password not provided", HttpStatus.BAD_REQUEST)
+    elif User.query.filter_by(email=email).first() is not None:
+        return make_response_error(f"User with email {email} is already registered", HttpStatus.CONFLICT)
 
-    user = User(name=content["name"], surname=content["surname"], username=username, password=password)
-    session.add(user)
-    session.commit()
-    return "Saved"
+    user = json_to_table(content, User)
+
+    try:
+        db.session.add(user)
+        db.session.commit()
+    except Exception as _:
+        return make_response_error("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR)
+
+    return make_response(user)

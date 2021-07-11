@@ -1,48 +1,45 @@
 import click
-from sqlalchemy import create_engine, Column, Integer, String, Sequence
-from sqlalchemy.orm import declarative_base, sessionmaker
-from flask import g
+from passlib.hash import bcrypt
+from dataclasses import dataclass
 from flask.cli import with_appcontext
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.hybrid import hybrid_property
+
+db = SQLAlchemy()
 
 
-engine = create_engine('postgresql://postgres:DinaRules@localhost:5432/DiNa')
-Session = sessionmaker(bind=engine)
-
-Base = declarative_base()
-
-
-class User(Base):
+@dataclass
+class User(db.Model):
     __tablename__ = "users"
 
-    id = Column(Integer, Sequence("user_id_seq"), primary_key=True)
-    username = Column(String)
-    name = Column(String)
-    surname = Column(String)
-    password = Column(String)
+    name: str
+    surname: str
+    email: str
+    telephone: str
 
-    def __repr__(self) -> str:
-        return f"<User(name='{self.name}', surname='{self.surname}')>"
+    user_id = db.Column(db.Integer, db.Sequence("user_id_seq"), primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    surname = db.Column(db.String, nullable=False)
+    _password = db.Column("password", db.String, nullable=False)
+    email = db.Column(db.String, nullable=False, unique=True)
+    telephone = db.Column(db.String, nullable=True)
 
+    @hybrid_property
+    def password(self):
+        return self._password
 
-def get_session():
-    if "session" not in g:
-        g.session = Session()
-
-    return g.session
-
-
-def init_db():
-    Base.metadata.create_all(engine)
+    @password.setter
+    def password(self, password):
+        self._password = bcrypt.encrypt(password)
 
 
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
-    init_db()
+    db.drop_all()
+    db.create_all()
     click.echo('Initialized the database.')
 
 
-def init_app(app):
-    # init_db()
+def register_db_command(app):
     app.cli.add_command(init_db_command)
-
