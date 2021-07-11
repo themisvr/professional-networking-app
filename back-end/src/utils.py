@@ -1,4 +1,5 @@
 import inspect
+import os
 
 from flask import jsonify
 from http_constants.status import HttpStatus
@@ -29,3 +30,12 @@ def json_to_table(json_payload, table):
         if "id" not in col and json_payload.get(col):
             setattr(res, col, json_payload.get(col))
     return res
+
+
+def get_files_in_dir(dir_path):
+    return [os.path.join(dir_path, f) for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))]
+
+
+def read_entire_file(path):
+    with open(path, "r") as f:
+        return f.read()
