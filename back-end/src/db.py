@@ -14,19 +14,19 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = "users"
 
-    name: str
-    surname: str
+    firstName: str
+    lastName: str
     email: str
-    telephone: str
-    is_admin: bool
+    phoneNumber: str
+    isAdmin: bool
 
-    user_id = db.Column(db.Integer, db.Sequence("user_id_seq"), primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    surname = db.Column(db.String, nullable=False)
+    userId = db.Column("user_id", db.Integer, db.Sequence("user_id_seq"), primary_key=True)
+    firstName = db.Column("first_name", db.String, nullable=False)
+    lastName = db.Column("last_name", db.String, nullable=False)
     _password = db.Column("password", db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
-    telephone = db.Column(db.String, nullable=True)
-    is_admin = db.Column(db.Boolean, nullable=False, default=False)
+    phoneNumber = db.Column("phone_number", db.String, nullable=True)
+    isAdmin = db.Column("is_admin", db.Boolean, nullable=False, default=False)
 
     @hybrid_property
     def password(self):
