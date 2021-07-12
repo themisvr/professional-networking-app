@@ -15,6 +15,7 @@ import { TimelineComponent } from './timeline/timeline.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FooterComponent } from './footer/footer.component';
     WelcomePageComponent,
     TimelineComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,
