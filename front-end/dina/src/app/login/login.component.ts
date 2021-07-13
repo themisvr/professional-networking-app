@@ -23,9 +23,15 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService
-  ) { 
+  ) {
     if (this.authenticationService.currentUserValue) {
-      this.router.navigate(['/']);
+      if (this.authenticationService.currentUserValue.isAdmin === true) {
+        this.router.navigate(['admin']);
+
+      }
+      else {
+        this.router.navigate(['user-prof']);
+      }
     }
   }
 
@@ -35,7 +41,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.returnUrl = '/';
+    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
 
@@ -45,20 +51,23 @@ export class LoginComponent implements OnInit {
 
 
   onSubmit() {
-    console.log("Hello world!!");
     this.submitted = true;
 
     if (this.loginForm.invalid) {
       return;
     }
 
-    console.log("Moving on");
     this.loading = true;
     this.authenticationService.login(this.formFields.email.value, this.formFields.password.value)
       .pipe(first())
       .subscribe(
         data => {
-          this.router.navigate([this.returnUrl]);
+          if (this.authenticationService.currentUserValue?.isAdmin === true) {
+            this.router.navigate(['admin'])
+          }
+          else {
+            this.router.navigate(['user-prof']);
+          }
         },
         error => {
           this.error = error;

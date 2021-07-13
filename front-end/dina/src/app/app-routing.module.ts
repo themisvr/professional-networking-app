@@ -1,3 +1,4 @@
+import { UserProfComponent } from './user-prof/user-prof.component';
 import { AuthGuard } from './_helpers/auth.guard';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'admin', component: AdminPageComponent },
+  { path: 'user-prof', component: UserProfComponent },
   { path: '**', component: WelcomePageComponent }
 ];
 
