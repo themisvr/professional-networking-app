@@ -12,27 +12,25 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { UserProfComponent } from './user-prof/user-prof.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    NavbarComponent,
-    WelcomePageComponent,
     TimelineComponent,
     SidebarComponent,
     FooterComponent,
     AdminPageComponent,
-    UserProfComponent
+    UserProfComponent,
+    HeaderComponent
   ],
   imports: [
     HttpClientModule,
