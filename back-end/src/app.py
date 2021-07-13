@@ -1,6 +1,7 @@
 import os
 import db
 import auth
+import user
 from flask import Flask
 from flask_cors import CORS
 
@@ -23,6 +24,7 @@ def create_app(test_config=None):
         pass
 
     db.register_db_command(app)
+    app.register_blueprint(user.bp)
     app.register_blueprint(auth.bp)
 
     return app

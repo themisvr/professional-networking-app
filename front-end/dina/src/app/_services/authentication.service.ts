@@ -9,21 +9,21 @@ import { User } from '../_models/user'
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
+  private currentUserSubject: BehaviorSubject<Nullable<User>>;
+  public currentUser: Observable<Nullable<User>>;
 
   constructor(private http: HttpClient) {
     let storageUser = localStorage.getItem('currentUser');
     if (storageUser) {
-      this.currentUserSubject = new BehaviorSubject<User | null>(JSON.parse(storageUser));
+      this.currentUserSubject = new BehaviorSubject<Nullable<User>>(JSON.parse(storageUser));
     } else {
-      this.currentUserSubject = new BehaviorSubject<User | null>(null);
+      this.currentUserSubject = new BehaviorSubject<Nullable<User>>(null);
     }
-    
+
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): User | null {
+  public get currentUserValue(): Nullable<User> {
     return this.currentUserSubject.value;
   }
 
