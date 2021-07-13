@@ -19,6 +19,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { UserProfComponent } from './user-prof/user-prof.component';
 import { HeaderComponent } from './header/header.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { HeaderComponent } from './header/header.component';
     FooterComponent,
     AdminPageComponent,
     UserProfComponent,
-    HeaderComponent
+    HeaderComponent,
+    NavbarComponent
   ],
   imports: [
     HttpClientModule,
