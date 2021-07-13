@@ -1,18 +1,18 @@
 import inspect
 import os
 
-from flask import jsonify
+from flask import jsonify, Response
 from http_constants.status import HttpStatus
 from datetime import datetime
 
 
-def make_response(payload, status=HttpStatus.OK):
+def make_response(payload, status: HttpStatus = HttpStatus.OK) -> Response:
     res = jsonify(payload)
     res.status = status
     return res
 
 
-def make_response_error(msg, status):
+def make_response_error(msg: str, status: HttpStatus) -> Response:
     error = {
         "error": {
             "message": msg,
@@ -32,10 +32,10 @@ def json_to_table(json_payload, table):
     return res
 
 
-def get_files_in_dir(dir_path):
+def get_files_in_dir(dir_path: str) -> list[str]:
     return [os.path.join(dir_path, f) for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))]
 
 
-def read_entire_file(path):
+def read_entire_file(path: str) -> str:
     with open(path, "r") as f:
         return f.read()
