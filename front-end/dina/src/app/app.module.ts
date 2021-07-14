@@ -20,6 +20,7 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
 import { UserProfComponent } from './user-prof/user-prof.component';
 import { HeaderComponent } from './header/header.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTableExporterModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

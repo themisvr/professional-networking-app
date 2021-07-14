@@ -11,11 +11,11 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getAllUsers() {
-    this.http.get<User[]>(`${environment.backendUrl}/users`);
+    return this.http.get<User[]>(`${environment.backendUrl}/users`);
   }
 
   getUserByEmaiL(email: string) {
-    this.http.get<User>(`${environment.backendUrl}/users`, {
+    return this.http.get<User>(`${environment.backendUrl}/users`, {
       params: {
         email: email
       }
