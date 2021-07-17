@@ -21,6 +21,7 @@ import { UserProfComponent } from './user-prof/user-prof.component';
 import { HeaderComponent } from './header/header.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     AdminPageComponent,
     UserProfComponent,
     HeaderComponent,
-    NavbarComponent
+    NavbarComponent,
+    NotFoundComponent
   ],
   imports: [
     HttpClientModule,
