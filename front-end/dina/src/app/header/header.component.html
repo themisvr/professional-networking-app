@@ -1,9 +1,18 @@
 <mat-toolbar color="primary" class="app-header">
-    <span><mat-icon>language</mat-icon> DiNa </span>
-        <div class="spacer"></div>
-        <a *ngIf="!isLoggedIn" mat-button routerLink="login" routerLinkActive="active"><mat-icon>login</mat-icon>Sign in</a>
-        <a *ngIf="!isLoggedIn" mat-button mat-raised-button routerLink="register" routerLinkActive="active"><mat-icon>perm_identity</mat-icon>Sign up</a>
-        <div *ngIf="isLoggedIn">
-            <app-navbar></app-navbar>
-        </div>
+    <span>
+        <mat-icon>language</mat-icon> DiNa
+    </span>
+    <div class="spacer"></div>
+    <div *ngIf="!isLoggedIn">
+        <a mat-button routerLink="login" routerLinkActive="active">
+            <mat-icon>login</mat-icon>Sign in
+        </a>
+        <a mat-button mat-raised-button routerLink="register" routerLinkActive="active">
+            <mat-icon>perm_identity</mat-icon>Sign up
+        </a>
+    </div>
+
+    <div *ngIf="isLoggedIn && !isAdmin">
+        <app-navbar></app-navbar>
+    </div>
 </mat-toolbar>

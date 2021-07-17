@@ -25,17 +25,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService
-  ) {
-    if (this.authenticationService.currentUserValue) {
-      if (this.authenticationService.currentUserValue.isAdmin === true) {
-        this.router.navigate(['admin']);
-
-      }
-      else {
-        this.router.navigate(['user-prof']);
-      }
-    }
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -44,13 +34,21 @@ export class LoginComponent implements OnInit {
     });
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.navigateIfAlreadyLoggedIn();
   }
-
 
   get formFields() {
     return this.loginForm.controls;
   }
 
+  private navigateIfAlreadyLoggedIn() {
+    if (this.authenticationService.currentUserValue?.isAdmin === true) {
+      this.router.navigate(['admin'])
+    }
+    else {
+      this.router.navigate(['home']);
+    }
+  }
 
   onSubmit() {
     this.submitted = true;
@@ -63,12 +61,7 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          if (this.authenticationService.currentUserValue?.isAdmin === true) {
-            this.router.navigate(['admin'])
-          }
-          else {
-            this.router.navigate(['user-prof']);
-          }
+          this.navigateIfAlreadyLoggedIn();
         },
         error => {
           this.error = error;
