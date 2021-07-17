@@ -26,7 +26,8 @@ def make_response_error(msg: str, status: HttpStatus) -> Response:
 def json_to_table(json_payload, table):
     cls = table if inspect.isclass(table) else table.__class__
     res = table() if inspect.isclass(table) else table
-    for col in cls.__table__.columns.keys():
+    attrs = [a for a in dir(cls) if not a.startswith("__")]
+    for col in attrs:
         if "id" not in col and json_payload.get(col):
             setattr(res, col, json_payload.get(col))
     return res

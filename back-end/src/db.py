@@ -34,7 +34,7 @@ class User(db.Model):
 
     @password.setter
     def password(self, password):
-        self._password = bcrypt.hashpw(password, bcrypt.gensalt())
+        self._password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
 
 def load_static_data(db):
