@@ -1,50 +1,76 @@
 <div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
-    <mat-card class="box">
-      <mat-card-header>
-        <mat-card-title>Sign Up</mat-card-title>
-      </mat-card-header>
-  
-      <form class="form">
-  
-        <mat-card-content>
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Username" required>
-          </mat-form-field>
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Sign Up</mat-card-title>
+    </mat-card-header>
 
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Email" required>
-          </mat-form-field>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Email" formControlName="email" [(ngModel)]="registerUserModel.email" required>
+          <div *ngIf="submitted && formFields.email.errors">
+            <mat-error *ngIf="formFields.email.errors.required">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="formFields.email.errors.email">
+              Email is invalid
+            </mat-error>
+          </div>
+        </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <input matInput placeholder="First Name" required>
-          </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="First Name" formControlName="firstName" [(ngModel)]="registerUserModel.firstName" required>
+          <div *ngIf="submitted && formFields.firstName.errors">
+            <mat-error *ngIf="formFields.firstName.errors.required">
+              First Name is required
+            </mat-error>
+          </div>
+        </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Last Name" required>
-          </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Last Name" formControlName="lastName" [(ngModel)]="registerUserModel.lastName" required>
+          <div *ngIf="submitted && formFields.lastName.errors">
+            <mat-error *ngIf="formFields.lastName.errors.required">
+              Last Name is required
+            </mat-error>
+          </div>
+        </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Phone Number" required>
-          </mat-form-field>
-  
-          <mat-form-field class="full-width">
-            <input matInput #login_pass minlength="8" [type]="hide ? 'password' : 'text'" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" placeholder="Password" required>
-            <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hide = !hide" >
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Phone Number" [(ngModel)]="registerUserModel.phoneNumber" formControlName="phoneNumber">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput formControlName="password" [(ngModel)]="registerUserModel.password" [type]="hide ? 'password' : 'text'"
+            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" placeholder="Password" required>
+          <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hide = !hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button> 
-          </mat-form-field>
+          </button>
+          <div *ngIf="submitted && formFields.password.errors">
+            <mat-error *ngIf="formFields.password.errors.required">
+              Password is required
+            </mat-error>
+          </div>
+        </mat-form-field>
 
-          <mat-form-field class="full-width">
-            <input matInput #login_pass minlength="8" [type]="hide ? 'password' : 'text'" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" placeholder="Confirm Password" required>
-            <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hide = !hide" >
+        <mat-form-field class="full-width">
+          <input matInput formControlName="confirmPassword" [errorStateMatcher]="matcher"
+            [type]="hide ? 'password' : 'text'" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"
+            placeholder="Confirm Password" required>
+          <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hide = !hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button> 
-          </mat-form-field>
-  
-        </mat-card-content>
-  
-        <button mat-stroked-button color="basic" class="btn-block">Confirm</button>
-  
-      </form>
-    </mat-card>
-  </div>
+          </button>
+          <div *ngIf="submitted">
+            <mat-error *ngIf="form.hasError('notSame')">
+              Passwords do not match
+            </mat-error>
+          </div>
+        </mat-form-field>
+      </mat-card-content>
+
+      <button mat-stroked-button color="basic" [disabled]="!registerForm.valid" class="btn-block">
+        Confirm
+      </button>
+    </form>
+  </mat-card>
+</div>

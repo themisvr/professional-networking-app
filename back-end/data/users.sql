@@ -7,7 +7,7 @@ INSERT INTO USERS (
 	phone_number,
 	is_admin
 ) VALUES (
-	1,
+	nextval('user_id_seq'),
 	'Admin',
 	'Mc Admin',
 	'admin@dina.com',
@@ -25,11 +25,11 @@ INSERT INTO USERS (
 	phone_number,
 	is_admin
 ) VALUES (
-	2,
+	nextval('user_id_seq'),
 	'Tester',
 	'Mc Tester',
 	'tester@dina.com',
 	'$2b$12$5dYYpgHuKW6K6mDK1BaMjuJEOrYPFVg3F5Sl1VREqcqfTSr/GzzZG', -- 12345678
 	null,
-	true
+	false
 ) ON CONFLICT DO NOTHING;

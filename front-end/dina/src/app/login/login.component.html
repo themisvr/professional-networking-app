@@ -12,9 +12,13 @@
           <mat-form-field class="full-width">
             <input matInput formControlName="email" placeholder="Email">
             <div *ngIf="submitted && formFields.email.errors">
-              <div *ngIf="formFields.email.errors.required">Email is required</div>
-              <div *ngIf="formFields.email.errors.email">Email is invalid</div>
-          </div>
+              <mat-error *ngIf="formFields.email.errors.required">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="formFields.email.errors.email">
+                Email is invalid
+              </mat-error>
+            </div>
           </mat-form-field>
 
           <mat-form-field class="full-width">
@@ -23,9 +27,11 @@
             <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hide = !hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
-            <div *ngIf="submitted && formFields.password.errors"ß>
-              <div *ngIf="formFields.password.errors.required">Password is required</div>
-          </div>
+            <div *ngIf="submitted && formFields.password.errors">
+              <mat-error *ngIf="formFields.password.errors.required">
+                Password is required
+              </mat-error>
+            </div>
           </mat-form-field>
 
         </mat-card-content>

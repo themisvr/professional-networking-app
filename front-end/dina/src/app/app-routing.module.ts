@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -20,6 +21,7 @@ const routes: Routes = [
   // is an admin user
   { path: 'admin', component: AdminPageComponent },
   { path: 'user-prof', component: UserProfComponent },
+  { path: 'logout', component: LogoutComponent },
   { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ];
 

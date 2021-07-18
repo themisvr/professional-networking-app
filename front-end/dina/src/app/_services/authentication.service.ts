@@ -1,3 +1,4 @@
+import { RegisterUser } from './../_models/registerUser';
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -34,6 +35,10 @@ export class AuthenticationService {
         this.currentUserSubject.next(user);
         return user;
       }));
+  }
+
+  register(user: RegisterUser) {
+    return this.http.post<User>(`${environment.backendUrl}/auth/register`, user);
   }
 
   logout() {

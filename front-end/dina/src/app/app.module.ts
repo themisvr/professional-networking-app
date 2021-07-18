@@ -24,6 +24,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
     NavbarComponent,
     NotFoundComponent,
     UserHomeComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    LogoutComponent
   ],
   imports: [
     HttpClientModule,

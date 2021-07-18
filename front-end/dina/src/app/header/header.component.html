@@ -15,4 +15,8 @@
     <div *ngIf="isLoggedIn && !isAdmin">
         <app-navbar></app-navbar>
     </div>
+
+    <button *ngIf="isLoggedIn" mat-button routerLink="logout" routerLinkActive="active">
+        <mat-icon>logout</mat-icon>Logout
+    </button>
 </mat-toolbar>
