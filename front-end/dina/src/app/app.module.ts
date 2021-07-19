@@ -13,7 +13,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { TimelineComponent } from './timeline/timeline.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './footer/footer.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
@@ -25,6 +24,12 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LogoutComponent } from './logout/logout.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,6 @@ import { LogoutComponent } from './logout/logout.component';
     LoginComponent,
     RegisterComponent,
     TimelineComponent,
-    SidebarComponent,
     FooterComponent,
     AdminPageComponent,
     UserProfComponent,
@@ -41,7 +45,7 @@ import { LogoutComponent } from './logout/logout.component';
     NotFoundComponent,
     UserHomeComponent,
     WelcomeComponent,
-    LogoutComponent
+    LogoutComponent,
   ],
   imports: [
     HttpClientModule,
@@ -53,6 +57,12 @@ import { LogoutComponent } from './logout/logout.component';
     FormsModule,
     ReactiveFormsModule,
     MatTableExporterModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
