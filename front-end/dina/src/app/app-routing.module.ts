@@ -9,6 +9,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { UserHomeComponent } from './user-home/user-home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LogoutComponent } from './logout/logout.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: '404', component: NotFoundComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'settings', component: SettingsComponent },
   // TODO(gliontos): Add this route dynamically after we have made sure that the user
   // is an admin user
   { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
