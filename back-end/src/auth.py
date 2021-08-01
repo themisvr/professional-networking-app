@@ -1,6 +1,5 @@
-import bcrypt
-from db import User, db
-from utils import make_response, make_response_error, json_to_table
+from db import User, db, UserSchema
+from utils import make_response, make_response_error, commit_db_session_and_return_successful_response
 from http_constants.status import HttpStatus
 from flask import Blueprint, request
 
@@ -21,16 +20,10 @@ def register():
     elif User.query.filter_by(email=email).first() is not None:
         return make_response_error(f"User with email {email} is already registered", HttpStatus.CONFLICT)
 
-    user = json_to_table(content, User)
-
-    try:
-        db.session.add(user)
-        db.session.commit()
-    except Exception as e:
-        print(e)
-        return make_response_error("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR)
-
-    return make_response(user)
+    schema = UserSchema()
+    user = schema.load(content, session=db.session)
+    db.session.add(user)
+    return commit_db_session_and_return_successful_response(db, schema, user)
 
 
 @bp.route("/login", methods=["POST"])
@@ -52,4 +45,4 @@ def login():
     if not user.passwords_match(password):
         return make_response_error("Username or password incorrect", HttpStatus.UNAUTHORIZED)
 
-    return make_response(user)
+    return make_response(UserSchema().dumps(user))

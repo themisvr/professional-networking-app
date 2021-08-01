@@ -1,34 +1,43 @@
 from flask import Blueprint, request
 from http_constants.status import HttpStatus
-from utils import make_response, make_response_error, json_to_table
-from db import User, db
+from utils import make_response, make_response_error, commit_db_session_and_return_successful_response
+from db import User, db, UserSchema, PostSchema
 
 bp = Blueprint("users", __name__, url_prefix="/users")
+
+
+def __get_user_with_email_or_return_error(email):
+    if not email:
+        return None, make_response_error("No email provided", HttpStatus.BAD_REQUEST)
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return None, make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
+
+    return user, None
 
 
 @bp.route("", methods=["GET"])
 def get_users():
     if request.args.get("email"):
-        email = request.args.get("email")
-        user = User.query.filter_by(email=email).first()
+        user, err = __get_user_with_email_or_return_error(request.args.get("email"))
 
         if user:
             return make_response(user)
         else:
-            return make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
+            return err
 
     users = User.query.all()
-    return make_response(users)
+    return make_response(UserSchema().dumps(users, many=True))
 
 
 @bp.route("/changeEmail", methods=['PUT'])
-def update_user():
+def change_email():
     content = request.get_json()
-    email = content.get("email")
-    user = User.query.filter_by(email=email).first()
+    user, err = __get_user_with_email_or_return_error(content.get("email"))
 
     if not user:
-        return make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
+        return err
 
     new_email = content.get("newEmail")
     if not new_email:
@@ -38,23 +47,16 @@ def update_user():
         return make_response_error(f"User with email {new_email} already exists", HttpStatus.CONFLICT)
 
     user.email = new_email
-    try:
-        db.session.commit()
-    except Exception as e:
-        print(e)
-        return make_response_error("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR)
-
-    return make_response(user)
+    return commit_db_session_and_return_successful_response(db, UserSchema(), user)
 
 
 @bp.route("/changePassword", methods=['PUT'])
-def update_user():
+def change_password():
     content = request.get_json()
-    email = content.get("email")
-    user = User.query.filter_by(email=email).first()
+    user, err = __get_user_with_email_or_return_error(content.get("email"))
 
     if not user:
-        return make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
+        return err
 
     old_password = content.get("oldPassword")
     if not user.passwords_match(old_password):
@@ -64,12 +66,31 @@ def update_user():
     if not new_password:
         return make_response_error("No new password provided", HttpStatus.BAD_REQUEST)
 
-
     user.password = new_password
-    try:
-        db.session.commit()
-    except Exception as e:
-        print(e)
-        return make_response_error("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR)
+    return commit_db_session_and_return_successful_response(db, UserSchema(), user)
 
-    return make_response(user)
+
+@bp.route("/posts", methods=["GET"])
+def get_user_posts():
+    user, err = __get_user_with_email_or_return_error(request.args.get("email"))
+
+    if not user:
+        return err
+
+    return make_response(PostSchema().dumps(user.posts, many=True))
+
+
+@bp.route("/posts", methods=["POST"])
+def create_user_post():
+    content = request.get_json()
+
+    user, err = __get_user_with_email_or_return_error(content.get("email"))
+
+    if not user:
+        return err
+
+    schema = PostSchema()
+    post = schema.load(content, session=db.session)
+    user.posts.append(post)
+
+    return commit_db_session_and_return_successful_response(db, schema, post)
