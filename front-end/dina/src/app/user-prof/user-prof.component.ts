@@ -1,4 +1,8 @@
+import { UserService } from './../_services/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { User } from '../_models/user';
+
 
 
 @Component({
@@ -8,8 +12,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserProfComponent implements OnInit {
 
-
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
   }

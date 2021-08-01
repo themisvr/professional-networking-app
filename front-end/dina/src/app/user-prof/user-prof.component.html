@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-    <mat-sidenav style="width: 15%" #sidenav [opened]="true" [mode]="'side'"> 
+    <mat-sidenav style="width: 15%" #sidenav [opened]="true" [mode]="'side'">
        <mat-nav-list>
          <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
            Personal Information
@@ -7,15 +7,12 @@
          <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
            Network
          </a>
-         <a mat-list-item [routerLink]="'/settings'" routerLinkActive="active-list-item">
-          Settings
-        </a>
        </mat-nav-list>
     </mat-sidenav>
   <!-- Content or body of your page -->
     <mat-sidenav-content>
     <div style="height: 90vh">
-        <app-timeline></app-timeline>
+        
     </div>
     </mat-sidenav-content>
 </mat-sidenav-container>
