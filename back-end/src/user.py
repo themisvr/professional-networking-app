@@ -22,7 +22,7 @@ def get_users():
 
 
 @bp.route("/changeEmail", methods=['PUT'])
-def update_user():
+def update_email():
     content = request.get_json()
     email = content.get("email")
     user = User.query.filter_by(email=email).first()
@@ -48,7 +48,7 @@ def update_user():
 
 
 @bp.route("/changePassword", methods=['PUT'])
-def update_user():
+def update_password():
     content = request.get_json()
     email = content.get("email")
     user = User.query.filter_by(email=email).first()
