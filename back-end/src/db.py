@@ -40,6 +40,31 @@ class User(db.Model):
         return bcrypt.checkpw(raw_pass.encode(), self.password.encode())
 
 
+@dataclass
+class Post(db.Model):
+    __tablename__ = "posts"
+
+    post_id: int
+    content: str
+
+    post_id = db.Column("post_id", db.Integer, db.Sequence("post_id_seq"), primary_key=True)
+    content = db.Column("content", db.String, nullable=False)
+    created = db.Column("created", db.DateTime, nullable=False)
+    comments = db.relationship("PostComment", backref="post")
+
+
+@dataclass
+class PostComment(db.Model):
+    __tablename__ = "post_comments"
+
+    comment_id: int
+    post_id: int
+
+    comment_id = db.Column("comment_id", db.Integer, db.Sequence("post_comment_id_seq"), primary_key=True)
+    post_id = db.Column("post_id", db.Integer, db.ForeignKey("posts.post_id"))
+    post = db.relationship("Post")
+
+
 def load_static_data(db):
     for f in utils.get_files_in_dir("../data"):
         sql = text(utils.read_entire_file(f))
