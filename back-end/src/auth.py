@@ -49,7 +49,7 @@ def login():
     if user is None:
         return make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
 
-    if not bcrypt.checkpw(password.encode(), user.password.encode()):
+    if not user.passwords_match(password):
         return make_response_error("Username or password incorrect", HttpStatus.UNAUTHORIZED)
 
     return make_response(user)

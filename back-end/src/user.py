@@ -20,34 +20,56 @@ def get_users():
     users = User.query.all()
     return make_response(users)
 
-@bp.route("/email", methods=['PUT'])
+
+@bp.route("/changeEmail", methods=['PUT'])
 def update_user():
-    if request.args.get("email"):
-        email = request.args.get("email")
-        user = User.query.filter_by(email=email).first()
+    content = request.get_json()
+    email = content.get("email")
+    user = User.query.filter_by(email=email).first()
 
-        if user:
-            content = request.get_json()
+    if not user:
+        return make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
 
-            email = content.get("email")
-            password = content.get("password")
+    new_email = content.get("newEmail")
+    if not new_email:
+        return make_response_error("No email provided", HttpStatus.BAD_REQUEST)
 
-            if not email and not password:
-                return make_response_error("No information is provided", HttpStatus.BAD_REQUEST)
+    if User.query.filter_by(email=new_email).first():
+        return make_response_error(f"User with email {new_email} already exists", HttpStatus.CONFLICT)
 
-            user = json_to_table(content, User)
+    user.email = new_email
+    try:
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return make_response_error("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR)
 
-            try:
-                db.session.commit()
-            except Exception as e:
-                print(e)
-                return make_response_error("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR)
-
-            return make_response(user)
-
-        else:
-            return make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
+    return make_response(user)
 
 
+@bp.route("/changePassword", methods=['PUT'])
+def update_user():
+    content = request.get_json()
+    email = content.get("email")
+    user = User.query.filter_by(email=email).first()
+
+    if not user:
+        return make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
+
+    old_password = content.get("oldPassword")
+    if not user.passwords_match(old_password):
+        return make_response_error("Old password is incorrect", HttpStatus.UNAUTHORIZED)
+
+    new_password = content.get("newPassword")
+    if not new_password:
+        return make_response_error("No new password provided", HttpStatus.BAD_REQUEST)
 
 
+    user.password = new_password
+    try:
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return make_response_error("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR)
+
+    return make_response(user)

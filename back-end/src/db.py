@@ -36,6 +36,9 @@ class User(db.Model):
     def password(self, password):
         self._password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
+    def passwords_match(self, raw_pass):
+        return bcrypt.checkpw(raw_pass.encode(), self.password.encode())
+
 
 def load_static_data(db):
     for f in utils.get_files_in_dir("../data"):
