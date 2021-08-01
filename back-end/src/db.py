@@ -7,7 +7,7 @@ from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from sqlalchemy.ext.hybrid import hybrid_property
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
 from marshmallow import EXCLUDE
 
 db = SQLAlchemy()
@@ -58,13 +58,6 @@ class Post(db.Model):
     comments = db.relationship("PostComment", backref="post")
 
 
-class UserSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = User
-        unknown = EXCLUDE
-        load_instance = True
-
-
 class PostCommentSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = PostComment
@@ -76,7 +69,15 @@ class PostSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Post
         unknown = EXCLUDE
-        include_relationships = True
+        load_instance = True
+
+    comments = fields.Nested(PostCommentSchema, many=True)
+
+
+class UserSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = User
+        unknown = EXCLUDE
         load_instance = True
 
 
