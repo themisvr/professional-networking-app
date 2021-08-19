@@ -31,6 +31,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { SettingsComponent } from './settings/settings.component';
+import { ArticleComponent } from './article/article.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import { SettingsComponent } from './settings/settings.component';
     WelcomeComponent,
     LogoutComponent,
     SettingsComponent,
+    ArticleComponent,
   ],
   imports: [
     HttpClientModule,
@@ -65,6 +68,7 @@ import { SettingsComponent } from './settings/settings.component';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatCardModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
