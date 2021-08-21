@@ -13,26 +13,26 @@ def make_response(payload, status: HttpStatus = HttpStatus.OK) -> Response:
 
 
 class ErrorSchema(Schema):
-    message: fields.String
-    timestamp: fields.DateTime
+    message = fields.String()
+    timestamp = fields.DateTime()
 
 
 class ErrorResponseSchema(Schema):
-    error: fields.Nested(ErrorSchema())
-
-
-class ErrorResponse:
-    __ma_schema__ = ErrorResponseSchema
-    message: str
-    timestamp: datetime
+    error = fields.Nested(ErrorSchema())
 
 
 def make_response_error(msg: str, status: HttpStatus) -> Response:
-    error = ErrorResponse
-    error.message = msg
-    error.timestamp = datetime.now()
+    error_dict = {
+        'error': {
+            'message': msg,
+            'timestamp': datetime.now()
+        }
+    }
 
-    return make_response(error, status)
+    schema = ErrorResponseSchema()
+    error_payload = schema.dumps(error_dict)
+
+    return make_response(error_payload, status)
 
 
 def get_files_in_dir(dir_path: str) -> list[str]:

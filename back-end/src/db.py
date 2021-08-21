@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from sqlalchemy.ext.hybrid import hybrid_property
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
-from marshmallow import EXCLUDE
+from marshmallow import EXCLUDE, fields as mas_fields
 
 db = SQLAlchemy()
 
@@ -19,6 +19,7 @@ class User(db.Model):
     userId = db.Column("user_id", db.Integer, db.Sequence("user_id_seq"), primary_key=True)
     firstName = db.Column("first_name", db.String, nullable=False)
     lastName = db.Column("last_name", db.String, nullable=False)
+    fullName = db.Column("full_name", db.String, nullable=True, default=f"{firstName} {lastName}")
     _password = db.Column("password", db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     phoneNumber = db.Column("phone_number", db.String, nullable=True)
@@ -58,6 +59,13 @@ class Post(db.Model):
     comments = db.relationship("PostComment", backref="post")
 
 
+class UserSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = User
+        unknown = EXCLUDE
+        load_instance = True
+
+
 class PostCommentSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = PostComment
@@ -71,14 +79,8 @@ class PostSchema(SQLAlchemyAutoSchema):
         unknown = EXCLUDE
         load_instance = True
 
+    creator = mas_fields.Pluck(UserSchema(), 'firstName', attribute='user')
     comments = fields.Nested(PostCommentSchema, many=True)
-
-
-class UserSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = User
-        unknown = EXCLUDE
-        load_instance = True
 
 
 def load_static_data(db):
