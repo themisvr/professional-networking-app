@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from "../_models/user"
 import {Article} from "../_models/article";
+import { ChangeEmailModel } from '../_models/changeEmail';
+import { ChangePasswordModel } from '../_models/changePassword';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +31,13 @@ export class UserService {
         email: email
       }
     });
+  }
+
+  changeUserEmail(changeEmailModel: ChangeEmailModel) {
+    return this.http.put<any>(`${environment.backendUrl}/users/changeEmail`, changeEmailModel);
+  }
+
+  changeUserPassword(changePasswordModel: ChangePasswordModel) {
+    return this.http.put<any>(`${environment.backendUrl}/users/changePassword`, changePasswordModel)
   }
 }
