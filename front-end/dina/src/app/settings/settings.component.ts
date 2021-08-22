@@ -1,32 +1,57 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, ValidationErrors, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 
 @Component({
-  selector: 'app-settings',
+  selector: 'dina-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-  updateForm: FormGroup;
-  returnUrl: string;
-  hide = true;
+  settings: FormGroup;
   submitted = false;
-  error: string;
+  hide = true;
+  selectedCheckbox = -1;
+  changeEmailModel = {
+    newEmail: null
+  };
+  matcher = new SamePasswordErrorStateMatcher();
 
-
-  constructor() { }
+  constructor(private fb: FormBuilder) {
+    this.settings = fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      changeEmailPassword: ['', [Validators.required]],
+      password: [''],
+      confirmPassword: [''],
+    });
+  }
 
   ngOnInit(): void {
   }
 
-  get formFields() {
-    return this.updateForm.controls;
-  }
-  
-  onUpdate(): void {
-    // TODO: implement this
-    return;
+  get form() {
+    return this.settings;
   }
 
+  get formFields() {
+    return this.settings.controls;
+  }
+
+  checkPasswords(group: AbstractControl): ValidationErrors | null {
+    return null;
+    let pass = group.get('password')?.value;
+    let confirmPass = group.get('confirmPassword')?.value
+    return pass === confirmPass ? null : { notSame: true }
+  }
+
+}
+
+class SamePasswordErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const invalidCtrl = !!(control?.invalid && control?.parent?.dirty);
+    const invalidParent = !!(control?.parent?.invalid && control?.parent?.dirty);
+
+    return invalidCtrl || invalidParent;
+  }
 }
