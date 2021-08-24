@@ -1,7 +1,8 @@
 from flask import Blueprint, request
 from http_constants.status import HttpStatus
-from utils import make_response, make_response_error, commit_db_session_and_return_successful_response
-from db import User, db, UserSchema, PostSchema
+from utils import make_response, make_response_error, commit_db_session_and_return_successful_response, \
+    commit_db_session_or_return_error_response
+from db import User, db, UserSchema, PostSchema, PersonalInfoSchema
 
 bp = Blueprint("users", __name__, url_prefix="/users")
 
@@ -101,3 +102,33 @@ def create_user_post():
     user.posts.append(post)
 
     return commit_db_session_and_return_successful_response(db, schema, post)
+
+
+@bp.route("/personalInfo", methods=["GET"])
+def get_user_personal_info():
+    user, err = __get_user_with_email_or_return_error(request.args.get("email"))
+
+    if not user:
+        return err
+
+    return make_response(PersonalInfoSchema().dumps(user.personalInfo))
+
+
+@bp.route("/personalInfo", methods=["POST"])
+def update_user_personal_info():
+    content = request.get_json()
+
+    user, err = __get_user_with_email_or_return_error(content.get("email"))
+
+    if not user:
+        return err
+
+    schema = PersonalInfoSchema()
+    user.personalInfo = schema.load(content)
+
+    db_err = commit_db_session_or_return_error_response(db)
+
+    if db_err:
+        return db_err
+
+    return make_response(PersonalInfoSchema().dumps(user.personalInfo))

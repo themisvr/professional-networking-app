@@ -44,11 +44,16 @@ def read_entire_file(path: str) -> str:
         return f.read()
 
 
-def commit_db_session_and_return_successful_response(db, schema, resp_data):
+def commit_db_session_or_return_error_response(db):
     try:
         db.session.commit()
     except Exception as e:
         print(e)
         return make_response_error("Something went wrong", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    return make_response(schema.dumps(resp_data))
+    return None
+
+
+def commit_db_session_and_return_successful_response(db, schema, resp_data):
+    err = commit_db_session_or_return_error_response(db)
+    return err if err else make_response(schema.dumps(resp_data))

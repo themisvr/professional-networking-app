@@ -59,6 +59,20 @@ class Post(db.Model):
     comments = db.relationship("PostComment", backref="post")
 
 
+class PersonalInfo(db.Model):
+    __tablename__ = "personal_infos"
+
+    personalInfoId = db.Column("personal_info_id", db.Integer, db.Sequence("personal_info_id_seq"), primary_key=True)
+    userId = db.Column("user_id", db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    workExperience = db.Column("work_experience", db.String)
+    education = db.Column("education", db.String)
+    personalSkills = db.Column("personal_skills", db.String)
+    workExperiencePublic = db.Column("work_experience_public", db.Boolean)
+    educationPublic = db.Column("education_public", db.Boolean)
+    personalSkillsPublic = db.Column("personal_skills_public", db.Boolean)
+    user = db.relationship("User", backref=db.backref("personalInfo", uselist=False))
+
+
 class UserSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = User
@@ -81,6 +95,12 @@ class PostSchema(SQLAlchemyAutoSchema):
 
     creator = mas_fields.Pluck(UserSchema(), 'firstName', attribute='user')
     comments = fields.Nested(PostCommentSchema, many=True)
+
+
+class PersonalInfoSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = PersonalInfo
+        unknown = EXCLUDE
 
 
 def load_static_data(db):

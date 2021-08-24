@@ -33,3 +33,23 @@ INSERT INTO USERS (
 	null,
 	false
 ) ON CONFLICT DO NOTHING;
+
+INSERT INTO PERSONAL_INFOS (
+    personal_info_id,
+    user_id,
+    work_experience,
+    education,
+    personal_skills,
+    work_experience_public,
+    education_public,
+    personal_skills_public
+) VALUES (
+    nextval('personal_info_id_seq'),
+    2,
+    'QA at Intel',
+    'Harvard University',
+    'Great QA',
+    true,
+    true,
+    true
+) ON CONFLICT DO NOTHING;
