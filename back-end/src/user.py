@@ -43,6 +43,13 @@ def change_email():
     if not new_email:
         return make_response_error("No email provided", HttpStatus.BAD_REQUEST)
 
+    password = content.get("password")
+    if not password:
+        return make_response_error("No password provided", HttpStatus.BAD_REQUEST)
+
+    if not user.passwords_match(password):
+        return make_response_error("Wrong password", HttpStatus.UNAUTHORIZED)
+
     if User.query.filter_by(email=new_email).first():
         return make_response_error(f"User with email {new_email} already exists", HttpStatus.CONFLICT)
 
@@ -60,7 +67,7 @@ def change_password():
 
     old_password = content.get("oldPassword")
     if not user.passwords_match(old_password):
-        return make_response_error("Old password is incorrect", HttpStatus.UNAUTHORIZED)
+        return make_response_error("Wrong password", HttpStatus.UNAUTHORIZED)
 
     new_password = content.get("newPassword")
     if not new_password:
