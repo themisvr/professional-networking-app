@@ -101,6 +101,7 @@ class PersonalInfoSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = PersonalInfo
         unknown = EXCLUDE
+        load_instance = True
 
 
 def load_static_data(db):

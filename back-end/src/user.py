@@ -124,7 +124,7 @@ def update_user_personal_info():
         return err
 
     schema = PersonalInfoSchema()
-    user.personalInfo = schema.load(content)
+    user.personalInfo = schema.load(content, instance=user.personalInfo, session=db.session)
 
     db_err = commit_db_session_or_return_error_response(db)
 
