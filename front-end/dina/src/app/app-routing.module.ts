@@ -18,12 +18,12 @@ const routes: Routes = [
   { path: '404', component: NotFoundComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'settings', component: SettingsComponent },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   // TODO(gliontos): Add this route dynamically after we have made sure that the user
   // is an admin user
   { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
-  { path: 'personal info', component: UserProfComponent },
-  { path: 'user-prof', component: UserProfComponent },
+  { path: 'personal info', component: UserProfComponent, canActivate: [AuthGuard] },
+  { path: 'user-prof', component: UserProfComponent, canActivate: [AuthGuard] },
   { path: 'logout', component: LogoutComponent },
   { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ];
