@@ -21,7 +21,6 @@ export class SettingsComponent implements AfterViewInit {
   changePasswordForm: FormGroup;
   submitted = false;
   hidePassword = true;
-  selectedCheckbox = -1;
   matcher = new SamePasswordErrorStateMatcher();
   changeEmailModel: ChangeEmailModel = new ChangeEmailModel();
   changePasswordModel: ChangePasswordModel = new ChangePasswordModel();

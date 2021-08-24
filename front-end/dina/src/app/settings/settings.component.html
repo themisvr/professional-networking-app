@@ -61,7 +61,7 @@
                 [type]="hidePassword ? 'password' : 'text'"
                 [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hidePassword"
-                [(ngModel)]="changePasswordModel.email"
+                [(ngModel)]="changePasswordModel.oldPassword"
                 placeholder="Type Old Password">
               <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hidePassword = !hidePassword">
                 <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -78,7 +78,7 @@
                 [type]="hidePassword ? 'password' : 'text'"
                 [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hidePassword"
-                [(ngModel)]="changePasswordModel.oldPassword"
+                [(ngModel)]="changePasswordModel.newPassword"
                 placeholder="Type New Password">
               <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hidePassword = !hidePassword">
                 <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -96,7 +96,6 @@
                 [type]="hidePassword ? 'password' : 'text'"
                 [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hidePassword"
-                [(ngModel)]="changePasswordModel.newPassword"
                 placeholder="Confirm Password" required>
               <button mat-icon-button matSuffix type="button" class="mat-i" (click)="hidePassword = !hidePassword">
                 <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
