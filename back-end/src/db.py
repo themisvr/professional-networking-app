@@ -32,7 +32,7 @@ class User(db.Model):
 
     @password.setter
     def password(self, password):
-        self._password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        self._password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode('utf-8')
 
     def passwords_match(self, raw_pass):
         return bcrypt.checkpw(raw_pass.encode(), self.password.encode())
