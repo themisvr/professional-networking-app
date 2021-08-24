@@ -7,17 +7,42 @@ import {ThemePalette} from '@angular/material/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  tabs = [
+    {
+      title: 'Network',
+      link: 'network',
+    },
+    {
+      title: 'Ads',
+      link: 'ads',
+    },
+    {
+      title: 'Chat',
+      link: 'chat',
+    },
+    {
+      title: 'Notifications',
+      link: 'notifications',
+    },
+    {
+      title: 'Personal Info',
+      link: 'personalInfo',
+    },
+    {
+      title: 'Home',
+      link: 'home',
+    },
+    {
+      title: 'Settings',
+      link: 'settings',
+    },
+  ]
 
-  links = ['Network', 'Ads', 'Chat', 'Notifications', 'Personal Info', 'Home', 'Settings'];
-  activeLink = this.links[0];
+  activeLink = this.tabs[0].title;
   background: ThemePalette = undefined;
 
   toggleBackground() {
     this.background = this.background ? undefined : 'primary';
-  }
-
-  addLink() {
-    this.links.push(`Link ${this.links.length + 1}`);
   }
 
   constructor() { }

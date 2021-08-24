@@ -1,21 +1,21 @@
 .personal-info-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-  }
-  
-  .info-input {
-    width: 340%;
-    margin: 0px 0px 0px 0px;
-    padding: 0px 0px 120px 0px;
-  }
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
 
-  .mat-radio-button ~ .mat-radio-button {
-    margin-left: 16px;
-    position: initial;
-    top: initial;
-  }
+.info-input {
+  width: 340%;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 1px 0px;
+}
 
-  .edit-button {
-      text-align: center;
-  }
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+  position: initial;
+  top: initial;
+}
+
+.edit-button {
+  text-align: center;
+}

@@ -1,55 +1,68 @@
 <mat-sidenav-container>
-    <mat-sidenav style="width: 15%" #sidenav [opened]="true" [mode]="'side'">
-       <mat-nav-list>
-         <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
-           Personal Information
-         </a>
-         <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
-           Network
-         </a>
-       </mat-nav-list>
-    </mat-sidenav>
+  <mat-sidenav style="width: 15%" #sidenav [opened]="true" [mode]="'side'">
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
+        Personal Information
+      </a>
+      <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
+        Network
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
   <!-- Content or body of your page -->
-    <mat-sidenav-content>
+  <mat-sidenav-content>
     <div style="height: 90vh">
 
       <style>
-      h1 {text-align: center;}
+        h1 {
+          text-align: center;
+        }
       </style>
       <h1>Edit Personal Information</h1>
 
-      <form class="personal-info-form">
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1">Public</mat-radio-button>
-            <mat-radio-button value="2">Private</mat-radio-button>
-          </mat-radio-group>
-          <mat-form-field class="info-input" appearance="fill">
-            <mat-label>Working Experience</mat-label>
-            <textarea matInput placeholder=""></textarea>
-          </mat-form-field>
+      <form [formGroup]="personalInfoForm" class="personal-info-form">
+        <section>
+          <p>
+            <mat-checkbox formControlName="workingExperiencePublic" [(ngModel)]="personalInfo.workExperiencePublic">
+              Public</mat-checkbox>
+          </p>
+        </section>
+        <mat-form-field class="info-input" appearance="fill">
+          <mat-label>Working Experience</mat-label>
+          <textarea matInput placeholder="e.g Software Engineer at Intel" formControlName="workExperience"
+            [(ngModel)]="personalInfo.workExperience">
+            </textarea>
+        </mat-form-field>
 
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1">Public</mat-radio-button>
-            <mat-radio-button value="2">Private</mat-radio-button>
-          </mat-radio-group>
-          <mat-form-field class="info-input" appearance="fill">
-            <mat-label>Education</mat-label>
-            <textarea matInput placeholder=""></textarea>
-          </mat-form-field>
+        <section>
+          <p>
+            <mat-checkbox formControlName="educationPublic" [(ngModel)]="personalInfo.education">
+              Public</mat-checkbox>
+          </p>
+        </section>
+        <mat-form-field class="info-input" appearance="fill">
+          <mat-label>Education</mat-label>
+          <textarea matInput placeholder="e.g Harvard University" formControlName="education"
+            [(ngModel)]="personalInfo.education">
+            </textarea>
+        </mat-form-field>
 
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1">Public</mat-radio-button>
-            <mat-radio-button value="2">Private</mat-radio-button>
-          </mat-radio-group>
-          <mat-form-field class="info-input" appearance="fill">
-            <mat-label>Personal Skills</mat-label>
-            <textarea matInput placeholder=""></textarea>
-          </mat-form-field>
+        <section>
+          <p>
+            <mat-checkbox formControlName="personalSkillsPublic" [(ngModel)]="personalInfo.personalSkills">
+              Public</mat-checkbox>
+          </p>
+        </section>
+        <mat-form-field class="info-input" appearance="fill">
+          <mat-label>Personal Skills</mat-label>
+          <textarea matInput placeholder="Team Player" formControlName="personalSkills"
+            [(ngModel)]="personalInfo.personalSkills">
+            </textarea>
+        </mat-form-field>
 
-          <button mat-stroked-button class="edit-button"> Edit </button>
+        <button mat-stroked-button>Update</button>
       </form>
-
     </div>
 
-    </mat-sidenav-content>
+  </mat-sidenav-content>
 </mat-sidenav-container>

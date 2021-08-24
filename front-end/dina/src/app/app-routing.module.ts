@@ -22,8 +22,7 @@ const routes: Routes = [
   // TODO(gliontos): Add this route dynamically after we have made sure that the user
   // is an admin user
   { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
-  { path: 'personal info', component: UserProfComponent, canActivate: [AuthGuard] },
-  { path: 'user-prof', component: UserProfComponent, canActivate: [AuthGuard] },
+  { path: 'personalInfo', component: UserProfComponent, canActivate: [AuthGuard] },
   { path: 'logout', component: LogoutComponent },
   { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ];
