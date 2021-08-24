@@ -17,7 +17,5 @@ export class UserProfComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) { }
 
-  ngOnInit(): void {
-  }
-
+    ngOnInit(): void {}
 }

@@ -12,7 +12,44 @@
   <!-- Content or body of your page -->
     <mat-sidenav-content>
     <div style="height: 90vh">
-        
+
+      <style>
+      h1 {text-align: center;}
+      </style>
+      <h1>Edit Personal Information</h1>
+
+      <form class="personal-info-form">
+          <mat-radio-group aria-label="Select an option">
+            <mat-radio-button value="1">Public</mat-radio-button>
+            <mat-radio-button value="2">Private</mat-radio-button>
+          </mat-radio-group>
+          <mat-form-field class="info-input" appearance="fill">
+            <mat-label>Working Experience</mat-label>
+            <textarea matInput placeholder=""></textarea>
+          </mat-form-field>
+
+          <mat-radio-group aria-label="Select an option">
+            <mat-radio-button value="1">Public</mat-radio-button>
+            <mat-radio-button value="2">Private</mat-radio-button>
+          </mat-radio-group>
+          <mat-form-field class="info-input" appearance="fill">
+            <mat-label>Education</mat-label>
+            <textarea matInput placeholder=""></textarea>
+          </mat-form-field>
+
+          <mat-radio-group aria-label="Select an option">
+            <mat-radio-button value="1">Public</mat-radio-button>
+            <mat-radio-button value="2">Private</mat-radio-button>
+          </mat-radio-group>
+          <mat-form-field class="info-input" appearance="fill">
+            <mat-label>Personal Skills</mat-label>
+            <textarea matInput placeholder=""></textarea>
+          </mat-form-field>
+
+          <button mat-stroked-button class="edit-button"> Edit </button>
+      </form>
+
     </div>
+
     </mat-sidenav-content>
 </mat-sidenav-container>

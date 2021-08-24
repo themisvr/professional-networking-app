@@ -1,0 +1,21 @@
+.personal-info-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .info-input {
+    width: 340%;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 120px 0px;
+  }
+
+  .mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+    position: initial;
+    top: initial;
+  }
+
+  .edit-button {
+      text-align: center;
+  }
