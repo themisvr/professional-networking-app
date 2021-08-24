@@ -2,8 +2,8 @@ import { RegisterUser } from './../_models/registerUser';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {checkPasswords, SamePasswordErrorStateMatcher} from '../_helpers/utils';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
       phoneNumber: [''],
       password: ['', Validators.required],
       confirmPassword: [''],
-    }, { validators: this.checkPasswords });
+    }, { validators: (group) => checkPasswords(group, 'password', 'confirmPassword') });
   }
 
   get formFields() {
@@ -39,12 +39,6 @@ export class RegisterComponent implements OnInit {
     return this.registerForm;
   }
 
-  checkPasswords(group: AbstractControl): ValidationErrors | null {
-    let pass = group.get('password')?.value;
-    let confirmPass = group.get('confirmPassword')?.value
-    return pass === confirmPass ? null : { notSame: true }
-  }
-
   onSubmit() {
     this.submitted = true;
 
@@ -52,7 +46,6 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    console.log(this.registerUserModel);
     this.authService.register(this.registerUserModel)
       .pipe(first())
       .subscribe(
@@ -64,14 +57,5 @@ export class RegisterComponent implements OnInit {
           this.router.navigate(['login']);
         }
       );
-  }
-}
-
-class SamePasswordErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const invalidCtrl = !!(control?.invalid && control?.parent?.dirty);
-    const invalidParent = !!(control?.parent?.invalid && control?.parent?.dirty);
-
-    return invalidCtrl || invalidParent;
   }
 }
