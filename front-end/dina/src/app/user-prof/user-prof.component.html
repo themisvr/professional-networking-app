@@ -20,10 +20,10 @@
       </style>
       <h1>Edit Personal Information</h1>
 
-      <form [formGroup]="personalInfoForm" class="personal-info-form">
+      <form [formGroup]="personalInfoForm" class="personal-info-form" (ngSubmit)="onSubmit()">
         <section>
           <p>
-            <mat-checkbox formControlName="workingExperiencePublic" [(ngModel)]="personalInfo.workExperiencePublic">
+            <mat-checkbox formControlName="workExperiencePublic" [(ngModel)]="personalInfo.workExperiencePublic">
               Public</mat-checkbox>
           </p>
         </section>

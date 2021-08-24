@@ -5,6 +5,7 @@ import { User } from "../_models/user"
 import {Article} from "../_models/article";
 import { ChangeEmailModel } from '../_models/changeEmail';
 import { ChangePasswordModel } from '../_models/changePassword';
+import { PersonalInfoModel } from '../_models/personalInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,17 @@ export class UserService {
 
   changeUserPassword(changePasswordModel: ChangePasswordModel) {
     return this.http.put<any>(`${environment.backendUrl}/users/changePassword`, changePasswordModel)
+  }
+
+  getUserPersonalInfo(email: string) {
+    return this.http.get<PersonalInfoModel>(`${environment.backendUrl}/users/personalInfo`, {
+      params: {
+        email: email
+      }
+    });
+  }
+
+  updateUserPersonalInfo(personalInfo: PersonalInfoModel) {
+    return this.http.post<PersonalInfoModel>(`${environment.backendUrl}/users/personalInfo`, personalInfo);
   }
 }
