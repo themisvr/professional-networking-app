@@ -10,20 +10,22 @@ import { UserHomeComponent } from './user-home/user-home.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { LogoutComponent } from './logout/logout.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
-  { path: 'welcome', component: WelcomeComponent },
-  { path: 'home', component: UserHomeComponent, canActivate: [AuthGuard] },
-  { path: '404', component: NotFoundComponent },
-  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'logout', component: LogoutComponent },
   // TODO(gliontos): Add this route dynamically after we have made sure that the user
   // is an admin user
   { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
+  { path: 'welcome', component: WelcomeComponent },
+  { path: 'home', component: UserHomeComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'personalInfo', component: UserProfComponent, canActivate: [AuthGuard] },
-  { path: 'logout', component: LogoutComponent },
+  { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ];
 

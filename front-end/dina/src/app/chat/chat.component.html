@@ -1,0 +1,18 @@
+<mat-sidenav-container>
+    <mat-sidenav style="width: 15%" #sidenav [opened]="true" [mode]="'side'">
+       <mat-nav-list>
+         <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
+           Member
+         </a>
+         <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
+           Member
+         </a>
+       </mat-nav-list>
+    </mat-sidenav>
+  <!-- Content or body of your page -->
+    <mat-sidenav-content>
+    <div style="height: 90vh">
+    <p> Chat </p>
+    </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

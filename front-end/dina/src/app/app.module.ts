@@ -34,6 +34,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { ArticleComponent } from './article/article.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     LogoutComponent,
     SettingsComponent,
     ArticleComponent,
+    ChatComponent,
   ],
   imports: [
     HttpClientModule,
