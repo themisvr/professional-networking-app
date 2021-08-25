@@ -1,0 +1,35 @@
+.mat-grid-tile {
+    background: #E1E7E4;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+
+.container > .header {
+    flex-basis: 20%;
+    order: 1;
+}
+  
+.container > .footer {
+    flex-basis: 20%;
+    order: 3;
+}
+  
+.container > .body {
+    flex: 1;
+    order: 2;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    flex-basis: 20%;
+    order: 1;
+}

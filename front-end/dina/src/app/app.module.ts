@@ -35,6 +35,7 @@ import { ArticleComponent } from './article/article.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChatComponent } from './chat/chat.component';
+import { NetworkComponent } from './network/network.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { ChatComponent } from './chat/chat.component';
     SettingsComponent,
     ArticleComponent,
     ChatComponent,
+    NetworkComponent,
   ],
   imports: [
     HttpClientModule,

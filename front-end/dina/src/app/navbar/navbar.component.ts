@@ -13,8 +13,8 @@ export class NavbarComponent implements OnInit {
       link: 'network',
     },
     {
-      title: 'Ads',
-      link: 'ads',
+      title: 'Jobs',
+      link: 'jobs',
     },
     {
       title: 'Chat',
