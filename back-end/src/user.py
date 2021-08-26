@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from http_constants.status import HttpStatus
 from utils import make_response, make_response_error, commit_db_session_and_return_successful_response, \
     commit_db_session_or_return_error_response
-from db import User, db, UserSchema, PostSchema, PersonalInfoSchema
+from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, ConnectionsSchema
 
 bp = Blueprint("users", __name__, url_prefix="/users")
 
@@ -132,3 +132,13 @@ def update_user_personal_info():
         return db_err
 
     return make_response(PersonalInfoSchema().dumps(user.personalInfo))
+
+
+@bp.route("/network", methods=["GET"])
+def get_user_network():
+    user, err = __get_user_with_email_or_return_error(request.args.get("email"))
+
+    if not user:
+        return err
+
+    return make_response(ConnectionsSchema().dumps(user.connections, many=True))
