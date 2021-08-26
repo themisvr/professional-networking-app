@@ -6,6 +6,7 @@ import {Article} from "../_models/article";
 import { ChangeEmailModel } from '../_models/changeEmail';
 import { ChangePasswordModel } from '../_models/changePassword';
 import { PersonalInfoModel } from '../_models/personalInfo';
+import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +53,13 @@ export class UserService {
 
   updateUserPersonalInfo(personalInfo: PersonalInfoModel) {
     return this.http.post<PersonalInfoModel>(`${environment.backendUrl}/users/personalInfo`, personalInfo);
+  }
+
+  getUserNetwork(email: string) {
+    return this.http.get<User>(`${environment.backendUrl}/users/network`, {
+      params: {
+        email: email
+      }
+    });
   }
 }
