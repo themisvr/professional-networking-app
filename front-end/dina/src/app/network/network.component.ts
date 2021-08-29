@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./network.component.css']
 })
 export class NetworkComponent implements OnInit {
-  followers: Array<PersonalInfoModel> = [];
+  followers: PersonalInfoModel[] = [];
   user: User = new User();
 
   constructor(private authService: AuthenticationService,
