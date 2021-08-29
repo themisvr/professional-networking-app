@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
     },
     {
       title: 'Jobs',
-      link: 'jobs',
+      link: 'jobPosts',
     },
     {
       title: 'Chat',

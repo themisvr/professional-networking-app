@@ -8,6 +8,7 @@ import { ChangePasswordModel } from '../_models/changePassword';
 import { PersonalInfoModel } from '../_models/personalInfo';
 import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { ConnectionModel } from '../_models/connection';
+import { JobPostModel } from '../_models/jobPost';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,14 @@ export class UserService {
 
   getUserNetwork(email: string) {
     return this.http.get<ConnectionModel[]>(`${environment.backendUrl}/users/network`, {
+      params: {
+        email: email
+      }
+    });
+  }
+
+  getUserJobPosts(email: string) {
+    return this.http.get<JobPostModel[]>(`${environment.backendUrl}/users/jobPosts`, {
       params: {
         email: email
       }

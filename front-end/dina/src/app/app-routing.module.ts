@@ -12,6 +12,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ChatComponent } from './chat/chat.component';
 import { NetworkComponent } from './network/network.component';
+import { JobPostComponent } from './job-post/job-post.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'personalInfo', component: UserProfComponent, canActivate: [AuthGuard] },
   { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'network', component: NetworkComponent, canActivate: [AuthGuard] },
+  { path: 'jobPosts', component: JobPostComponent, canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ];

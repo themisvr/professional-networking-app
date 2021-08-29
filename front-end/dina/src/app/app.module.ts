@@ -36,6 +36,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChatComponent } from './chat/chat.component';
 import { NetworkComponent } from './network/network.component';
+import { JobPostComponent } from './job-post/job-post.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { NetworkComponent } from './network/network.component';
     ArticleComponent,
     ChatComponent,
     NetworkComponent,
+    JobPostComponent,
   ],
   imports: [
     HttpClientModule,
