@@ -1,6 +1,8 @@
 import datetime
 
 import click
+import marshmallow
+
 import utils
 import bcrypt
 from flask.cli import with_appcontext
@@ -17,6 +19,7 @@ class User(db.Model):
     __tablename__ = "users"
 
     userId = db.Column("user_id", db.Integer, db.Sequence("user_id_seq"), primary_key=True)
+    parentId = db.Column("parent_id", db.Integer, db.ForeignKey("users.user_id"))
     firstName = db.Column("first_name", db.String, nullable=False)
     lastName = db.Column("last_name", db.String, nullable=False)
     fullName = db.Column("full_name", db.String, nullable=True, default=f"{firstName} {lastName}")
@@ -25,7 +28,7 @@ class User(db.Model):
     phoneNumber = db.Column("phone_number", db.String, nullable=True)
     isAdmin = db.Column("is_admin", db.Boolean, nullable=False, default=False)
     posts = db.relationship("Post", backref="user")
-    connections = db.relationship("Connection", backref="user")
+    connectionsRel = db.relationship("User", remote_side="User.userId", backref="connections")
 
     @hybrid_property
     def password(self):
@@ -37,6 +40,14 @@ class User(db.Model):
 
     def passwords_match(self, raw_pass):
         return bcrypt.checkpw(raw_pass.encode(), self.password.encode())
+
+
+class BasicUserInfoSchema(marshmallow.Schema):
+    userId = fields.fields.Integer()
+    firstName = fields.fields.String()
+    lastName = fields.fields.String()
+    email = fields.fields.String()
+    phoneNumber = fields.fields.String()
 
 
 class PostComment(db.Model):
@@ -74,13 +85,6 @@ class PersonalInfo(db.Model):
     user = db.relationship("User", backref=db.backref("personalInfo", uselist=False))
 
 
-class Connection(db.Model):
-    __tablename__ = "connections"
-
-    userId = db.Column("user_id", db.Integer, db.Sequence("user_id_seq"), primary_key=True)
-    followerId = db.Column("follower_id", db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-
-
 class UserSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = User
@@ -112,11 +116,8 @@ class PersonalInfoSchema(SQLAlchemyAutoSchema):
         load_instance = True
 
 
-class ConnectionsSchema(SQLAlchemyAutoSchema):
-    class Meta:
-        model = Connection
-        unknown = EXCLUDE
-        load_instance = True
+class NetworkSchema(BasicUserInfoSchema):
+    personalInfo = fields.Nested(PersonalInfoSchema(), data_key="personalInfo")
 
 
 def load_static_data(db):

@@ -1,5 +1,6 @@
 INSERT INTO USERS (
 	user_id,
+    parent_id,
 	first_name,
 	last_name,
 	email,
@@ -8,6 +9,7 @@ INSERT INTO USERS (
 	is_admin
 ) VALUES (
 	nextval('user_id_seq'),
+    null,
 	'Admin',
 	'Mc Admin',
 	'admin@dina.com',
@@ -18,6 +20,7 @@ INSERT INTO USERS (
 
 INSERT INTO USERS (
 	user_id,
+    parent_id,
 	first_name,
 	last_name,
 	email,
@@ -26,6 +29,7 @@ INSERT INTO USERS (
 	is_admin
 ) VALUES (
 	nextval('user_id_seq'),
+    null,
 	'Tester',
 	'Mc Tester',
 	'tester@dina.com',
@@ -56,6 +60,7 @@ INSERT INTO PERSONAL_INFOS (
 
 INSERT INTO USERS (
 	user_id,
+    parent_id,
 	first_name,
 	last_name,
 	email,
@@ -64,6 +69,7 @@ INSERT INTO USERS (
 	is_admin
 ) VALUES (
 	nextval('user_id_seq'),
+    2,
 	'Cole',
 	'Mc Cole',
 	'cole@dina.com',
@@ -90,13 +96,4 @@ INSERT INTO PERSONAL_INFOS (
     true,
     true,
     true
-) ON CONFLICT DO NOTHING;
-
-
-INSERT INTO CONNECTIONS (
-	user_id,
-	follower_id
-) VALUES (
-	nextval('user_id_seq'),
-	3
 ) ON CONFLICT DO NOTHING;
