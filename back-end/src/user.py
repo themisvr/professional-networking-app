@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from http_constants.status import HttpStatus
 from utils import make_response, make_response_error, commit_db_session_and_return_successful_response, \
     commit_db_session_or_return_error_response
-from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, NetworkSchema, BasicUserInfoSchema
+from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, NetworkSchema, BasicUserInfoSchema, JobPostSchema
 
 bp = Blueprint("users", __name__, url_prefix="/users")
 
@@ -142,3 +142,13 @@ def get_user_network():
         return err
 
     return make_response(NetworkSchema().dumps(user.connections, many=True))
+
+
+@bp.route("/jobPosts", methods=["GET"])
+def get_user_job_posts():
+    user, err = __get_user_with_email_or_return_error(request.args.get("email"))
+
+    if not user:
+        return err
+
+    return make_response(JobPostSchema().dumps(user.jobPosts, many=True))

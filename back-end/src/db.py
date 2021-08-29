@@ -28,6 +28,7 @@ class User(db.Model):
     phoneNumber = db.Column("phone_number", db.String, nullable=True)
     isAdmin = db.Column("is_admin", db.Boolean, nullable=False, default=False)
     posts = db.relationship("Post", backref="user")
+    jobPosts = db.relationship("JobPost", backref="user")
     connectionsRel = db.relationship("User", remote_side="User.userId", backref="connections")
 
     @hybrid_property
@@ -85,6 +86,15 @@ class PersonalInfo(db.Model):
     user = db.relationship("User", backref=db.backref("personalInfo", uselist=False))
 
 
+class JobPost(db.Model):
+    __tablename__ = "job_posts"
+
+    jobPostId = db.Column("job_post_id", db.Integer, db.Sequence("job_post_id_seq"), primary_key=True)
+    posterId = db.Column("poster_id", db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    title = db.Column("title", db.String, nullable=False)
+    description = db.Column("description", db.String, nullable=False)
+
+
 class UserSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = User
@@ -112,6 +122,13 @@ class PostSchema(SQLAlchemyAutoSchema):
 class PersonalInfoSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = PersonalInfo
+        unknown = EXCLUDE
+        load_instance = True
+
+
+class JobPostSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = JobPost
         unknown = EXCLUDE
         load_instance = True
 
