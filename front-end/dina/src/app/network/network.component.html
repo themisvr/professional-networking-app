@@ -16,11 +16,11 @@
             footer
         </section>
 
-        <section class="body" *ngIf="follower.workExperiencePublic">
-            {{follower.workExperience}}
+        <section class="body" *ngIf="follower.personalInfo.workExperiencePublic">
+            {{follower.personalInfo.workExperience}}
         </section>
-        <section class="body" *ngIf="follower.personalSkillsPublic">
-            {{follower.personalSkills}}
+        <section class="body" *ngIf="follower.personalInfo.personalSkillsPublic">
+            {{follower.personalInfo.personalSkills}}
         </section>
     </div>
   </mat-grid-tile>

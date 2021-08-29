@@ -7,6 +7,7 @@ import { ChangeEmailModel } from '../_models/changeEmail';
 import { ChangePasswordModel } from '../_models/changePassword';
 import { PersonalInfoModel } from '../_models/personalInfo';
 import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
+import { ConnectionModel } from '../_models/connection';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +57,7 @@ export class UserService {
   }
 
   getUserNetwork(email: string) {
-    return this.http.get<User>(`${environment.backendUrl}/users/network`, {
+    return this.http.get<ConnectionModel[]>(`${environment.backendUrl}/users/network`, {
       params: {
         email: email
       }
