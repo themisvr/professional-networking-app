@@ -25,7 +25,7 @@ class User(db.Model):
     phoneNumber = db.Column("phone_number", db.String, nullable=True)
     isAdmin = db.Column("is_admin", db.Boolean, nullable=False, default=False)
     posts = db.relationship("Post", backref="user")
-    connections = db.relationship("Connections", backref="user")
+    connections = db.relationship("Connection", backref="user")
 
     @hybrid_property
     def password(self):
@@ -74,7 +74,7 @@ class PersonalInfo(db.Model):
     user = db.relationship("User", backref=db.backref("personalInfo", uselist=False))
 
 
-class Connections(db.Model):
+class Connection(db.Model):
     __tablename__ = "connections"
 
     userId = db.Column("user_id", db.Integer, db.Sequence("user_id_seq"), primary_key=True)
@@ -114,7 +114,7 @@ class PersonalInfoSchema(SQLAlchemyAutoSchema):
 
 class ConnectionsSchema(SQLAlchemyAutoSchema):
     class Meta:
-        model = Connections
+        model = Connection
         unknown = EXCLUDE
         load_instance = True
 
