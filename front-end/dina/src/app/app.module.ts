@@ -37,6 +37,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChatComponent } from './chat/chat.component';
 import { NetworkComponent } from './network/network.component';
 import { JobPostComponent } from './job-post/job-post.component';
+import { JobsComponent } from './jobs/jobs.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { JobPostComponent } from './job-post/job-post.component';
     ChatComponent,
     NetworkComponent,
     JobPostComponent,
+    JobsComponent,
   ],
   imports: [
     HttpClientModule,

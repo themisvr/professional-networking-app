@@ -151,4 +151,8 @@ def get_user_job_posts():
     if not user:
         return err
 
-    return make_response(JobPostSchema().dumps(user.jobPosts, many=True))
+    jobPosts = user.jobPosts
+    for connectedUser in user.connections:
+        jobPosts.extend(connectedUser.jobPosts)
+
+    return make_response(JobPostSchema().dumps(jobPosts, many=True))

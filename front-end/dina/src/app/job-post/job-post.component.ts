@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { JobPostModel } from '../_models/jobPost';
 import { UserService } from '../_services/user.service';
 import {AuthenticationService } from '../_services/authentication.service';
@@ -9,14 +9,12 @@ import {AuthenticationService } from '../_services/authentication.service';
   styleUrls: ['./job-post.component.css']
 })
 export class JobPostComponent implements OnInit {
-  jobPosts: JobPostModel[] = [];
+  @Input() jobPost: JobPostModel;
+  isLoggedUser: boolean = false;
 
-  constructor(private authService: AuthenticationService,
-    private userService: UserService) {
-  }
+  constructor(private authService: AuthenticationService) {}
 
-  ngOnInit(): void {
-    const email = this.authService.currentUserValue?.email || "";
-    this.userService.getUserJobPosts(email).subscribe(jobPosts => this.jobPosts = jobPosts);
+  ngOnInit() {
+    this.isLoggedUser = (this.authService.currentUserValue?.userId || -1) === this.jobPost.posterId;
   }
 }

@@ -129,6 +129,7 @@ class PersonalInfoSchema(SQLAlchemyAutoSchema):
 class JobPostSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = JobPost
+        include_fk = True
         unknown = EXCLUDE
         load_instance = True
 
