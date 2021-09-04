@@ -1,27 +1,16 @@
 from flask import Blueprint, request
 from http_constants.status import HttpStatus
 from utils import make_response, make_response_error, commit_db_session_and_return_successful_response, \
-    commit_db_session_or_return_error_response
-from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, NetworkSchema, BasicUserInfoSchema, JobPostSchema
+    commit_db_session_or_return_error_response, get_user_with_email_or_return_error
+from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, NetworkSchema, JobPostSchema
 
 bp = Blueprint("users", __name__, url_prefix="/users")
-
-
-def __get_user_with_email_or_return_error(email):
-    if not email:
-        return None, make_response_error("No email provided", HttpStatus.BAD_REQUEST)
-
-    user = User.query.filter_by(email=email).first()
-    if not user:
-        return None, make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
-
-    return user, None
 
 
 @bp.route("", methods=["GET"])
 def get_users():
     if request.args.get("email"):
-        user, err = __get_user_with_email_or_return_error(request.args.get("email"))
+        user, err = get_user_with_email_or_return_error(request.args.get("email"))
 
         if user:
             return make_response(user)
@@ -35,7 +24,7 @@ def get_users():
 @bp.route("/changeEmail", methods=['PUT'])
 def change_email():
     content = request.get_json()
-    user, err = __get_user_with_email_or_return_error(content.get("email"))
+    user, err = get_user_with_email_or_return_error(content.get("email"))
 
     if not user:
         return err
@@ -61,7 +50,7 @@ def change_email():
 @bp.route("/changePassword", methods=['PUT'])
 def change_password():
     content = request.get_json()
-    user, err = __get_user_with_email_or_return_error(content.get("email"))
+    user, err = get_user_with_email_or_return_error(content.get("email"))
 
     if not user:
         return err
@@ -80,7 +69,7 @@ def change_password():
 
 @bp.route("/posts", methods=["GET"])
 def get_user_posts():
-    user, err = __get_user_with_email_or_return_error(request.args.get("email"))
+    user, err = get_user_with_email_or_return_error(request.args.get("email"))
 
     if not user:
         return err
@@ -92,7 +81,7 @@ def get_user_posts():
 def create_user_post():
     content = request.get_json()
 
-    user, err = __get_user_with_email_or_return_error(content.get("email"))
+    user, err = get_user_with_email_or_return_error(content.get("email"))
 
     if not user:
         return err
@@ -106,7 +95,7 @@ def create_user_post():
 
 @bp.route("/personalInfo", methods=["GET"])
 def get_user_personal_info():
-    user, err = __get_user_with_email_or_return_error(request.args.get("email"))
+    user, err = get_user_with_email_or_return_error(request.args.get("email"))
 
     if not user:
         return err
@@ -118,7 +107,7 @@ def get_user_personal_info():
 def update_user_personal_info():
     content = request.get_json()
 
-    user, err = __get_user_with_email_or_return_error(content.get("email"))
+    user, err = get_user_with_email_or_return_error(content.get("email"))
 
     if not user:
         return err
@@ -136,7 +125,7 @@ def update_user_personal_info():
 
 @bp.route("/network", methods=["GET"])
 def get_user_network():
-    user, err = __get_user_with_email_or_return_error(request.args.get("email"))
+    user, err = get_user_with_email_or_return_error(request.args.get("email"))
 
     if not user:
         return err
@@ -146,7 +135,7 @@ def get_user_network():
 
 @bp.route("/jobPosts", methods=["GET"])
 def get_user_job_posts():
-    user, err = __get_user_with_email_or_return_error(request.args.get("email"))
+    user, err = get_user_with_email_or_return_error(request.args.get("email"))
 
     if not user:
         return err

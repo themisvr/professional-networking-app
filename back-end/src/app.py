@@ -3,6 +3,7 @@ import db
 import auth
 import user
 import posts
+import jobPosts
 from flask import Flask
 from flask_cors import CORS
 
@@ -28,5 +29,6 @@ def create_app(test_config=None):
     app.register_blueprint(user.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(posts.bp)
+    app.register_blueprint(jobPosts.bp)
 
     return app

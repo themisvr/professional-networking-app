@@ -14,6 +14,11 @@ from marshmallow import EXCLUDE, fields as mas_fields
 
 db = SQLAlchemy()
 
+job_applications = db.Table("job_applications",
+                            db.Column("user_id", db.ForeignKey("users.user_id"), primary_key=True),
+                            db.Column("job_post_id", db.ForeignKey("job_posts.job_post_id"), primary_key=True)
+                            )
+
 
 class User(db.Model):
     __tablename__ = "users"
@@ -30,6 +35,8 @@ class User(db.Model):
     posts = db.relationship("Post", backref="user")
     jobPosts = db.relationship("JobPost", backref="user")
     connectionsRel = db.relationship("User", remote_side="User.userId", backref="connections")
+    jobApplications = db.relationship("JobPost", secondary=job_applications, lazy="subquery",
+                                      backref=db.backref("jobApplicants", lazy=True))
 
     @hybrid_property
     def password(self):

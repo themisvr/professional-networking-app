@@ -5,7 +5,6 @@ from flask import Response, current_app
 from http_constants.status import HttpStatus
 from datetime import datetime
 
-
 def make_response(payload, status: HttpStatus = HttpStatus.OK) -> Response:
     res = Response(payload, mimetype=current_app.config["JSONIFY_MIMETYPE"])
     res.status = status
@@ -57,3 +56,15 @@ def commit_db_session_or_return_error_response(db):
 def commit_db_session_and_return_successful_response(db, schema, resp_data):
     err = commit_db_session_or_return_error_response(db)
     return err if err else make_response(schema.dumps(resp_data))
+
+
+def get_user_with_email_or_return_error(email):
+    from db import User
+    if not email:
+        return None, make_response_error("No email provided", HttpStatus.BAD_REQUEST)
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return None, make_response_error(f"User with email {email} not found", HttpStatus.NOT_FOUND)
+
+    return user, None
