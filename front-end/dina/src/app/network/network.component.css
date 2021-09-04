@@ -33,3 +33,8 @@
     flex-basis: 20%;
     order: 1;
 }
+
+.button {
+    display: inline-block;
+    width: 490px;
+}
