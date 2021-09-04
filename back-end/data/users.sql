@@ -109,3 +109,15 @@ INSERT INTO JOB_POSTS (
     'Principal Software Engineer at Intel',
     'We are looking for a truly experienced software engineer to work at Intel.\nWe are looking for someone with good programming skills'
 ) ON CONFLICT DO NOTHING;
+
+INSERT INTO JOB_POSTS (
+    job_post_id,
+    poster_id,
+    title,
+    description
+) VALUES (
+    nextval('job_post_id_seq'),
+    3,
+    'A job from a connected user',
+    'We are looking for a connection to apply'
+) ON CONFLICT DO NOTHING;
