@@ -107,5 +107,5 @@ INSERT INTO JOB_POSTS (
     nextval('job_post_id_seq'),
     2,
     'Principal Software Engineer at Intel',
-    'We are looking for a truly experienced software engineer to work at Intel.\nWe are looking for something with good programming skills'
+    'We are looking for a truly experienced software engineer to work at Intel.\nWe are looking for someone with good programming skills'
 ) ON CONFLICT DO NOTHING;
