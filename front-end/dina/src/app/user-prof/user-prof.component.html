@@ -18,49 +18,52 @@
           text-align: center;
         }
       </style>
-      <h1>Edit Personal Information</h1>
-
+      <h1 *ngIf="isLoggedInUser">Edit Personal Information</h1>
+      <h1 *ngIf="!isLoggedInUser">Personal Information</h1>
       <form [formGroup]="personalInfoForm" class="personal-info-form" (ngSubmit)="onSubmit()">
-        <section>
+        <section *ngIf="isLoggedInUser">
           <p>
             <mat-checkbox formControlName="workExperiencePublic" [(ngModel)]="personalInfo.workExperiencePublic">
               Public</mat-checkbox>
           </p>
         </section>
-        <mat-form-field class="info-input" appearance="fill">
+        <mat-form-field class="info-input" appearance="fill" *ngIf="isLoggedInUser || personalInfo.workExperiencePublic">
           <mat-label>Working Experience</mat-label>
           <textarea matInput placeholder="e.g Software Engineer at Intel" formControlName="workExperience"
-            [(ngModel)]="personalInfo.workExperience">
+            [(ngModel)]="personalInfo.workExperience" [readonly]="!isLoggedInUser">
             </textarea>
         </mat-form-field>
 
-        <section>
+        <section *ngIf="isLoggedInUser">
           <p>
             <mat-checkbox formControlName="educationPublic" [(ngModel)]="personalInfo.educationPublic">
               Public</mat-checkbox>
           </p>
         </section>
-        <mat-form-field class="info-input" appearance="fill">
+        <mat-form-field class="info-input" appearance="fill" *ngIf="isLoggedInUser || personalInfo.educationPublic">
           <mat-label>Education</mat-label>
           <textarea matInput placeholder="e.g Harvard University" formControlName="education"
-            [(ngModel)]="personalInfo.education">
+            [(ngModel)]="personalInfo.education" [readonly]="!isLoggedInUser">
             </textarea>
         </mat-form-field>
 
-        <section>
+        <section *ngIf="isLoggedInUser">
           <p>
             <mat-checkbox formControlName="personalSkillsPublic" [(ngModel)]="personalInfo.personalSkillsPublic">
               Public</mat-checkbox>
           </p>
         </section>
-        <mat-form-field class="info-input" appearance="fill">
+        <mat-form-field class="info-input" appearance="fill" *ngIf="isLoggedInUser || personalInfo.personalSkillsPublic">
           <mat-label>Personal Skills</mat-label>
           <textarea matInput placeholder="Team Player" formControlName="personalSkills"
-            [(ngModel)]="personalInfo.personalSkills">
+            [(ngModel)]="personalInfo.personalSkills" [readonly]="!isLoggedInUser">
             </textarea>
         </mat-form-field>
 
-        <button mat-stroked-button>Update</button>
+        <button mat-stroked-button *ngIf="isLoggedInUser;else content">Update</button>
+        <ng-template #content>
+          <a mat-raised-button color="primary" (click)="onMessage()">Message</a>
+        </ng-template>
       </form>
     </div>
 

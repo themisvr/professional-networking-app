@@ -1,26 +1,26 @@
 <mat-grid-list cols="5" rowHeight="200px">
   <mat-grid-tile *ngFor="let follower of followers">
-  <!-- <mat-grid-tile-header> themis </mat-grid-tile-header> -->
+  <!-- <mat-grid-tile-header> test </mat-grid-tile-header> -->
 
     <div class="container">
         <section class="header">
             <section class="header-start">
-                {{follower.email}}
+                {{follower.firstName}} {{follower.lastName}}
             </section>
             <section class="header-end">
-                <mat-icon>face</mat-icon>
+                <mat-icon>account_circle</mat-icon>
             </section>
         </section>
 
         <section class="footer">
-            footer
+            <div class="button">
+                <a mat-raised-button color="primary" (click)="onView(follower.email)">View Profile</a>
+                <a mat-raised-button color="primary">Message</a>
+            </div>
         </section>
 
         <section class="body" *ngIf="follower.personalInfo.workExperiencePublic">
             {{follower.personalInfo.workExperience}}
-        </section>
-        <section class="body" *ngIf="follower.personalInfo.personalSkillsPublic">
-            {{follower.personalInfo.personalSkills}}
         </section>
     </div>
   </mat-grid-tile>
