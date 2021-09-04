@@ -1,4 +1,4 @@
-<mat-card *ngFor="let jobPost of jobPosts">
+<mat-card>
     <mat-card-header>
         <mat-card-title>{{jobPost.title}}</mat-card-title>
         <mat-card-subtitle>{{jobPost.posterId}}</mat-card-subtitle>
@@ -8,7 +8,7 @@
             {{jobPost.description}}
         </div>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions *ngIf="isLoggedUser">
         <button mat-button style = "position:relative; left:8px;">Apply</button>
     </mat-card-actions>
     <mat-card-footer>
