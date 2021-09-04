@@ -9,7 +9,7 @@
         </div>
     </mat-card-content>
     <mat-card-actions *ngIf="!isLoggedUser">
-        <button mat-button style = "position:relative; left:8px;">Apply</button>
+        <button mat-button style = "position:relative; left:8px;" (click)="onApply()">Apply</button>
     </mat-card-actions>
     <mat-card-footer>
     </mat-card-footer>
