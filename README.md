@@ -33,8 +33,7 @@ Q6:
  - Front end: Show only public information of the user if not connected with them
 
 Q7:
- - Back/Front end: Show jobs from not connected ones
- - Back/Front end: Add ability to create a new job post and check how has applied to it
+ - Back/Front end: Show jobs from not connected users
  - Back/Front end: Show job posts based on personal skills (Bonus: Matrix Factorization Collaborative Filtering)
 
 Q8:

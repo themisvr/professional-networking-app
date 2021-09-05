@@ -19,12 +19,16 @@ job_applications = db.Table("job_applications",
                             db.Column("job_post_id", db.ForeignKey("job_posts.job_post_id"), primary_key=True)
                             )
 
+user_connections = db.Table("user_connections",
+                            db.Column("user_id", db.ForeignKey("users.user_id"), primary_key=True),
+                            db.Column("follower_id", db.ForeignKey("users.user_id"), primary_key=True)
+                            )
+
 
 class User(db.Model):
     __tablename__ = "users"
 
     userId = db.Column("user_id", db.Integer, db.Sequence("user_id_seq"), primary_key=True)
-    parentId = db.Column("parent_id", db.Integer, db.ForeignKey("users.user_id"))
     firstName = db.Column("first_name", db.String, nullable=False)
     lastName = db.Column("last_name", db.String, nullable=False)
     fullName = db.Column("full_name", db.String, nullable=True, default=f"{firstName} {lastName}")
@@ -34,7 +38,9 @@ class User(db.Model):
     isAdmin = db.Column("is_admin", db.Boolean, nullable=False, default=False)
     posts = db.relationship("Post", backref="user")
     jobPosts = db.relationship("JobPost", backref="user")
-    connectionsRel = db.relationship("User", remote_side="User.userId", backref="connections")
+    connections = db.relationship("User", secondary=user_connections, lazy="subquery",
+                                  primaryjoin=userId == user_connections.c.user_id,
+                                  secondaryjoin=userId == user_connections.c.follower_id)
     jobApplications = db.relationship("JobPost", secondary=job_applications, lazy="subquery",
                                       backref=db.backref("jobApplicants", lazy=True))
 

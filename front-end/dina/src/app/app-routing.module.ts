@@ -14,6 +14,7 @@ import { ChatComponent } from './chat/chat.component';
 import { NetworkComponent } from './network/network.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { SearchListComponent } from './search-list/search-list.component';
+import { JobApplicantsComponent } from './job-applicants/job-applicants.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'network', component: NetworkComponent, canActivate: [AuthGuard] },
   { path: 'searchList', component: SearchListComponent, canActivate: [AuthGuard]},
   { path: 'jobPosts', component: JobsComponent, canActivate: [AuthGuard]},
+  { path: 'jobApplicants', component: JobApplicantsComponent, canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404', pathMatch: 'full' },
 ];
