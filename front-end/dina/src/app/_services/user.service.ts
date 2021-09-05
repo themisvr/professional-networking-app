@@ -1,12 +1,11 @@
 import { environment } from './../../environments/environment.prod';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from "../_models/user"
-import {Article} from "../_models/article";
+import { Article} from "../_models/article";
 import { ChangeEmailModel } from '../_models/changeEmail';
 import { ChangePasswordModel } from '../_models/changePassword';
 import { PersonalInfoModel } from '../_models/personalInfo';
-import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { ConnectionModel } from '../_models/connection';
 import { JobPostModel } from '../_models/jobPost';
 
