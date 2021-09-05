@@ -1,0 +1,8 @@
+<div style="font-size: 10px">
+    <mat-form-field class="search-form" appearance="fill">
+        <mat-label>
+            <b style="font-size: 15px">Search</b>
+        </mat-label>
+        <input matInput type="text" (keydown.enter)="search()" [(ngModel)]="searchUser">
+    </mat-form-field>
+</div>

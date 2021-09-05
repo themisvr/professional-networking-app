@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from http_constants.status import HttpStatus
 from utils import make_response, make_response_error, commit_db_session_and_return_successful_response, \
-    commit_db_session_or_return_error_response, get_user_with_email_or_return_error
+    commit_db_session_or_return_error_response, get_user_with_email_or_return_error, get_user_with_id_or_return_error
 from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, NetworkSchema, JobPostSchema
 
 bp = Blueprint("users", __name__, url_prefix="/users")
@@ -133,15 +133,51 @@ def get_user_network():
     return make_response(NetworkSchema().dumps(user.connections, many=True))
 
 
-@bp.route("/jobPosts", methods=["GET"])
-def get_user_job_posts():
+@bp.route("/availableJobs", methods=["GET"])
+def get_available_job_posts():
     user, err = get_user_with_email_or_return_error(request.args.get("email"))
 
     if not user:
         return err
 
-    jobPosts = user.jobPosts
+    jobPosts = []
     for connectedUser in user.connections:
         jobPosts.extend(connectedUser.jobPosts)
 
+    jobPosts = list(set(jobPosts) - set(user.jobApplications))
     return make_response(JobPostSchema().dumps(jobPosts, many=True))
+
+
+@bp.route("/appliedJobs", methods=["GET"])
+def get_user_applied_jobs():
+    user, err = get_user_with_email_or_return_error(request.args.get("email"))
+
+    if not user:
+        return err
+
+    return make_response(JobPostSchema().dumps(user.jobApplications, many=True))
+
+
+@bp.route("/createdJobs", methods=["GET"])
+def get_user_created_jobs():
+    user, err = get_user_with_email_or_return_error(request.args.get("email"))
+
+    if not user:
+        return err
+
+    return make_response(JobPostSchema().dumps(user.jobPosts, many=True))
+
+
+@bp.route("/createJobPost", methods=["POST"])
+def create_job_post():
+    content = request.get_json()
+    user, err = get_user_with_id_or_return_error(content["posterId"])
+
+    if not user:
+        return err
+
+    content = request.get_json()
+    schema = JobPostSchema()
+    job_post = schema.load(content, session=db.session)
+    user.jobPosts.append(job_post)
+    return commit_db_session_and_return_successful_response(db, schema, job_post)

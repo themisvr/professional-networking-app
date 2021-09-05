@@ -64,11 +64,31 @@ export class UserService {
     });
   }
 
-  getUserJobPosts(email: string) {
-    return this.http.get<JobPostModel[]>(`${environment.backendUrl}/users/jobPosts`, {
+  getAvailableJobs(email: string) {
+    return this.http.get<JobPostModel[]>(`${environment.backendUrl}/users/availableJobs`, {
       params: {
         email: email
       }
     });
+  }
+
+  getUserAppliedJobs(email: string) {
+    return this.http.get<JobPostModel[]>(`${environment.backendUrl}/users/appliedJobs`, {
+      params: {
+        email: email
+      }
+    });
+  }
+
+  getUserCreatedJobs(email: string) {
+    return this.http.get<JobPostModel[]>(`${environment.backendUrl}/users/createdJobs`, {
+      params: {
+        email: email
+      }
+    });
+  }
+
+  createJobPost(jobPost: JobPostModel) {
+    return this.http.post<JobPostModel>(`${environment.backendUrl}/users/createJobPost`, jobPost);
   }
 }

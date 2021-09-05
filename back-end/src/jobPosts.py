@@ -9,8 +9,8 @@ bp = Blueprint("jobPosts", __name__, url_prefix="/jobPosts")
 
 @bp.route("/<job_post_id>/apply", methods=["POST"])
 def update_post(job_post_id):
-    context = request.get_json()
-    user, err = get_user_with_email_or_return_error(context["email"])
+    content = request.get_json()
+    user, err = get_user_with_email_or_return_error(content["email"])
 
     if not user:
         return err
