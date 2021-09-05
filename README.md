@@ -30,7 +30,6 @@ Q5:
 
 Q6:
  - Back/Front end: Add ability to search for any existing user
- - Front end: Add ability to navigate to a user's profile after searching for them
  - Front end: Show only public information of the user if not connected with them
 
 Q7:
