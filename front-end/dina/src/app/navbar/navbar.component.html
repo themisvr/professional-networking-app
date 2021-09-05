@@ -1,3 +1,4 @@
 <nav mat-tab-nav-bar [backgroundColor]="background">
+    <dina-search></dina-search>
     <a mat-tab-link *ngFor="let tab of tabs" (click)="activeLink = tab.title" [active]="activeLink == tab.title" routerLink="/{{tab.link}}"> {{tab.title}} </a>
 </nav>

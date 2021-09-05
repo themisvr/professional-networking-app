@@ -38,6 +38,8 @@ import { ChatComponent } from './chat/chat.component';
 import { NetworkComponent } from './network/network.component';
 import { JobPostComponent } from './job-post/job-post.component';
 import { JobsComponent } from './jobs/jobs.component';
+import { SearchComponent } from './search/search.component';
+import { SearchListComponent } from './search-list/search-list.component';
 import { AvailableJobsComponent } from './available-jobs/available-jobs.component';
 import { AppliedJobsComponent } from './applied-jobs/applied-jobs.component';
 import { CreatedJobsComponent } from './created-jobs/created-jobs.component';
@@ -64,6 +66,8 @@ import { CreateJobComponent } from './create-job/create-job.component';
     NetworkComponent,
     JobPostComponent,
     JobsComponent,
+    SearchComponent,
+    SearchListComponent,
     AvailableJobsComponent,
     AppliedJobsComponent,
     CreatedJobsComponent,

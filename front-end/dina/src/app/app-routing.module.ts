@@ -13,6 +13,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { ChatComponent } from './chat/chat.component';
 import { NetworkComponent } from './network/network.component';
 import { JobsComponent } from './jobs/jobs.component';
+import { SearchListComponent } from './search-list/search-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/welcome', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'personalInfo', component: UserProfComponent, canActivate: [AuthGuard] },
   { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'network', component: NetworkComponent, canActivate: [AuthGuard] },
+  { path: 'searchList', component: SearchListComponent, canActivate: [AuthGuard]},
   { path: 'jobPosts', component: JobsComponent, canActivate: [AuthGuard]},
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '/404', pathMatch: 'full' },
