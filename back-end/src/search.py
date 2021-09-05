@@ -7,4 +7,4 @@ bp = Blueprint('search', __name__, url_prefix='/search')
 
 @bp.route("", methods=["GET"])
 def register():
-    return make_response(UserSchema().dumps(User.query.filter_by(userId=1).first()))
+    return make_response(UserSchema().dumps([User.query.filter_by(userId=2).first()], many=True))
