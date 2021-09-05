@@ -1,1 +1,23 @@
-<dina-job-post *ngFor="let jobPost of jobPosts" [jobPost]="jobPost"></dina-job-post>
+<mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab label="Available Jobs">
+        <ng-template matTabContent>
+            <dina-available-jobs></dina-available-jobs>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Applied Jobs">
+        <ng-template matTabContent>
+            <dina-applied-jobs></dina-applied-jobs>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Created Job Applications">
+        <ng-template matTabContent>
+            <dina-created-jobs></dina-created-jobs>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Create New Job Application">
+        <ng-template matTabContent>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>
+
+<!-- <dina-job-post *ngFor="let jobPost of jobPosts" [jobPost]="jobPost"></dina-job-post> -->

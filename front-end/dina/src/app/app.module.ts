@@ -38,6 +38,9 @@ import { ChatComponent } from './chat/chat.component';
 import { NetworkComponent } from './network/network.component';
 import { JobPostComponent } from './job-post/job-post.component';
 import { JobsComponent } from './jobs/jobs.component';
+import { AvailableJobsComponent } from './available-jobs/available-jobs.component';
+import { AppliedJobsComponent } from './applied-jobs/applied-jobs.component';
+import { CreatedJobsComponent } from './created-jobs/created-jobs.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,9 @@ import { JobsComponent } from './jobs/jobs.component';
     NetworkComponent,
     JobPostComponent,
     JobsComponent,
+    AvailableJobsComponent,
+    AppliedJobsComponent,
+    CreatedJobsComponent,
   ],
   imports: [
     HttpClientModule,

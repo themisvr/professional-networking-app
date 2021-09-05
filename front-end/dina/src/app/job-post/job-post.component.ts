@@ -10,6 +10,7 @@ import { JobPostService } from '../_services/jobPost.service';
 })
 export class JobPostComponent implements OnInit {
   @Input() jobPost: JobPostModel;
+  @Input() showApply: boolean = true;
   isLoggedUser: boolean = false;
 
   constructor(private authService: AuthenticationService, private jobPostService: JobPostService) {}
