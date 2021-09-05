@@ -123,24 +123,20 @@ INSERT INTO JOB_POSTS (
 ) ON CONFLICT DO NOTHING;
 
 
-INSERT INTO POST (
+INSERT INTO POSTS (
     post_id,
     user_id,
     likes,
-    content,
-    created,
-    updated
+    content
 ) VALUES (
     nextval('post_id_seq'),
     2,
     4,
-    'Facebook is hiring Software Engineers',
-    '2021-03-14'
-    '2021-04-30'
+    'Facebook is hiring Software Engineers'
 ) ON CONFLICT DO NOTHING;
 
 
-INSERT INTO POSTCOMMENT (
+INSERT INTO POST_COMMENTS (
     comment_id,
     post_id,
     user_id,

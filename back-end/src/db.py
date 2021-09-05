@@ -74,8 +74,8 @@ class Post(db.Model):
     userId = db.Column("user_id", db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     likes = db.Column("likes", db.Integer, nullable=False, default=0)
     content = db.Column("content", db.String, nullable=False)
-    created = db.Column("created", db.DateTime, nullable=False, default=datetime.datetime.now())
-    updated = db.Column("updated", db.DateTime, nullable=False, default=datetime.datetime.now())
+    created = db.Column("created", db.DateTime, default=datetime.datetime.now())
+    updated = db.Column("updated", db.DateTime, default=datetime.datetime.now())
     comments = db.relationship("PostComment", backref="post")
 
 
