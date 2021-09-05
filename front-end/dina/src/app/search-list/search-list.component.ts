@@ -1,16 +1,16 @@
 import { User } from './../_models/user';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { SearchServiceService } from '../_services/search-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-search-list',
+  selector: 'dina-search-list',
   templateUrl: './search-list.component.html',
   styleUrls: ['./search-list.component.css']
 })
 export class SearchListComponent implements OnInit {
   searchUser: string;
-  foundUsers: User[] = [];
+  @Input() foundUsers: User[] = [];
 
   constructor(private searchService: SearchServiceService,
               private router: Router,
@@ -19,12 +19,13 @@ export class SearchListComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.searchUser = params.get("user") || "";
-      this.searchService.search(this.searchUser).subscribe(users => this.foundUsers = users);
+      if (this.searchUser !== "") {
+        this.searchService.search(this.searchUser).subscribe(users => this.foundUsers = users);
+      }
     })
   }
 
   onView(email: string) {
-    this.router.navigate(['/personalInfo', { email: email}])
+    this.router.navigate(['/personalInfo', { email: email }])
   }
-
 }
