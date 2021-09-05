@@ -41,6 +41,7 @@ import { JobsComponent } from './jobs/jobs.component';
 import { AvailableJobsComponent } from './available-jobs/available-jobs.component';
 import { AppliedJobsComponent } from './applied-jobs/applied-jobs.component';
 import { CreatedJobsComponent } from './created-jobs/created-jobs.component';
+import { CreateJobComponent } from './create-job/create-job.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { CreatedJobsComponent } from './created-jobs/created-jobs.component';
     AvailableJobsComponent,
     AppliedJobsComponent,
     CreatedJobsComponent,
+    CreateJobComponent,
   ],
   imports: [
     HttpClientModule,

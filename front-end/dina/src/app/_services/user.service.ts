@@ -6,7 +6,6 @@ import {Article} from "../_models/article";
 import { ChangeEmailModel } from '../_models/changeEmail';
 import { ChangePasswordModel } from '../_models/changePassword';
 import { PersonalInfoModel } from '../_models/personalInfo';
-import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 import { ConnectionModel } from '../_models/connection';
 import { JobPostModel } from '../_models/jobPost';
 
