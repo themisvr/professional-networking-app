@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from http_constants.status import HttpStatus
 from utils import make_response, make_response_error, commit_db_session_and_return_successful_response, \
-    commit_db_session_or_return_error_response, get_user_with_email_or_return_error
+    commit_db_session_or_return_error_response, get_user_with_email_or_return_error, get_user_with_id_or_return_error
 from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, NetworkSchema, JobPostSchema
 
 bp = Blueprint("users", __name__, url_prefix="/users")
@@ -170,7 +170,8 @@ def get_user_created_jobs():
 
 @bp.route("/createJobPost", methods=["POST"])
 def create_job_post():
-    user, err = get_user_with_email_or_return_error(request.args.get("email"))
+    content = request.get_json()
+    user, err = get_user_with_id_or_return_error(content["posterId"])
 
     if not user:
         return err
@@ -179,4 +180,4 @@ def create_job_post():
     schema = JobPostSchema()
     job_post = schema.load(content, session=db.session)
     user.jobPosts.append(job_post)
-    commit_db_session_and_return_successful_response(db, schema, job_post)
+    return commit_db_session_and_return_successful_response(db, schema, job_post)
