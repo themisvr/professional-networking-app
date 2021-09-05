@@ -8,7 +8,7 @@
             {{jobPost.description}}
         </div>
     </mat-card-content>
-    <mat-card-actions *ngIf="!isLoggedUser && !showApply">
+    <mat-card-actions *ngIf="!isLoggedUser && showApply">
         <button mat-button style = "position:relative; left:8px;" (click)="onApply()">Apply</button>
     </mat-card-actions>
     <mat-card-footer>
