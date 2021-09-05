@@ -121,3 +121,33 @@ INSERT INTO JOB_POSTS (
     'A job from a connected user',
     'We are looking for a connection to apply'
 ) ON CONFLICT DO NOTHING;
+
+
+INSERT INTO POST (
+    post_id,
+    user_id,
+    likes,
+    content,
+    created,
+    updated
+) VALUES (
+    nextval('post_id_seq'),
+    2,
+    4,
+    'Facebook is hiring Software Engineers',
+    '2021-03-14'
+    '2021-04-30'
+) ON CONFLICT DO NOTHING;
+
+
+INSERT INTO POSTCOMMENT (
+    comment_id,
+    post_id,
+    user_id,
+    comment
+) VALUES (
+    nextval('post_comment_id_seq'),
+    1,
+    3,
+    'This is a very nice post!'
+) ON CONFLICT DO NOTHING;
