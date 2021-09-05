@@ -28,5 +28,6 @@ export class NetworkComponent implements OnInit {
   }
 
   onView(email: string) {
-    this.router.navigate(['/personalInfo', { email: email}])  }
+    this.router.navigate(['/personalInfo', { email: email}])
+  }
 }
