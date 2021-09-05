@@ -4,6 +4,7 @@ import auth
 import user
 import posts
 import jobPosts
+import search
 from flask import Flask
 from flask_cors import CORS
 
@@ -30,5 +31,6 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
     app.register_blueprint(posts.bp)
     app.register_blueprint(jobPosts.bp)
+    app.register_blueprint(search.bp)
 
     return app
