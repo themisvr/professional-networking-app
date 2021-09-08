@@ -3,4 +3,5 @@ export class CommentModel {
     postId: number;
     userId: number;
     comment: string;
+    date: Date;
 };

@@ -3,17 +3,25 @@
         <mat-card-title>{{article.creator}}</mat-card-title>
         <mat-card-subtitle>{{article.created | date :'short'}}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content style="margin: 18px">
         <div>
             {{article.content}}
         </div>
     </mat-card-content>
-    <mat-card-actions>
-        <button mat-icon-button color="warn" (click)="onLike()">
+        <mat-card-header>
+            <mat-card-title>Comments</mat-card-title>
+        </mat-card-header>
+        <div *ngFor="let comment of article.comments" style="margin: 18px">
+            <dina-comment [comment]="comment"></dina-comment>
+        </div>
+        <mat-form-field class="comment-full-width" appearance="fill" style="margin: 18px">
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput type="text" [(ngModel)]="newComment" (keydown.enter)="onComment(newComment)"></textarea>
+        </mat-form-field>
+    <mat-card-footer>
+        <button mat-icon-button color="warn" (click)="onLike()" style="margin: 18px">
             <mat-icon>favorite</mat-icon>
         </button>
-    </mat-card-actions>
-    <mat-card-footer>
-        <h3>{{article.likes}} Likes</h3>
+        <h3 style="margin: 30px">{{article.likes}} Likes</h3>
     </mat-card-footer>
 </mat-card>
