@@ -25,8 +25,6 @@ Q4:
 
 Q5:
  - Back end: Retrieve articles that connected users have posted as well as any non connected users (siblings)
- - Front end: Add ability to create new article
- - Front end: Add ability to comment on an existing article
 
 Q7:
  - Back/Front end: Show jobs from not connected users
