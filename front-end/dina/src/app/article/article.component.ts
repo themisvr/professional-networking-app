@@ -16,8 +16,9 @@ export class ArticleComponent implements OnInit {
   }
 
   onLike() {
-    this.article.likes++;
-    this.articleService.updatePost(this.article).subscribe(article => this.article = article);
+    let toSend = { ...this.article };
+    ++toSend.likes;
+    this.articleService.updatePost(toSend).subscribe(article => this.article = article);
   }
 
 }

@@ -13,6 +13,6 @@ def update_post(post_id):
         return make_response_error(f"Post with id {post_id} not found", HttpStatus.NOT_FOUND)
 
     content = request.get_json()
-    schema = PostSchema()
+    schema = PostSchema(exclude=("creator", ))
     post = schema.load(content, instance=post, session=db.session)
     return commit_db_session_and_return_successful_response(db, schema, post)

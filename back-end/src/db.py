@@ -138,7 +138,7 @@ class PostSchema(SQLAlchemyAutoSchema):
         unknown = EXCLUDE
         load_instance = True
 
-    creator = mas_fields.Pluck(UserSchema(), 'firstName', attribute='user')
+    creator = mas_fields.Pluck(BasicUserInfoSchema(), 'firstName', attribute='user')
     comments = fields.Nested(PostCommentSchema, many=True)
 
 
