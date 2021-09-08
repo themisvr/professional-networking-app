@@ -5,7 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import {User} from '../_models/user';
+import {UserModel} from '../_models/user';
 import {UserService} from '../_services/user.service';
 
 @Component({
@@ -15,7 +15,7 @@ import {UserService} from '../_services/user.service';
 })
 export class AdminPageComponent implements AfterViewInit {
   displayedColumns: string[] = ['email', 'firstName', 'lastName', 'phoneNumber'];
-  dataSource: MatTableDataSource<User> = new MatTableDataSource([] as User[]);
+  dataSource: MatTableDataSource<UserModel> = new MatTableDataSource([] as UserModel[]);
 
   resultsLength = 0;
   isLoadingResults = true;

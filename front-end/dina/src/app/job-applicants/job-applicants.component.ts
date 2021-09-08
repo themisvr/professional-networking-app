@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../_models/user';
+import { UserModel } from '../_models/user';
 import { JobPostService } from '../_services/jobPost.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { JobPostService } from '../_services/jobPost.service';
   styleUrls: ['./job-applicants.component.css']
 })
 export class JobApplicantsComponent implements OnInit {
-  applicants: User[] = [];
+  applicants: UserModel[] = [];
 
   constructor(private jobPostService: JobPostService, private route: ActivatedRoute) { }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Article } from '../_models/article';
+import { ArticleModel } from '../_models/article';
 import { AuthenticationService } from '../_services/authentication.service';
 import { UserService } from '../_services/user.service';
 
@@ -9,7 +9,7 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./timeline.component.css']
 })
 export class TimelineComponent implements OnInit {
-  articles: Article[];
+  articles: ArticleModel[];
 
   constructor(private userService: UserService, private authService: AuthenticationService) { }
 

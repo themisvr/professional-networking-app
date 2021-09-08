@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { User } from '../_models/user';
+import { UserModel } from '../_models/user';
 
 
 @Component({
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   private navigateIfAlreadyLoggedIn() {
-    const currentUser: Nullable<User> = this.authenticationService.currentUserValue;
+    const currentUser: Nullable<UserModel> = this.authenticationService.currentUserValue;
     if (currentUser?.isAdmin === true) {
       this.router.navigate(['admin'])
     }

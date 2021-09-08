@@ -1,30 +1,30 @@
-import { RegisterUser } from './../_models/registerUser';
+import { RegisterUserModel } from './../_models/registerUser';
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from '../_models/user'
+import { UserModel } from '../_models/user'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<Nullable<User>>;
-  public currentUser: Observable<Nullable<User>>;
+  private currentUserSubject: BehaviorSubject<Nullable<UserModel>>;
+  public currentUser: Observable<Nullable<UserModel>>;
 
   constructor(private http: HttpClient) {
     let storageUser = localStorage.getItem('currentUser');
     if (storageUser) {
-      this.currentUserSubject = new BehaviorSubject<Nullable<User>>(JSON.parse(storageUser));
+      this.currentUserSubject = new BehaviorSubject<Nullable<UserModel>>(JSON.parse(storageUser));
     } else {
-      this.currentUserSubject = new BehaviorSubject<Nullable<User>>(null);
+      this.currentUserSubject = new BehaviorSubject<Nullable<UserModel>>(null);
     }
 
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): Nullable<User> {
+  public get currentUserValue(): Nullable<UserModel> {
     return this.currentUserSubject.value;
   }
 
@@ -37,8 +37,8 @@ export class AuthenticationService {
       }));
   }
 
-  register(user: RegisterUser) {
-    return this.http.post<User>(`${environment.backendUrl}/auth/register`, user);
+  register(user: RegisterUserModel) {
+    return this.http.post<UserModel>(`${environment.backendUrl}/auth/register`, user);
   }
 
   logout() {

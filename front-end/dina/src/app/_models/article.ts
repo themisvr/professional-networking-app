@@ -1,8 +1,10 @@
-export class Article {
+import { CommentModel } from "./comment";
+
+export class ArticleModel {
     postId: number;
     creator: string;
     created: Date;
     likes: number;
     content: string;
-    comments: string[];
+    comments: CommentModel[];
 };

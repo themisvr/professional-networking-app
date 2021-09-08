@@ -1,4 +1,4 @@
-import { RegisterUser } from './../_models/registerUser';
+import { RegisterUserModel } from './../_models/registerUser';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../_services/authentication.service';
 import { Component, OnInit } from '@angular/core';
@@ -12,7 +12,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  registerUserModel: RegisterUser = new RegisterUser();
+  registerUserModel: RegisterUserModel = new RegisterUserModel();
   registerForm: FormGroup;
   submitted = false;
   hide = true;

@@ -1,4 +1,4 @@
-import { User } from './../_models/user';
+import { UserModel } from './../_models/user';
 import { Component, Input, OnInit } from '@angular/core';
 import { SearchServiceService } from '../_services/search-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./search-list.component.css']
 })
 export class SearchListComponent implements OnInit {
-  @Input() foundUsers: User[] = [];
+  @Input() foundUsers: UserModel[] = [];
 
   constructor(private searchService: SearchServiceService,
               private router: Router,

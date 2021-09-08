@@ -1,8 +1,8 @@
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from "../_models/user"
-import { Article} from "../_models/article";
+import { UserModel } from "../_models/user"
+import { ArticleModel } from "../_models/article";
 import { ChangeEmailModel } from '../_models/changeEmail';
 import { ChangePasswordModel } from '../_models/changePassword';
 import { PersonalInfoModel } from '../_models/personalInfo';
@@ -17,11 +17,11 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getAllUsers() {
-    return this.http.get<User[]>(`${environment.backendUrl}/users`);
+    return this.http.get<UserModel[]>(`${environment.backendUrl}/users`);
   }
 
   getUserByEmail(email: string) {
-    return this.http.get<User>(`${environment.backendUrl}/users`, {
+    return this.http.get<UserModel>(`${environment.backendUrl}/users`, {
       params: {
         email: email
       }
@@ -29,7 +29,7 @@ export class UserService {
   }
 
   getUserPosts(email: string) {
-    return this.http.get<Article[]>(`${environment.backendUrl}/users/posts`, {
+    return this.http.get<ArticleModel[]>(`${environment.backendUrl}/users/posts`, {
       params: {
         email: email
       }

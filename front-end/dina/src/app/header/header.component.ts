@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../_models/user';
+import { UserModel } from '../_models/user';
 import { AuthenticationService } from '../_services/authentication.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthenticationService) {}
 
   ngOnInit(): void {
-    const currentUser: Nullable<User> = this.authService.currentUserValue;
+    const currentUser: Nullable<UserModel> = this.authService.currentUserValue;
     this.loggedIn = currentUser != null;
     this.admin = this.loggedIn && (currentUser || false) && currentUser.isAdmin;
     this.authService.currentUser.subscribe(user => this.loggedIn = user != null);

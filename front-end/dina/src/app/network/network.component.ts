@@ -1,7 +1,7 @@
 import { UserService } from './../_services/user.service';
 import { AuthenticationService } from './../_services/authentication.service';
 import { ConnectionModel } from './../_models/connection';
-import { User } from '../_models/user';
+import { UserModel } from '../_models/user';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';

@@ -1,7 +1,7 @@
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../_models/user';
+import { UserModel } from '../_models/user';
 
 
 @Injectable({
@@ -18,6 +18,6 @@ export class JobPostService {
   }
 
   getJobApplicants(jobPostId: number) {
-    return this.http.get<User[]>(`${environment.backendUrl}/jobPosts/${jobPostId}/applicants`);
+    return this.http.get<UserModel[]>(`${environment.backendUrl}/jobPosts/${jobPostId}/applicants`);
   }
 }
