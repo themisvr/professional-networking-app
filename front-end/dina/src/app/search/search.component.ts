@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  searchUser: string = '';
+  searchTerm: string = '';
 
   constructor(private router: Router) { }
 
@@ -15,7 +15,7 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
-    this.router.navigate(['/searchList', {user: this.searchUser}]);
+    this.router.navigate(['/searchList', {term: this.searchTerm}]);
   }
 
 }

@@ -29,7 +29,6 @@ Q5:
  - Front end: Add ability to comment on an existing article
 
 Q6:
- - Back end: Add ability to search for any existing user
  - Front end: Show only public information of the user if not connected with them
 
 Q7:

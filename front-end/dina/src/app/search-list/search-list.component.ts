@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./search-list.component.css']
 })
 export class SearchListComponent implements OnInit {
-  searchUser: string;
   @Input() foundUsers: User[] = [];
 
   constructor(private searchService: SearchServiceService,
@@ -18,9 +17,9 @@ export class SearchListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.searchUser = params.get("user") || "";
-      if (this.searchUser !== "") {
-        this.searchService.search(this.searchUser).subscribe(users => this.foundUsers = users);
+      const searchTerm = params.get("term") || "";
+      if (searchTerm !== "") {
+        this.searchService.search(searchTerm).subscribe(users => this.foundUsers = users);
       }
     })
   }

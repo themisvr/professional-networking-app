@@ -3,6 +3,7 @@ import datetime
 import click
 import marshmallow
 
+import sqlalchemy
 import utils
 import bcrypt
 from flask.cli import with_appcontext
@@ -11,6 +12,7 @@ from sqlalchemy import text
 from sqlalchemy.ext.hybrid import hybrid_property
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
 from marshmallow import EXCLUDE, fields as mas_fields
+from sqlalchemy.dialects.postgresql import TSVECTOR
 
 db = SQLAlchemy()
 
@@ -43,6 +45,13 @@ class User(db.Model):
                                   secondaryjoin=userId == user_connections.c.follower_id)
     jobApplications = db.relationship("JobPost", secondary=job_applications, lazy="subquery",
                                       backref=db.backref("jobApplicants", lazy=True))
+
+    __ts_vector__ = db.Column(TSVECTOR(), db.Computed(
+        "to_tsvector('english', first_name || ' ' || last_name || ' ' || email)",
+        persisted=True
+    ))
+
+    __table_args__ = (sqlalchemy.Index('ix_user___ts_vector__', __ts_vector__, postgresql_using='gin'),)
 
     @hybrid_property
     def password(self):
@@ -113,6 +122,7 @@ class UserSchema(SQLAlchemyAutoSchema):
         model = User
         unknown = EXCLUDE
         load_instance = True
+        exclude = ("__ts_vector__", )
 
 
 class PostCommentSchema(SQLAlchemyAutoSchema):

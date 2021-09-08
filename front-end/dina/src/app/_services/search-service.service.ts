@@ -12,10 +12,10 @@ export class SearchServiceService {
 
   constructor(private http: HttpClient) { }
 
-  search(user: string) {
+  search(searchTerm: string) {
     return this.http.get<User[]>(`${environment.backendUrl}/search`, {
       params: {
-        user: user
+        term: searchTerm
       }
     });
   }
