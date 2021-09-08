@@ -1,4 +1,3 @@
-import admin
 import os
 import db
 import auth
@@ -33,6 +32,5 @@ def create_app(test_config=None):
     app.register_blueprint(posts.bp)
     app.register_blueprint(jobPosts.bp)
     app.register_blueprint(search.bp)
-    app.register_blueprint(admin.bp)
 
     return app
