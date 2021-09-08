@@ -122,7 +122,7 @@ class UserSchema(SQLAlchemyAutoSchema):
         model = User
         unknown = EXCLUDE
         load_instance = True
-        exclude = ("__ts_vector__", )
+        exclude = ("__ts_vector__",)
 
 
 class PostCommentSchema(SQLAlchemyAutoSchema):
@@ -130,6 +130,7 @@ class PostCommentSchema(SQLAlchemyAutoSchema):
         model = PostComment
         unknown = EXCLUDE
         load_instance = True
+        include_fk = True
 
 
 class PostSchema(SQLAlchemyAutoSchema):
