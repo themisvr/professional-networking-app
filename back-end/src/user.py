@@ -81,10 +81,14 @@ def get_user_posts():
 def create_user_post():
     content = request.get_json()
 
-    user, err = get_user_with_email_or_return_error(content.get("email"))
+    user_id = content.get("userId")
+    if not user_id:
+        return make_response_error(f"User id of post creator was not specified", HttpStatus.BAD_REQUEST)
+
+    user = User.query.filter_by(userId=user_id).first()
 
     if not user:
-        return err
+        return make_response_error(f"User with id {user_id} was not found", HttpStatus.NOT_FOUND)
 
     schema = PostSchema()
     post = schema.load(content, session=db.session)
