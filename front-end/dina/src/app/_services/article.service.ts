@@ -14,4 +14,8 @@ export class ArticleService {
     return this.http.put<ArticleModel>(`${environment.backendUrl}/posts/${article.postId}`, article);
   }
 
+  createPost(article: ArticleModel) {
+    return this.http.post<ArticleModel>(`${environment.backendUrl}/users/posts`, article);
+  }
+
 }

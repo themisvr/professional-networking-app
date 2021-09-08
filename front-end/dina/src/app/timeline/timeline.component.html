@@ -1,5 +1,16 @@
-<div>
-  <div *ngFor="let article of articles" class="article-container" >
-    <dina-article [article]="article"></dina-article>
-  </div>
-</div>
+<mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab label="Recent Posts">
+        <ng-template matTabContent>
+            <div>
+            <div *ngFor="let article of articles" class="article-container" >
+              <dina-article [article]="article"></dina-article>
+            </div>
+          </div>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Upload Post">
+        <ng-template matTabContent>
+            <dina-upload-post></dina-upload-post>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>
