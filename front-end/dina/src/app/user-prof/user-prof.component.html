@@ -30,7 +30,7 @@
               Public</mat-checkbox>
           </p>
         </section>
-        <mat-form-field class="info-input" appearance="fill" *ngIf="isLoggedInUser || personalInfo.workExperiencePublic">
+        <mat-form-field class="info-input" appearance="fill" *ngIf="isLoggedInUser || isConnectedUser || personalInfo.workExperiencePublic">
           <mat-label>Working Experience</mat-label>
           <textarea matInput placeholder="e.g Software Engineer at Intel" formControlName="workExperience"
             [(ngModel)]="personalInfo.workExperience" [readonly]="!isLoggedInUser">
@@ -43,7 +43,7 @@
               Public</mat-checkbox>
           </p>
         </section>
-        <mat-form-field class="info-input" appearance="fill" *ngIf="isLoggedInUser || personalInfo.educationPublic">
+        <mat-form-field class="info-input" appearance="fill" *ngIf="isLoggedInUser || isConnectedUser || personalInfo.educationPublic">
           <mat-label>Education</mat-label>
           <textarea matInput placeholder="e.g Harvard University" formControlName="education"
             [(ngModel)]="personalInfo.education" [readonly]="!isLoggedInUser">
@@ -56,7 +56,7 @@
               Public</mat-checkbox>
           </p>
         </section>
-        <mat-form-field class="info-input" appearance="fill" *ngIf="isLoggedInUser || personalInfo.personalSkillsPublic">
+        <mat-form-field class="info-input" appearance="fill" *ngIf="isLoggedInUser || isConnectedUser || personalInfo.personalSkillsPublic">
           <mat-label>Personal Skills</mat-label>
           <textarea matInput placeholder="Team Player" formControlName="personalSkills"
             [(ngModel)]="personalInfo.personalSkills" [readonly]="!isLoggedInUser">

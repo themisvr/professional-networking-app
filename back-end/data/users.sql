@@ -89,7 +89,7 @@ INSERT INTO PERSONAL_INFOS (
     'Team Player',
     true,
     true,
-    true
+    false
 ) ON CONFLICT DO NOTHING;
 
 INSERT INTO JOB_POSTS (

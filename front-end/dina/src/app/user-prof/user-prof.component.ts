@@ -14,6 +14,7 @@ export class UserProfComponent implements OnInit {
   personalInfoForm: FormGroup;
   personalInfo: PersonalInfoModel = new PersonalInfoModel();
   isLoggedInUser: boolean = false;
+  isConnectedUser: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -34,7 +35,15 @@ export class UserProfComponent implements OnInit {
       this.route.paramMap.subscribe(params => {
         const email = params.get("email") || this.authService.currentUserValue?.email || "";
         this.isLoggedInUser = email === (this.authService.currentUserValue?.email || "");
-        this.userService.getUserPersonalInfo(email).subscribe(personalInfo => this.personalInfo = personalInfo);
+        this.userService
+          .getUserNetwork(this.authService.currentUserValue?.email || "")
+          .subscribe(connectedUsers => {
+            this.isConnectedUser = connectedUsers.find((user) => user.email === email) ? true : false;
+          });
+
+        this.userService
+          .getUserPersonalInfo(email)
+          .subscribe(personalInfo => this.personalInfo = personalInfo);
       });
     }
 
