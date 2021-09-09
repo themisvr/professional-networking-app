@@ -13,9 +13,6 @@ flask run --cert=../cert.pem --key=../key.pem
 
 ## TODO list
 
-Q1:
- - Make front end run on HTTPS
-
 Q2:
  - Add error handling in front end when a user already exists
 
