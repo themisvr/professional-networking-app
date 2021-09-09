@@ -5,7 +5,7 @@ export class ArticleModel {
     userId: number;
     creator: string;
     created: Date;
-    likes: number;
+    likeCount: number;
     content: string;
     comments: CommentModel[];
 };

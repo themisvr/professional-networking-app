@@ -135,12 +135,10 @@ INSERT INTO USER_CONNECTIONS (
 INSERT INTO POSTS (
     post_id,
     user_id,
-    likes,
     content
 ) VALUES (
     nextval('post_id_seq'),
     2,
-    4,
     'Facebook is hiring Software Engineers'
 ) ON CONFLICT DO NOTHING;
 

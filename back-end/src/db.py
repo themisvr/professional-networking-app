@@ -11,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from sqlalchemy.ext.hybrid import hybrid_property
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
-from marshmallow import EXCLUDE, fields as mas_fields
+from marshmallow import EXCLUDE, fields as mas_fields, post_dump, pre_dump
 from sqlalchemy.dialects.postgresql import TSVECTOR
 
 db = SQLAlchemy()
@@ -82,16 +82,24 @@ class PostComment(db.Model):
     comment = db.Column("comment", db.String, nullable=False)
 
 
+class PostLike(db.Model):
+    __tablename__ = "post_likes"
+
+    postLikeId = db.Column("post_like_id", db.Integer, db.Sequence("post_like_id_seq"), primary_key=True)
+    userId = db.Column("user_id", db.ForeignKey("users.user_id"), nullable=False)
+    postId = db.Column("post_id", db.ForeignKey("posts.post_id"), nullable=False)
+
+
 class Post(db.Model):
     __tablename__ = "posts"
 
     postId = db.Column("post_id", db.Integer, db.Sequence("post_id_seq"), primary_key=True)
     userId = db.Column("user_id", db.Integer, db.ForeignKey("users.user_id"), nullable=False)
-    likes = db.Column("likes", db.Integer, nullable=False, default=0)
     content = db.Column("content", db.String, nullable=False)
     created = db.Column("created", db.DateTime, default=datetime.datetime.now())
     updated = db.Column("updated", db.DateTime, default=datetime.datetime.now())
     comments = db.relationship("PostComment", backref="post")
+    likes = db.relationship("PostLike", backref="post")
 
 
 class PersonalInfo(db.Model):
@@ -141,6 +149,17 @@ class PostSchema(SQLAlchemyAutoSchema):
 
     creator = mas_fields.Pluck(BasicUserInfoSchema(), 'firstName', attribute='user')
     comments = fields.Nested(PostCommentSchema, many=True)
+    likeCount = fields.fields.Integer()
+
+    @pre_dump(pass_many=True)
+    def pre_dump(self, data, many, **kwargs):
+        if many:
+            for datum in data:
+                datum.likeCount = len(datum.likes)
+        else:
+            data.likeCount = len(data.likes)
+
+        return data
 
 
 class PersonalInfoSchema(SQLAlchemyAutoSchema):

@@ -20,20 +20,16 @@ export class ArticleComponent implements OnInit {
   }
 
   onLike() {
-    let toSend = { ...this.article };
-    ++toSend.likes;
-    this.articleService.updatePost(toSend).subscribe(article => this.article = article);
+    this.articleService.like(this.article.postId, this.authService.currentUserValue?.userId || -1).subscribe(article => this.article = article);
   }
 
   onComment(comment: string) {
-    let toSend = { ...this.article };
     let newComment = new CommentModel();
     newComment.comment = comment;
     newComment.postId = this.article.postId;
     newComment.userId = this.authService.currentUserValue?.userId || -1;
     newComment.date = new Date();
-    toSend.comments.push(newComment);
     this.newComment = "";
-    this.articleService.updatePost(toSend).subscribe(article => this.article = article);
+    this.articleService.addComment(this.article.postId, newComment).subscribe(article => this.article = article);
   }
 }
