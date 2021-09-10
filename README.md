@@ -20,9 +20,6 @@ Q4:
  - Add support for exporting XML
  - Export all required data
 
-Q5:
- - Back end: Retrieve articles that connected users have posted as well as any non connected users (siblings)
-
 Q7:
  - Back/Front end: Show jobs from not connected users
  - Back/Front end: Show job posts based on personal skills (Bonus: Matrix Factorization Collaborative Filtering)

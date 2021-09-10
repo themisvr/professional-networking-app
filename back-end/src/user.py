@@ -2,7 +2,8 @@ from flask import Blueprint, request
 from http_constants.status import HttpStatus
 from utils import make_response, make_response_error, commit_db_session_and_return_successful_response, \
     commit_db_session_or_return_error_response, get_user_with_email_or_return_error, get_user_with_id_or_return_error
-from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, NetworkSchema, JobPostSchema
+from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, NetworkSchema, JobPostSchema, user_connections, \
+    Post, PostLike
 
 bp = Blueprint("users", __name__, url_prefix="/users")
 
@@ -74,7 +75,26 @@ def get_user_posts():
     if not user:
         return err
 
-    return make_response(PostSchema().dumps(user.posts, many=True))
+    limit = 50
+
+    external_posts = Post.query.join(user_connections, Post.userId == user_connections.c.user_id).\
+        join(PostLike, PostLike.postId == Post.postId).\
+        filter(user_connections.c.user_id != user.userId, user_connections.c.follower_id != user.userId).\
+        order_by(db.desc(Post.updated)).\
+        limit(limit).\
+        all()
+
+    user_posts = Post.query.join(User, Post.userId == User.userId).order_by(db.desc(Post.updated)).limit(limit).all()
+
+    connected_user_posts = Post.query.join(user_connections, Post.userId == user_connections.c.follower_id).\
+        filter(user_connections.c.user_id == user.userId).\
+        order_by(db.desc(Post.updated)).\
+        limit(limit).\
+        all()
+
+    posts = list(set(user_posts).union(set(connected_user_posts)).union(set(external_posts)))
+
+    return make_response(PostSchema().dumps(posts, many=True))
 
 
 @bp.route("/posts", methods=["POST"])
