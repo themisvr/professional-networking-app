@@ -55,4 +55,8 @@ export class UserProfComponent implements OnInit {
     onMessage() {
       return;
     }
+
+    onConnect() {
+      return;
+    }
 }
