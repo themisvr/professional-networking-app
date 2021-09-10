@@ -6,8 +6,7 @@
         <mat-list>
             <mat-list-item *ngFor="let requestedConnection of requestedConnections">
                 <mat-icon mat-list-icon>people</mat-icon>
-                <div mat-line>UserName</div>
-                <div mat-line>Date of Request</div>
+                <div mat-line>{{requestedConnection.firstName}} {{requestedConnection.lastName}}</div>
                 <a mat-raised-button color="primary" (click)="onView(requestedConnection.email)">View Profile</a>
                 <a mat-raised-button color="primary" (click)="onAccept(requestedConnection.userId)">Accept</a>
                 <a mat-raised-button color="primary" (click)="onReject(requestedConnection.userId)">Reject</a>
@@ -21,7 +20,7 @@
         <mat-card-title>News Feed</mat-card-title>
         <mat-card-subtitle></mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content style="margin: 18px">
+    <mat-card-content style="margin: 18px" [style.overflow]="'auto'" [style.height.px]="'300'">
         <div>
             We will see
         </div>
