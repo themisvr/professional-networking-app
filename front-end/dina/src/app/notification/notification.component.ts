@@ -1,3 +1,5 @@
+import { AuthenticationService } from './../_services/authentication.service';
+import { UserService } from './../_services/user.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { UserModel } from '../_models/user';
@@ -10,7 +12,9 @@ import { UserModel } from '../_models/user';
 export class NotificationComponent implements OnInit {
   requestedConnections: UserModel[];
 
-  constructor(private router:Router) { }
+  constructor(private router: Router,
+              private userService: UserService,
+              private authService: AuthenticationService) { }
 
   ngOnInit(): void {
   }
@@ -20,10 +24,10 @@ export class NotificationComponent implements OnInit {
   }
 
   onAccept(userId: number) {
-    return;
+    this.userService.acceptConnection(this.authService.currentUserValue?.userId || -1, userId);
   }
 
   onReject(userId: number) {
-    return;
+    this.userService.rejectConnection(this.authService.currentUserValue?.userId || -1, userId);
   }
 }

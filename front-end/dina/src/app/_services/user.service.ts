@@ -91,4 +91,22 @@ export class UserService {
   createJobPost(jobPost: JobPostModel) {
     return this.http.post<JobPostModel>(`${environment.backendUrl}/users/createJobPost`, jobPost);
   }
+
+  acceptConnection(acceptorId: number, userId: number) {
+    return this.http.post<any>(`${environment.backendUrl}/users/${acceptorId}/acceptConnection`, {
+      userId: userId
+    });
+  }
+
+  rejectConnection(rejectorId: number, userId: number) {
+    return this.http.post<any>(`${environment.backendUrl}/users/${rejectorId}/rejectConnection`, {
+      userId: userId
+    });
+  }
+
+  connect(connectorId: number, userId: number) {
+    return this.http.post<any>(`${environment.backendUrl}/users/${connectorId}/connect`, {
+      userId: userId
+    });
+  }
 }
