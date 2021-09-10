@@ -17,7 +17,7 @@ export class TimelineComponent implements OnInit {
     const email = this.authService.currentUserValue?.email || "";
     this.userService.getUserPosts(email)
       .subscribe(_articles => {
-        this.articles = _articles
+        this.articles = _articles.sort((a, b) => Number(b.created.getTime)- Number(a.created.getTime));
       });
   }
 }
