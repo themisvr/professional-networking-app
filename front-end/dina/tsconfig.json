@@ -17,6 +17,8 @@
     "importHelpers": true,
     "target": "es2017",
     "module": "es2020",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "lib": [
       "es2018",
       "dom"

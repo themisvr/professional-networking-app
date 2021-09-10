@@ -48,6 +48,7 @@ import { JobApplicantsComponent } from './job-applicants/job-applicants.componen
 import { CommentComponent } from './comment/comment.component';
 import { UploadPostComponent } from './upload-post/upload-post.component';
 import { NotificationComponent } from './notification/notification.component';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { NotificationComponent } from './notification/notification.component';
     CommentComponent,
     UploadPostComponent,
     NotificationComponent,
+    AlertComponent,
   ],
   imports: [
     HttpClientModule,
