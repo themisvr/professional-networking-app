@@ -7,8 +7,7 @@
         <form [formGroup]="createArticleForm" (ngSubmit)="onUpload()">
             <mat-card-content>
                 <mat-form-field class="full-width">
-                    <input matInput placeholder="Post Content" formControlName="articleContent" [(ngModel)]="articleModel.content"
-                        required>
+                    <input matInput placeholder="Post Content" formControlName="articleContent" [(ngModel)]="articleModel.content" required>
                     <div *ngIf="submitted && formFields.articleContent.errors">
                         <mat-error *ngIf="formFields.articleContent.errors.required">
                             Article content is required

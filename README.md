@@ -13,6 +13,9 @@ flask run --cert=../cert.pem --key=../key.pem
 
 ## TODO list
 
+General:
+ - Show creator instead of userId in Jobs/Articles
+
 Q2:
  - Add error handling in front end when a user already exists
 
