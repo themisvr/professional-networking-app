@@ -10,7 +10,7 @@ from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from sqlalchemy.ext.hybrid import hybrid_property
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields, auto_field
 from marshmallow import EXCLUDE, fields as mas_fields, post_dump, pre_dump
 from sqlalchemy.dialects.postgresql import TSVECTOR
 
@@ -131,6 +131,8 @@ class UserSchema(SQLAlchemyAutoSchema):
         unknown = EXCLUDE
         load_instance = True
         exclude = ("__ts_vector__",)
+
+    _password = auto_field(data_key="password", attribute="password")
 
 
 class PostCommentSchema(SQLAlchemyAutoSchema):

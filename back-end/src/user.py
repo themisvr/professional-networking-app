@@ -84,7 +84,7 @@ def get_user_posts():
         limit(limit).\
         all()
 
-    user_posts = Post.query.join(User, Post.userId == User.userId).order_by(db.desc(Post.updated)).limit(limit).all()
+    user_posts = Post.query.join(User, Post.userId == user.userId).order_by(db.desc(Post.updated)).limit(limit).all()
 
     connected_user_posts = Post.query.join(user_connections, Post.userId == user_connections.c.follower_id).\
         filter(user_connections.c.user_id == user.userId).\

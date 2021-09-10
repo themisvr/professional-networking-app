@@ -30,6 +30,10 @@ export class AlertService {
         this.alert(new Alert({ ...options, type: AlertType.Error, message }));
     }
 
+    errorResponse(resp: any, options?: any) {
+        this.error(resp.error.error.message, options);
+    }
+
     info(message: string, options?: any) {
         options = options || this.defaultOptions;
         this.alert(new Alert({ ...options, type: AlertType.Info, message }));

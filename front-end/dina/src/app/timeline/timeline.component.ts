@@ -19,7 +19,6 @@ export class TimelineComponent implements OnInit {
     this.userService.getUserPosts(email)
       .subscribe(_articles => {
         this.articles = _articles;
-        this.alertService.success("Hello World");
       });
   }
 }

@@ -1,9 +1,10 @@
 import { AuthenticationService } from './../_services/authentication.service';
+import { AlertService } from './../_services/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { UserModel } from '../_models/user';
+import { UserModel } from '../_models/user'
 
 
 @Component({
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -48,8 +50,8 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['admin'])
     }
     else {
-      this.router.navigate(['home']);
     }
+    this.router.navigate(['home']);
   }
 
   onSubmit() {
@@ -66,7 +68,7 @@ export class LoginComponent implements OnInit {
           this.navigateIfAlreadyLoggedIn();
         },
         error => {
-          this.error = error;
+          this.alertService.errorResponse(error);
         });
   }
 }

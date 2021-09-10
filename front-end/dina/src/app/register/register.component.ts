@@ -1,6 +1,7 @@
 import { RegisterUserModel } from './../_models/registerUser';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './../_services/authentication.service';
+import { AlertService } from './../_services/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {checkPasswords, SamePasswordErrorStateMatcher} from '../_helpers/utils';
@@ -18,7 +19,12 @@ export class RegisterComponent implements OnInit {
   hide = true;
   matcher = new SamePasswordErrorStateMatcher();
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthenticationService) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthenticationService,
+    private alertService: AlertService
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -49,12 +55,12 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.registerUserModel)
       .pipe(first())
       .subscribe(
-        _data => {
+        () => {
           this.router.navigate(['login']);
+          this.alertService.success("Registered successfully");
         },
         error => {
-          // TODO(gliontos): Properly handle errors
-          this.router.navigate(['login']);
+          this.alertService.errorResponse(error);
         }
       );
   }
