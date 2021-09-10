@@ -63,7 +63,7 @@
         <button mat-stroked-button *ngIf="isLoggedInUser;else content">Update</button>
         <ng-template #content>
           <a mat-raised-button color="primary" (click)="onMessage()">Message</a>
-          <a mat-raised-button color="primary" (click)="onConnect()">Connect</a>
+          <a *ngIf="!isConnectedUser" mat-raised-button color="primary" (click)="onConnect()">Connect</a>
         </ng-template>
       </form>
     </div>

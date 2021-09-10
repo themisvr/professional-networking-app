@@ -1,3 +1,4 @@
+import { NotificationComponent } from './notification/notification.component';
 import { UserProfComponent } from './user-prof/user-prof.component';
 import { AuthGuard } from './_helpers/auth.guard';
 import { AdminPageComponent } from './admin-page/admin-page.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
   { path: 'welcome', component: WelcomeComponent },
   { path: 'home', component: UserHomeComponent, canActivate: [AuthGuard] },
+  { path: 'notifications', component: NotificationComponent, canActivate: [AuthGuard]},
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'personalInfo', component: UserProfComponent, canActivate: [AuthGuard] },
   { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
