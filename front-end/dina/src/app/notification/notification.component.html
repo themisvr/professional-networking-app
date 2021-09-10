@@ -1,0 +1,30 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Requested Connections</mat-card-title>
+    </mat-card-header>
+    <mat-card-content [style.overflow]="'auto'" [style.height.px]="'400'">
+        <mat-list>
+            <mat-list-item *ngFor="let requestedConnection of requestedConnections">
+                <mat-icon mat-list-icon>people</mat-icon>
+                <div mat-line>UserName</div>
+                <div mat-line>Date of Request</div>
+                <a mat-raised-button color="primary" (click)="onView(requestedConnection.email)">View Profile</a>
+                <a mat-raised-button color="primary" (click)="onAccept(requestedConnection.userId)">Accept</a>
+                <a mat-raised-button color="primary" (click)="onReject(requestedConnection.userId)">Reject</a>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+</mat-card>
+<mat-divider></mat-divider>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>News Feed</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content style="margin: 18px">
+        <div>
+            We will see
+        </div>
+    </mat-card-content>
+</mat-card>
+

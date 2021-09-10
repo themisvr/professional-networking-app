@@ -47,6 +47,7 @@ import { CreateJobComponent } from './create-job/create-job.component';
 import { JobApplicantsComponent } from './job-applicants/job-applicants.component';
 import { CommentComponent } from './comment/comment.component';
 import { UploadPostComponent } from './upload-post/upload-post.component';
+import { NotificationComponent } from './notification/notification.component';
 import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
@@ -79,6 +80,7 @@ import { AlertComponent } from './alert/alert.component';
     JobApplicantsComponent,
     CommentComponent,
     UploadPostComponent,
+    NotificationComponent,
     AlertComponent,
   ],
   imports: [
