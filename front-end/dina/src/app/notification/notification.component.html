@@ -8,8 +8,8 @@
                 <mat-icon mat-list-icon>people</mat-icon>
                 <div mat-line>{{requestedConnection.firstName}} {{requestedConnection.lastName}}</div>
                 <button mat-raised-button color="primary" (click)="onView(requestedConnection.email)">View Profile</button>
-                <button mat-raised-button color="primary" (click)="onAccept(requestedConnection.userId)">Accept</button>
-                <button mat-raised-button color="primary" (click)="onReject(requestedConnection.userId)">Reject</button>
+                <button mat-raised-button color="primary" (click)="onAccept(requestedConnection.userId, requestedConnection.firstName)">Accept</button>
+                <button mat-raised-button color="primary" (click)="onReject(requestedConnection.userId, requestedConnection.firstName)">Reject</button>
             </mat-list-item>
         </mat-list>
     </mat-card-content>
@@ -18,12 +18,9 @@
 <mat-card>
     <mat-card-header>
         <mat-card-title>News Feed</mat-card-title>
-        <mat-card-subtitle></mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content style="margin: 18px" [style.overflow]="'auto'" [style.height.px]="'300'">
-        <div>
-            We will see
-        </div>
+    <mat-card-content  [style.overflow]="'auto'" [style.height.px]="'350'">
+        <dina-news-feed></dina-news-feed>
     </mat-card-content>
 </mat-card>
 

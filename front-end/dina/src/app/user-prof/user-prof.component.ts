@@ -16,6 +16,10 @@ export class UserProfComponent implements OnInit {
   personalInfo: PersonalInfoModel = new PersonalInfoModel();
   isLoggedInUser: boolean = false;
   isConnectedUser: boolean = false;
+  isPendingUser: boolean = false;
+  loggedInFirstName: string;
+  loggedInLastName: string;
+
 
   constructor(
     private authService: AuthenticationService,
@@ -37,6 +41,8 @@ export class UserProfComponent implements OnInit {
       this.route.paramMap.subscribe(params => {
         const email = params.get("email") || this.authService.currentUserValue?.email || "";
         this.isLoggedInUser = email === (this.authService.currentUserValue?.email || "");
+        this.loggedInFirstName = this.authService.currentUserValue?.firstName || "";
+        this.loggedInLastName = this.authService.currentUserValue?.lastName || "";
         this.userService
           .getUserNetwork(this.authService.currentUserValue?.email || "")
           .subscribe(connectedUsers => {

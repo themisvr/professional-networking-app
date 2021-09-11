@@ -1,0 +1,10 @@
+<mat-list>
+    <mat-list-item *ngFor="let article of userArticles">
+        <mat-card *ngFor="let comment of article.comments">
+            <mat-card-content>
+                <mat-icon mat-list-icon>feed</mat-icon>
+                <a>{{comment.userId}} commented: {{comment.comment}}</a>
+            </mat-card-content>
+        </mat-card>
+    </mat-list-item>
+</mat-list>

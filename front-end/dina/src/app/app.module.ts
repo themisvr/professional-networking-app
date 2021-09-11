@@ -49,6 +49,7 @@ import { CommentComponent } from './comment/comment.component';
 import { UploadPostComponent } from './upload-post/upload-post.component';
 import { NotificationComponent } from './notification/notification.component';
 import { AlertComponent } from './alert/alert.component';
+import { NewsFeedComponent } from './news-feed/news-feed.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { AlertComponent } from './alert/alert.component';
     UploadPostComponent,
     NotificationComponent,
     AlertComponent,
+    NewsFeedComponent,
   ],
   imports: [
     HttpClientModule,
