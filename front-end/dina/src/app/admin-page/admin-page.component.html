@@ -1,45 +1,21 @@
-
-<div class="container mat-elevation-z8">
-    <mat-form-field appearance="standard">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. George" #input>
-    </mat-form-field>
-    
-    <div class="loading-shade" *ngIf="isLoadingResults">
-        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-    </div>
-
-    <div class="table-container">
-        <button mat-raised-button color="primary" (click)="exporter.exportTable('json')">Export as Json</button>
-        <table mat-table [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" class="table" matSort matSortActive="email" matSortDisableClear
-            matSortDirection="desc">
-            <!-- Email Column -->
-            <ng-container matColumnDef="email">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Email</th>
-                <td mat-cell *matCellDef="let row">{{row.email}}</td>
-            </ng-container>
-
-            <!-- First Name Column -->
-            <ng-container matColumnDef="firstName">
-                <th mat-header-cell *matHeaderCellDef>First Name</th>
-                <td mat-cell *matCellDef="let row">{{row.firstName}}</td>
-            </ng-container>
-
-            <!-- Last Name Column -->
-            <ng-container matColumnDef="lastName">
-                <th mat-header-cell *matHeaderCellDef>Last Name</th>
-                <td mat-cell *matCellDef="let row">{{row.lastName}}</td>
-            </ng-container>
-
-            <!-- Phone Number Column -->
-            <ng-container matColumnDef="phoneNumber">
-                <th mat-header-cell *matHeaderCellDef>Phone Number</th>
-                <td mat-cell *matCellDef="let row">{{row.phoneNumber}}</td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-    </div>
-
-    <mat-paginator [length]="resultsLength" [pageSize]="30"></mat-paginator>
-</div>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Users' Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content [style.overflow]="'auto'" [style.height.px]="'700'">
+        <mat-selection-list #users>
+            <mat-list-option *ngFor="let user of totalUsers" [value]="user">
+                <mat-icon mat-list-icon>person</mat-icon>
+                <a>{{user.email}}</a>
+                <mat-divider></mat-divider>
+            </mat-list-option>
+        </mat-selection-list>
+    </mat-card-content>
+    <mat-card-footer>
+        <p>
+            Users selected: {{users.selectedOptions.selected.length}}
+        </p>
+        <button mat-raised-button color="primary" (click)="onExportData(users.selectedOptions.selected)">Export as JSON</button>
+        <button mat-raised-button color="primary" (click)="onExportData(users.selectedOptions.selected)">Export as XML</button>
+    </mat-card-footer>
+</mat-card>
