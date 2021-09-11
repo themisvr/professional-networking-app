@@ -37,7 +37,9 @@ export class UploadPostComponent implements OnInit {
     }
 
     this.articleModel.userId = this.authService.currentUserValue?.userId || -1;
-    this.articleService.createPost(this.articleModel).subscribe(article => this.articleModel = article);
+    this.articleService.createPost(this.articleModel).subscribe(
+      article => { this.articleModel = article }
+    );
   }
 
   get formFields() {

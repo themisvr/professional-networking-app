@@ -1,13 +1,13 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-    <mat-card style="width: 100%;" class="box">
+    <mat-card style="width: 100%;">
         <mat-card-header>
             <mat-card-title>Upload Post</mat-card-title>
         </mat-card-header>
 
         <form [formGroup]="createArticleForm" (ngSubmit)="onUpload()">
             <mat-card-content>
-                <mat-form-field class="full-width">
-                    <input matInput placeholder="Post Content" formControlName="articleContent" [(ngModel)]="articleModel.content" required>
+                <mat-form-field class="post-content">
+                    <textarea matInput placeholder="Post Content" formControlName="articleContent" [(ngModel)]="articleModel.content" required></textarea>
                     <div *ngIf="submitted && formFields.articleContent.errors">
                         <mat-error *ngIf="formFields.articleContent.errors.required">
                             Article content is required
