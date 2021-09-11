@@ -1,4 +1,4 @@
-from db import User, db, UserSchema
+from db import User, db, UserSchema, PersonalInfo
 from utils import make_response, make_response_error, commit_db_session_and_return_successful_response
 from http_constants.status import HttpStatus
 from flask import Blueprint, request
@@ -22,6 +22,7 @@ def register():
 
     schema = UserSchema()
     user = schema.load(content, session=db.session)
+    user.personalInfo = PersonalInfo()
     db.session.add(user)
     return commit_db_session_and_return_successful_response(db, schema, user)
 

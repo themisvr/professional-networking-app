@@ -1,5 +1,5 @@
 export class PersonalInfoModel {
-    email: Nullable<string>;
+    userId: number;
     workExperience: string;
     education: string;
     personalSkills: string;

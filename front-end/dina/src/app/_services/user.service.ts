@@ -92,6 +92,10 @@ export class UserService {
     return this.http.post<JobPostModel>(`${environment.backendUrl}/users/createJobPost`, jobPost);
   }
 
+  getConnectionRequests(userId: number) {
+    return this.http.get<UserModel[]>(`${environment.backendUrl}/users/${userId}/pendingConnections`);
+  }
+
   acceptConnection(acceptorId: number, userId: number) {
     return this.http.post<any>(`${environment.backendUrl}/users/${acceptorId}/acceptConnection`, {
       userId: userId

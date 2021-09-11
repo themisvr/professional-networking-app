@@ -26,6 +26,10 @@ user_connections = db.Table("user_connections",
                             db.Column("follower_id", db.ForeignKey("users.user_id"), primary_key=True)
                             )
 
+pending_connections = db.Table("pending_connections",
+                            db.Column("user_id", db.ForeignKey("users.user_id"), primary_key=True),
+                            db.Column("applied_user_id", db.ForeignKey("users.user_id"), primary_key=True)
+                            )
 
 class User(db.Model):
     __tablename__ = "users"
@@ -169,6 +173,7 @@ class PersonalInfoSchema(SQLAlchemyAutoSchema):
         model = PersonalInfo
         unknown = EXCLUDE
         load_instance = True
+        include_fk = True
 
 
 class JobPostSchema(SQLAlchemyAutoSchema):

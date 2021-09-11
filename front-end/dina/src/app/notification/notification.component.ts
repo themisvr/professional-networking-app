@@ -17,6 +17,7 @@ export class NotificationComponent implements OnInit {
               private authService: AuthenticationService) { }
 
   ngOnInit(): void {
+    this.userService.getConnectionRequests(this.authService.currentUserValue?.userId || -1).subscribe(users => this.requestedConnections = users);
   }
 
   onView(email: string) {
@@ -24,10 +25,11 @@ export class NotificationComponent implements OnInit {
   }
 
   onAccept(userId: number) {
-    this.userService.acceptConnection(this.authService.currentUserValue?.userId || -1, userId);
+    this.userService.acceptConnection(this.authService.currentUserValue?.userId || -1, userId).subscribe(() => {});
   }
 
   onReject(userId: number) {
-    this.userService.rejectConnection(this.authService.currentUserValue?.userId || -1, userId);
+    console.log("Hello world");
+    this.userService.rejectConnection(this.authService.currentUserValue?.userId || -1, userId).subscribe(() => {});
   }
 }
