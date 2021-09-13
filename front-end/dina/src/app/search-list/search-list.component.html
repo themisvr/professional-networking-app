@@ -1,3 +1,6 @@
 <mat-nav-list *ngFor="let user of foundUsers">
   <mat-list-item (click)="onView(user.email)">{{user.firstName}} {{user.lastName}} </mat-list-item>
 </mat-nav-list>
+<p *ngIf="foundUsers.length === 0">
+No users were found for term '{{searchTerm}}'
+</p>

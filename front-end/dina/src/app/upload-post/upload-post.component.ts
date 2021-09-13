@@ -4,6 +4,7 @@ import { ArticleModel } from './../_models/article';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../_services/authentication.service';
+import { AlertService } from '../_services/alert.service';
 
 
 
@@ -20,6 +21,7 @@ export class UploadPostComponent implements OnInit {
   constructor(private authService: AuthenticationService,
               private router: Router,
               private articleService: ArticleService,
+              private alertService: AlertService,
               private formBuilder: FormBuilder) {
     this.createArticleForm = this.formBuilder.group({
       articleContent: ['', [Validators.required]]
@@ -37,8 +39,10 @@ export class UploadPostComponent implements OnInit {
     }
 
     this.articleModel.userId = this.authService.currentUserValue?.userId || -1;
-    this.articleService.createPost(this.articleModel).subscribe(
-      article => { this.articleModel = article }
+    this.articleService.createPost(this.articleModel)
+    .subscribe(
+      article => { this.articleModel = article; this.alertService.success("Post created successfully"); },
+      error => this.alertService.errorResponse(error),
     );
   }
 

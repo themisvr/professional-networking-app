@@ -17,8 +17,9 @@ export class TimelineComponent implements OnInit {
   ngOnInit(): void {
     const email = this.authService.currentUserValue?.email || "";
     this.userService.getUserPosts(email)
-      .subscribe(_articles => {
-        this.articles = _articles;
-      });
+      .subscribe(
+        articles => this.articles = articles,
+        error => this.alertService.errorResponse(error)
+      );
   }
 }

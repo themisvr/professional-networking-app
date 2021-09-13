@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { JobPostModel } from '../_models/jobPost';
+import { AlertService } from '../_services/alert.service';
 import {AuthenticationService } from '../_services/authentication.service';
 import { JobPostService } from '../_services/jobPost.service';
 
@@ -15,13 +16,25 @@ export class JobPostComponent implements OnInit {
   @Input() showApplied: boolean = false;
   @Input() showApplicants: boolean = false;
 
-  constructor(private authService: AuthenticationService, private jobPostService: JobPostService, private router: Router) {}
+  constructor(
+    private authService: AuthenticationService,
+    private jobPostService: JobPostService,
+    private alertService: AlertService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
   onApply() {
     const email = this.authService.currentUserValue?.email || "";
-    this.jobPostService.applyToJob(email, this.jobPost.jobPostId).subscribe(() => console.log("Applied for the job"));
+    this.jobPostService.applyToJob(email, this.jobPost.jobPostId)
+      .subscribe(
+        () => {
+          this.showApply = false;
+          this.showApplied = true;
+        },
+        error => this.alertService.errorResponse(error)
+      );
   }
 
   onShowApplicants() {

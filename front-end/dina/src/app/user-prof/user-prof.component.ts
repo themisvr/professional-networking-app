@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonalInfoModel } from '../_models/personalInfo';
 import { AlertService } from '../_services/alert.service';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'dina-user-prof',
@@ -45,18 +46,34 @@ export class UserProfComponent implements OnInit {
         this.loggedInLastName = this.authService.currentUserValue?.lastName || "";
         this.userService
           .getUserNetwork(this.authService.currentUserValue?.email || "")
-          .subscribe(connectedUsers => {
-            this.isConnectedUser = connectedUsers.find((user) => user.email === email) ? true : false;
-          });
+          .subscribe(
+            connectedUsers => {
+              this.isConnectedUser = connectedUsers.find((user) => user.email === email) ? true : false;
+            },
+            error => {
+              this.alertService.error("An error occured while retrieving user network");
+              this.alertService.errorResponse(error);
+            }
+          );
 
         this.userService
           .getUserPersonalInfo(email)
-          .subscribe(personalInfo => this.personalInfo = personalInfo);
+          .subscribe(
+            personalInfo => this.personalInfo = personalInfo,
+            error => this.alertService.errorResponse(error),
+          );
       });
     }
 
     onSubmit() {
-      this.userService.updateUserPersonalInfo(this.personalInfo).subscribe(personalInfo => this.personalInfo = personalInfo);
+      this.userService.updateUserPersonalInfo(this.personalInfo)
+        .subscribe(
+          personalInfo => {
+            this.personalInfo = personalInfo;
+            this.alertService.success("Personal info updated successfully");
+          },
+          error => this.alertService.errorResponse(error),
+        );
     }
 
     onMessage() {

@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SearchListComponent implements OnInit {
   @Input() foundUsers: UserModel[] = [];
+  searchTerm: string = "";
 
   constructor(private searchService: SearchServiceService,
               private router: Router,
@@ -17,9 +18,9 @@ export class SearchListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const searchTerm = params.get("term") || "";
-      if (searchTerm !== "") {
-        this.searchService.search(searchTerm).subscribe(users => this.foundUsers = users);
+      this.searchTerm = params.get("term") || "";
+      if (this.searchTerm !== "") {
+        this.searchService.search(this.searchTerm).subscribe(users => this.foundUsers = users);
       }
     })
   }

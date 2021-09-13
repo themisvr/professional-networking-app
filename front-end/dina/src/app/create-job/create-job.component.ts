@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JobPostModel } from '../_models/jobPost';
+import { AlertService } from '../_services/alert.service';
 import { AuthenticationService } from '../_services/authentication.service';
 import { UserService } from '../_services/user.service';
 
@@ -14,7 +15,12 @@ export class CreateJobComponent implements OnInit {
   jobPostModel: JobPostModel = new JobPostModel();
   submitted: boolean = false;
 
-  constructor(private authService: AuthenticationService, private userService: UserService, private formBuilder: FormBuilder) {
+  constructor(
+    private authService: AuthenticationService,
+    private userService: UserService,
+    private alertService: AlertService,
+    private formBuilder: FormBuilder
+  ) {
     this.createJobForm = this.formBuilder.group({
       jobTitle: ['', [Validators.required]],
       jobDescription: ['', [Validators.required]],
@@ -32,7 +38,11 @@ export class CreateJobComponent implements OnInit {
     }
 
     this.jobPostModel.posterId = this.authService.currentUserValue?.userId || -1;;
-    this.userService.createJobPost(this.jobPostModel).subscribe(jobPost => this.jobPostModel = jobPost);
+    this.userService.createJobPost(this.jobPostModel)
+      .subscribe(
+        jobPost => this.jobPostModel = jobPost,
+        error => this.alertService.errorResponse(error),
+      );
   }
 
   get formFields() {

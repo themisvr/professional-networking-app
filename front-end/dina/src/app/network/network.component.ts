@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
+import { AlertService } from '../_services/alert.service';
 
 
 @Component({
@@ -19,12 +20,16 @@ export class NetworkComponent implements OnInit {
 
   constructor(private authService: AuthenticationService,
               private router: Router,
-              private userService: UserService) { }
+              private userService: UserService,
+              private alertService: AlertService) { }
 
   ngOnInit() {
     const email = this.authService.currentUserValue?.email || "";
     this.userService.getUserNetwork(email)
-      .subscribe(followers => this.followers = followers);
+      .subscribe(
+        followers => this.followers = followers,
+        error => this.alertService.errorResponse(error)
+      );
   }
 
   onView(email: string) {

@@ -2,6 +2,7 @@ import { HttpClient} from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { UserModel} from '../_models/user';
 import { UserService} from '../_services/user.service';
+import { AlertService} from '../_services/alert.service';
 import { MatListOption } from '@angular/material/list';
 
 @Component({
@@ -13,10 +14,14 @@ export class AdminPageComponent implements OnInit {
   totalUsers: UserModel[];
   selectedUsers: number[];
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(private http: HttpClient, private userService: UserService, private alertService: AlertService) {}
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(users => this.totalUsers = users);
+    this.userService.getAllUsers()
+      .subscribe(
+        users => this.totalUsers = users,
+        error => this.alertService.errorResponse(error)
+      );
   }
 
   onExportData(usersSelected: MatListOption[]) {

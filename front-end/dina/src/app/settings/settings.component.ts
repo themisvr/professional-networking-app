@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { checkPasswords, SamePasswordErrorStateMatcher } from '../_helpers/utils';
@@ -6,6 +6,8 @@ import { ChangeEmailModel } from '../_models/changeEmail';
 import { ChangePasswordModel } from '../_models/changePassword';
 import { AuthenticationService } from '../_services/authentication.service';
 import { UserService } from '../_services/user.service';
+import { AlertService } from '../_services/alert.service';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'dina-settings',
@@ -31,7 +33,13 @@ export class SettingsComponent implements AfterViewInit {
     this._checkboxFormMap.set(this.changePasswordCheckbox, this.changePasswordForm);
   }
 
-  constructor(private fb: FormBuilder, private userService: UserService, private authService: AuthenticationService) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private userService: UserService,
+    private authService: AuthenticationService,
+    private alertService: AlertService,
+  ) {
     this.changeEmailForm = fb.group({
       newEmail: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -100,10 +108,11 @@ export class SettingsComponent implements AfterViewInit {
     this.changeEmailModel.email = this.authService.currentUserValue?.email || "";
     this.userService.changeUserEmail(this.changeEmailModel)
     .subscribe(
-      () => {},
-      error => {
-        // TODO(gliontos): Properly handle errors
-      }
+      () => {
+        this.router.navigate(["logout"]);
+        this.alertService.success("Email has changed successfully");
+      },
+      error => this.alertService.errorResponse(error),
     );
   }
 
@@ -116,10 +125,11 @@ export class SettingsComponent implements AfterViewInit {
     this.changePasswordModel.email = this.authService.currentUserValue?.email || "";
       this.userService.changeUserPassword(this.changePasswordModel)
       .subscribe(
-        () => {},
-        error => {
-          // TODO(gliontos): Properly handle errors
-        }
+        () => {
+          this.router.navigate(["logout"]);
+          this.alertService.success("Password has changed successfully");
+        },
+        error => this.alertService.errorResponse(error)
       );
   }
 }
