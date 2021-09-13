@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonalInfoModel } from '../_models/personalInfo';
 import { AlertService } from '../_services/alert.service';
-import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'dina-user-prof',
