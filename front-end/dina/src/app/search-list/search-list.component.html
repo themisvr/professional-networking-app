@@ -2,5 +2,5 @@
   <mat-list-item (click)="onView(user.email)">{{user.firstName}} {{user.lastName}} </mat-list-item>
 </mat-nav-list>
 <p *ngIf="foundUsers.length === 0">
-No users were found for term '{{searchTerm}}'
+No users were found <span *ngIf="searchTerm.length !== 0">for term '{{searchTerm}}' {{searchTerm.length}}</span>
 </p>
