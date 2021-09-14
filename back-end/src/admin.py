@@ -64,5 +64,4 @@ def export_user_data():
 
     res_ser = ExportUserDataSchema().dumps(res, many=True)
     res_serialized = dicttoxml.dicttoxml(json.loads(res_ser)) if method.lower() == "xml" else res_ser
-    print(res_serialized)
     return make_response(res_serialized)
