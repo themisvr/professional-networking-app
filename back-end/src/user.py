@@ -18,7 +18,7 @@ def get_users():
         else:
             return err
 
-    users = User.query.all()
+    users = User.query.filter_by(isAdmin=False).all()
     return make_response(UserSchema().dumps(users, many=True))
 
 

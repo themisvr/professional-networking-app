@@ -15,7 +15,7 @@
         <p>
             Users selected: {{users.selectedOptions.selected.length}}
         </p>
-        <button mat-raised-button color="primary" (click)="onExportData(users.selectedOptions.selected)">Export as JSON</button>
-        <button mat-raised-button color="primary" (click)="onExportData(users.selectedOptions.selected)">Export as XML</button>
+        <button mat-raised-button color="primary" (click)="onExportData(users.selectedOptions.selected, 'json')">Export as JSON</button>
+        <button mat-raised-button color="primary" (click)="onExportData(users.selectedOptions.selected, 'xml')">Export as XML</button>
     </mat-card-footer>
 </mat-card>

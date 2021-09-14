@@ -27,9 +27,10 @@ user_connections = db.Table("user_connections",
                             )
 
 pending_connections = db.Table("pending_connections",
-                            db.Column("user_id", db.ForeignKey("users.user_id"), primary_key=True),
-                            db.Column("applied_user_id", db.ForeignKey("users.user_id"), primary_key=True)
-                            )
+                               db.Column("user_id", db.ForeignKey("users.user_id"), primary_key=True),
+                               db.Column("applied_user_id", db.ForeignKey("users.user_id"), primary_key=True)
+                               )
+
 
 class User(db.Model):
     __tablename__ = "users"
@@ -135,6 +136,7 @@ class UserSchema(SQLAlchemyAutoSchema):
         unknown = EXCLUDE
         load_instance = True
         exclude = ("__ts_vector__",)
+        load_only = ("_password", )
 
     _password = auto_field(data_key="password", attribute="password")
 

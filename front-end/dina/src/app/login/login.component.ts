@@ -48,10 +48,9 @@ export class LoginComponent implements OnInit {
     const currentUser: Nullable<UserModel> = this.authenticationService.currentUserValue;
     if (currentUser?.isAdmin === true) {
       this.router.navigate(['admin'])
+    } else {
+      this.router.navigate(['home']);
     }
-    else {
-    }
-    this.router.navigate(['home']);
   }
 
   onSubmit() {
