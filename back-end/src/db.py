@@ -50,6 +50,7 @@ class User(db.Model):
                                   secondaryjoin=userId == user_connections.c.follower_id)
     jobApplications = db.relationship("JobPost", secondary=job_applications, lazy="subquery",
                                       backref=db.backref("jobApplicants", lazy=True))
+    likedPosts = db.relationship("PostLike", backref="user")
 
     __ts_vector__ = db.Column(TSVECTOR(), db.Computed(
         "to_tsvector('english', first_name || ' ' || last_name || ' ' || email)",
@@ -136,7 +137,7 @@ class UserSchema(SQLAlchemyAutoSchema):
         unknown = EXCLUDE
         load_instance = True
         exclude = ("__ts_vector__",)
-        load_only = ("_password", )
+        load_only = ("_password",)
 
     _password = auto_field(data_key="password", attribute="password")
 
@@ -190,10 +191,10 @@ class NetworkSchema(BasicUserInfoSchema):
     personalInfo = fields.Nested(PersonalInfoSchema(), data_key="personalInfo")
 
 
-def load_static_data(db):
+def load_static_data(database):
     for f in utils.get_files_in_dir("../data"):
         sql = text(utils.read_entire_file(f))
-        db.engine.execute(sql)
+        database.engine.execute(sql)
 
 
 @click.command('init-db')

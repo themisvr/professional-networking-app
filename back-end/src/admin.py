@@ -1,9 +1,39 @@
+import json
+import marshmallow
+import dicttoxml
 from flask import Blueprint, request
 from http_constants.status import HttpStatus
+from marshmallow_sqlalchemy.fields import fields
+
 from utils import make_response_error, make_response
-from db import db, User, UserSchema
+from db import User
 
 bp = Blueprint("admin", __name__, url_prefix="/admin")
+
+
+class ExportPersonalInfoSchema(marshmallow.Schema):
+    workExperience = fields.String()
+    education = fields.String()
+    personalSkills = fields.String()
+
+
+class ExportPostSchema(marshmallow.Schema):
+    content = fields.String()
+    created = fields.DateTime()
+    updated = fields.DateTime()
+    # comments = fields.Pluck("self", "comment", many=True)
+
+
+class ExportJobPostSchema(marshmallow.Schema):
+    title = fields.String()
+    description = fields.String()
+
+
+class ExportUserDataSchema(marshmallow.Schema):
+    personalInfo = fields.Nested(ExportPersonalInfoSchema)
+    posts = fields.Nested(ExportPostSchema, many=True)
+    jobPosts = fields.Nested(ExportJobPostSchema, many=True)
+    likedPosts = fields.Nested(ExportPostSchema, many=True)
 
 
 @bp.route("/exportUserData", methods=["POST"])
@@ -22,4 +52,17 @@ def export_user_data():
         return make_response_error(f"Export method {method} not allowed. Only JSON and XML", HttpStatus.BAD_REQUEST)
 
     users = User.query.filter(User.userId.in_(user_ids)).all()
-    return make_response(UserSchema().dumps(users, many=True))
+    res = []
+    for user in users:
+        user_res = dict(
+            personalInfo=user.personalInfo,
+            posts=user.posts,
+            jobPosts=user.jobPosts,
+            likedPosts=[likedPost.post for likedPost in user.likedPosts]
+        )
+        res.append(user_res)
+
+    res_ser = ExportUserDataSchema().dumps(res, many=True)
+    res_serialized = dicttoxml.dicttoxml(json.loads(res_ser)) if method.lower() == "xml" else res_ser
+    print(res_serialized)
+    return make_response(res_serialized)

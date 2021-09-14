@@ -14,6 +14,19 @@ import { AdminService } from '../_services/admin.service';
 export class AdminPageComponent implements OnInit {
   totalUsers: UserModel[];
   selectedUsers: number[];
+  private saveData = (function () {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    // a.style = "display: none";
+    return function (data: any, fileName: any) {
+        var blob = new Blob([data], {type: "octet/stream"});
+        var url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+  }());
 
   constructor(private http: HttpClient, private userService: UserService, private alertService: AlertService, private adminService: AdminService) {}
 
@@ -29,7 +42,10 @@ export class AdminPageComponent implements OnInit {
     this.selectedUsers = usersSelected.map(obj => obj.value.userId);
     this.adminService.exportUserData(this.selectedUsers, method)
       .subscribe(
-        data => console.log(data),
+        data => {
+          const filename = `dina_user_data_${new Date().toJSON().slice(0, 10)}.${method}`;
+          this.saveData(data, filename);
+        },
         error => this.alertService.errorResponse(error),
       );
   }

@@ -132,25 +132,25 @@ INSERT INTO USER_CONNECTIONS (
     2
 ) ON CONFLICT DO NOTHING;
 
--- INSERT INTO POSTS (
---     post_id,
---     user_id,
---     content
--- ) VALUES (
---     nextval('post_id_seq'),
---     2,
---     'Facebook is hiring Software Engineers'
--- ) ON CONFLICT DO NOTHING;
+INSERT INTO POSTS (
+    post_id,
+    user_id,
+    content
+) VALUES (
+    nextval('post_id_seq'),
+    2,
+    'Facebook is hiring Software Engineers'
+) ON CONFLICT DO NOTHING;
 
 
--- INSERT INTO POST_COMMENTS (
---     comment_id,
---     post_id,
---     user_id,
---     comment
--- ) VALUES (
---     nextval('post_comment_id_seq'),
---     1,
---     3,
---     'This is a very nice post!'
--- ) ON CONFLICT DO NOTHING;
+INSERT INTO POST_COMMENTS (
+    comment_id,
+    post_id,
+    user_id,
+    comment
+) VALUES (
+    nextval('post_comment_id_seq'),
+    1,
+    3,
+    'This is a very nice post!'
+) ON CONFLICT DO NOTHING;
