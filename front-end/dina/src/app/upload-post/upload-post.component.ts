@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../_services/authentication.service';
 import { AlertService } from '../_services/alert.service';
+import { MultimediaModel } from '../_models/multimedia';
 
 
 
@@ -17,6 +18,7 @@ export class UploadPostComponent implements OnInit {
   createArticleForm: FormGroup;
   articleModel: ArticleModel = new ArticleModel();
   submitted: boolean = false;
+  selectedFile: any = null;
 
   constructor(private authService: AuthenticationService,
               private router: Router,
@@ -31,6 +33,14 @@ export class UploadPostComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  get formFields() {
+    return this.createArticleForm.controls;
+  }
+
+  get form() {
+    return this.createArticleForm;
+  }
+
   onUpload() {
     this.submitted = true;
 
@@ -39,6 +49,13 @@ export class UploadPostComponent implements OnInit {
     }
 
     this.articleModel.userId = this.authService.currentUserValue?.userId || -1;
+    if (this.selectedFile !== null) {
+      const multimedia = new MultimediaModel();
+      multimedia.content = new FormData();
+      // might need to change the key name
+      multimedia.content.append('multimedia', this.selectedFile, this.selectedFile.name);
+      this.articleModel.multimedia.push(multimedia);
+    }
     this.articleService.createPost(this.articleModel)
     .subscribe(
       article => { this.articleModel = article; this.alertService.success("Post created successfully"); },
@@ -46,12 +63,8 @@ export class UploadPostComponent implements OnInit {
     );
   }
 
-  get formFields() {
-    return this.createArticleForm.controls;
-  }
-
-  get form() {
-    return this.createArticleForm;
+  onFileSelected(event: any) {
+    this.selectedFile = <File>event.target.files[0];
   }
 
 }

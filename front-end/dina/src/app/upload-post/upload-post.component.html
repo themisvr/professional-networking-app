@@ -17,8 +17,9 @@
             </mat-card-content>
 
             <button mat-stroked-button color="basic" [disabled]="!form.valid" class="btn-block">
-                Upload
+                Upload Post
             </button>
+            <input type="file" onclick="this.value=null" (change)="onFileSelected($event)" accept="audio/*, video/*, image/*"/>
         </form>
     </mat-card>
 </div>

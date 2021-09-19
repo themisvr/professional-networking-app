@@ -1,4 +1,5 @@
 import { CommentModel } from "./comment";
+import { MultimediaModel } from "./multimedia";
 
 export class ArticleModel {
     postId: number;
@@ -8,4 +9,5 @@ export class ArticleModel {
     likeCount: number;
     content: string;
     comments: CommentModel[];
+    multimedia: MultimediaModel[];
 };

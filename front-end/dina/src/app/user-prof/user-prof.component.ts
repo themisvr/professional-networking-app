@@ -83,7 +83,10 @@ export class UserProfComponent implements OnInit {
       const connectorId = this.authService.currentUserValue?.userId || -1;
       this.userService.connect(connectorId, this.personalInfo.userId)
         .subscribe(
-          () => this.alertService.success("Connection request sent successfully"),
+          () => {
+            this.isPendingUser = true;
+            this.alertService.success("Connection request sent successfully")
+          },
           error => this.alertService.errorResponse(error)
         );
     }
