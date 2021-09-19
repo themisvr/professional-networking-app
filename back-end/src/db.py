@@ -96,6 +96,14 @@ class PostLike(db.Model):
     postId = db.Column("post_id", db.ForeignKey("posts.post_id"), nullable=False)
 
 
+class PostMultimedia(db.Model):
+    __tablename__ = "post_multimedia"
+
+    multimediaId = db.Column("multimedia_id", db.Integer, db.Sequence("multimedia_id_seq"), primary_key=True)
+    postId = db.Column("post_id", db.ForeignKey("posts.post_id"), nullable=False)
+    data = db.Column(db.LargeBinary)
+
+
 class Post(db.Model):
     __tablename__ = "posts"
 
@@ -106,6 +114,7 @@ class Post(db.Model):
     updated = db.Column("updated", db.DateTime, default=datetime.datetime.now())
     comments = db.relationship("PostComment", backref="post")
     likes = db.relationship("PostLike", backref="post")
+    multimedia = db.relationship("PostMultimedia", backref="post")
 
 
 class PersonalInfo(db.Model):
@@ -145,6 +154,14 @@ class UserSchema(SQLAlchemyAutoSchema):
 class PostCommentSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = PostComment
+        unknown = EXCLUDE
+        load_instance = True
+        include_fk = True
+
+
+class PostMultimediaSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = PostMultimedia
         unknown = EXCLUDE
         load_instance = True
         include_fk = True
