@@ -6,7 +6,7 @@ from http_constants.status import HttpStatus
 from marshmallow_sqlalchemy.fields import fields
 
 from utils import make_response_error, make_response
-from db import User
+from db import User, BasicUserInfoSchema
 
 bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -21,7 +21,6 @@ class ExportPostSchema(marshmallow.Schema):
     content = fields.String()
     created = fields.DateTime()
     updated = fields.DateTime()
-    # comments = fields.Pluck("self", "comment", many=True)
 
 
 class ExportJobPostSchema(marshmallow.Schema):
@@ -29,11 +28,17 @@ class ExportJobPostSchema(marshmallow.Schema):
     description = fields.String()
 
 
+class ExportPostCommentSchema(marshmallow.Schema):
+    comment = fields.String()
+
+
 class ExportUserDataSchema(marshmallow.Schema):
     personalInfo = fields.Nested(ExportPersonalInfoSchema)
     posts = fields.Nested(ExportPostSchema, many=True)
     jobPosts = fields.Nested(ExportJobPostSchema, many=True)
+    network = fields.Nested(BasicUserInfoSchema, many=True)
     likedPosts = fields.Nested(ExportPostSchema, many=True)
+    comments = fields.Nested(ExportPostCommentSchema, many=True)
 
 
 @bp.route("/exportUserData", methods=["POST"])
@@ -58,6 +63,8 @@ def export_user_data():
             personalInfo=user.personalInfo,
             posts=user.posts,
             jobPosts=user.jobPosts,
+            network=user.connections,
+            comments=user.postComments,
             likedPosts=[likedPost.post for likedPost in user.likedPosts]
         )
         res.append(user_res)

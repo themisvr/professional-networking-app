@@ -51,6 +51,7 @@ class User(db.Model):
     jobApplications = db.relationship("JobPost", secondary=job_applications, lazy="subquery",
                                       backref=db.backref("jobApplicants", lazy=True))
     likedPosts = db.relationship("PostLike", backref="user")
+    postComments = db.relationship("PostComment", backref="user")
 
     __ts_vector__ = db.Column(TSVECTOR(), db.Computed(
         "to_tsvector('english', first_name || ' ' || last_name || ' ' || email)",

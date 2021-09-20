@@ -16,10 +16,6 @@ flask run --cert=../cert.pem --key=../key.pem
 General:
  - Show creator instead of userId in Jobs/Articles
 
-Q4:
- - Add support for exporting XML
- - Export all required data
-
 Q7:
  - Back/Front end: Show jobs from not connected users
  - Back/Front end: Show job posts based on personal skills (Bonus: Matrix Factorization Collaborative Filtering)
