@@ -3,7 +3,7 @@
         <mat-card *ngFor="let comment of article.comments">
             <mat-card-content>
                 <mat-icon mat-list-icon>feed</mat-icon>
-                <a>{{comment.userId}} commented: {{comment.comment}}</a>
+                <a>{{comment.writer}} commented: {{comment.comment}}</a>
             </mat-card-content>
         </mat-card>
     </mat-list-item>

@@ -6,7 +6,7 @@
         <mat-list>
             <mat-list-item *ngFor="let requestedConnection of requestedConnections">
                 <mat-icon mat-list-icon>people</mat-icon>
-                <div mat-line>{{requestedConnection.firstName}} {{requestedConnection.lastName}}</div>
+                <div mat-line>{{requestedConnection.fullName}}</div>
                 <button mat-raised-button color="primary" (click)="onView(requestedConnection.email)">View Profile</button>
                 <button mat-raised-button color="primary" (click)="onAccept(requestedConnection.userId, requestedConnection.firstName)">Accept</button>
                 <button mat-raised-button color="primary" (click)="onReject(requestedConnection.userId, requestedConnection.firstName)">Reject</button>

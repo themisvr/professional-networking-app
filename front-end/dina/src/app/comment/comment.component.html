@@ -1,5 +1,8 @@
 <mat-card>
-    <mat-card-subtitle>{{comment.userId}} {{comment.date | date:'yyyy-MM-dd'}}</mat-card-subtitle>
+    <mat-card-header>
+        <mat-card-title>{{comment.writer}}</mat-card-title>
+        <mat-card-subtitle>{{comment.date | date:'yyyy-MM-dd'}}</mat-card-subtitle>
+    </mat-card-header>
     <mat-card-content>{{comment.comment}}</mat-card-content>
 </mat-card>
 

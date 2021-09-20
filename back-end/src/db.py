@@ -165,6 +165,8 @@ class PostCommentSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
 
+    writer = mas_fields.Pluck(BasicUserInfoSchema(), 'fullName', attribute='user')
+
 
 class PostMultimediaSchema(SQLAlchemyAutoSchema):
     class Meta:
