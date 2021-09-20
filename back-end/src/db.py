@@ -103,6 +103,7 @@ class PostMultimedia(db.Model):
 
     multimediaId = db.Column("multimedia_id", db.Integer, db.Sequence("multimedia_id_seq"), primary_key=True)
     postId = db.Column("post_id", db.ForeignKey("posts.post_id"), nullable=False)
+    mimeType = db.Column("mime_type", db.String, nullable=False)
     data = db.Column(db.LargeBinary)
 
 
@@ -173,7 +174,6 @@ class PostMultimediaSchema(SQLAlchemyAutoSchema):
         model = PostMultimedia
         unknown = EXCLUDE
         load_instance = True
-        include_fk = True
 
 
 class PostSchema(SQLAlchemyAutoSchema):

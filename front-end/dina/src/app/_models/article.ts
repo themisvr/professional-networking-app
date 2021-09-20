@@ -9,5 +9,5 @@ export class ArticleModel {
     likeCount: number;
     content: string;
     comments: CommentModel[];
-    multimedia: MultimediaModel[];
+    multimedia: Blob[];
 };

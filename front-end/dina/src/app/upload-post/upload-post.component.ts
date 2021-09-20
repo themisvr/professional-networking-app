@@ -49,17 +49,27 @@ export class UploadPostComponent implements OnInit {
     }
 
     this.articleModel.userId = this.authService.currentUserValue?.userId || -1;
-    if (this.selectedFile !== null) {
-      const multimedia = new MultimediaModel();
-      multimedia.content = new FormData();
-      // might need to change the key name
-      multimedia.content.append('multimedia', this.selectedFile, this.selectedFile.name);
-      this.articleModel.multimedia.push(multimedia);
-    }
+
     this.articleService.createPost(this.articleModel)
-    .subscribe(
-      article => { this.articleModel = article; this.alertService.success("Post created successfully"); },
-      error => this.alertService.errorResponse(error),
+      .subscribe(
+        article => {
+          this.articleModel = article;
+          if (this.selectedFile !== null) {
+            const multimedia = new FormData();
+            multimedia.append('multimedia', this.selectedFile, this.selectedFile.name);
+            this.articleService.uploadPostMedia(this.articleModel.postId, multimedia)
+              .subscribe(
+                article => {
+                  this.articleModel = article;
+                  this.alertService.success("Post created successfully");
+                },
+                error => this.alertService.errorResponse(error),
+              );
+          } else {
+            this.alertService.success("Post created successfully");
+          }
+        },
+        error => this.alertService.errorResponse(error),
     );
   }
 

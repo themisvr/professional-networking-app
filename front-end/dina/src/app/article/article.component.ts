@@ -4,6 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ArticleModel } from '../_models/article';
 import { AuthenticationService } from '../_services/authentication.service';
 import { AlertService } from '../_services/alert.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'dina-article',
@@ -12,13 +13,19 @@ import { AlertService } from '../_services/alert.service';
 })
 export class ArticleComponent implements OnInit {
   @Input() article: ArticleModel;
+  imageUrls: SafeUrl[] = [];
   newComment: string;
 
   constructor(private authService: AuthenticationService,
               private articleService: ArticleService,
-              private alertService: AlertService) { }
+              private alertService: AlertService,
+              private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+    for (let media of this.article.multimedia) {
+      const unsafeImageUrl = URL.createObjectURL(media);
+      this.imageUrls.push(this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl));
+    }
   }
 
   onLike() {

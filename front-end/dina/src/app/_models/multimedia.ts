@@ -1,4 +1,5 @@
 export class MultimediaModel {
     multimediaId: number;
-    content: FormData;
+    postId: number;
+    data: FormData;
 };

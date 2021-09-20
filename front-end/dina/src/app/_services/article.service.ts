@@ -22,4 +22,12 @@ export class ArticleService {
   createPost(article: ArticleModel) {
     return this.http.post<ArticleModel>(`${environment.backendUrl}/users/posts`, article);
   }
+
+  uploadPostMedia(postId: number, media: FormData) {
+    return this.http.post<ArticleModel>(`${environment.backendUrl}/posts/${postId}/upload`, media);
+  }
+
+  getPostMedia(postId: number) {
+    return this.http.get<Blob>(`${environment.backendUrl}/posts/${postId}/media`, {responseType: 'blob' as 'json'});
+  }
 }

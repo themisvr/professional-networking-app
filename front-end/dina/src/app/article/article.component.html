@@ -7,6 +7,9 @@
         <div>
             {{article.content}}
         </div>
+        <div *ngFor="let imageUrl of imageUrls">
+            <img [src]="imageUrl">
+        </div>
     </mat-card-content>
         <mat-card-header>
             <mat-card-title>Comments</mat-card-title>
