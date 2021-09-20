@@ -212,6 +212,8 @@ class JobPostSchema(SQLAlchemyAutoSchema):
         unknown = EXCLUDE
         load_instance = True
 
+    creator = mas_fields.Pluck(BasicUserInfoSchema(), 'fullName', attribute='user')
+
 
 class NetworkSchema(BasicUserInfoSchema):
     personalInfo = fields.Nested(PersonalInfoSchema(), data_key="personalInfo")
