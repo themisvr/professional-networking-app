@@ -11,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from sqlalchemy.ext.hybrid import hybrid_property
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, fields, auto_field
-from marshmallow import EXCLUDE, fields as mas_fields, post_dump, pre_dump
+from marshmallow import EXCLUDE, fields as mas_fields, pre_dump, pre_load
 from sqlalchemy.dialects.postgresql import TSVECTOR
 
 db = SQLAlchemy()
@@ -38,7 +38,7 @@ class User(db.Model):
     userId = db.Column("user_id", db.Integer, db.Sequence("user_id_seq"), primary_key=True)
     firstName = db.Column("first_name", db.String, nullable=False)
     lastName = db.Column("last_name", db.String, nullable=False)
-    fullName = db.Column("full_name", db.String, nullable=True, default=f"{firstName} {lastName}")
+    fullName = db.Column("full_name", db.String, nullable=False)
     _password = db.Column("password", db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     phoneNumber = db.Column("phone_number", db.String, nullable=True)
@@ -76,6 +76,7 @@ class BasicUserInfoSchema(marshmallow.Schema):
     userId = fields.fields.Integer()
     firstName = fields.fields.String()
     lastName = fields.fields.String()
+    fullName = fields.fields.String()
     email = fields.fields.String()
     phoneNumber = fields.fields.String()
 
@@ -151,6 +152,11 @@ class UserSchema(SQLAlchemyAutoSchema):
 
     _password = auto_field(data_key="password", attribute="password")
 
+    @pre_load
+    def pre_load(self, data, **kwargs):
+        data['fullName'] = f"{data['firstName']} {data['lastName']}"
+        return data
+
 
 class PostCommentSchema(SQLAlchemyAutoSchema):
     class Meta:
@@ -174,7 +180,7 @@ class PostSchema(SQLAlchemyAutoSchema):
         unknown = EXCLUDE
         load_instance = True
 
-    creator = mas_fields.Pluck(BasicUserInfoSchema(), 'firstName', attribute='user')
+    creator = mas_fields.Pluck(BasicUserInfoSchema(), 'fullName', attribute='user')
     comments = fields.Nested(PostCommentSchema, many=True)
     likeCount = fields.fields.Integer()
 

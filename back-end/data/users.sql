@@ -2,6 +2,7 @@ INSERT INTO USERS (
 	user_id,
 	first_name,
 	last_name,
+    full_name,
 	email,
 	password,
 	phone_number,
@@ -10,6 +11,7 @@ INSERT INTO USERS (
 	nextval('user_id_seq'),
 	'Admin',
 	'Mc Admin',
+    'Admin Mc Admin',
 	'admin@dina.com',
 	'$2b$12$uPEqW12XhBjnelFRF.s.TuSVytzc.yFgptgGEEnN/e4VPxdRI.rCa', -- admin
 	null,
@@ -20,6 +22,7 @@ INSERT INTO USERS (
 	user_id,
 	first_name,
 	last_name,
+    full_name,
 	email,
 	password,
 	phone_number,
@@ -28,6 +31,7 @@ INSERT INTO USERS (
 	nextval('user_id_seq'),
 	'Tester',
 	'Mc Tester',
+    'Tester Mc Tester',
 	'tester@dina.com',
 	'$2b$12$5dYYpgHuKW6K6mDK1BaMjuJEOrYPFVg3F5Sl1VREqcqfTSr/GzzZG', -- 12345678
 	null,
@@ -58,6 +62,7 @@ INSERT INTO USERS (
 	user_id,
 	first_name,
 	last_name,
+    full_name,
 	email,
 	password,
 	phone_number,
@@ -66,6 +71,7 @@ INSERT INTO USERS (
 	nextval('user_id_seq'),
 	'Cole',
 	'Mc Cole',
+    'Cole Mc Cole',
 	'cole@dina.com',
 	'$2b$12$5dYYpgHuKW6K6mDK1BaMjuJEOrYPFVg3F5Sl1VREqcqfTSr/GzzZG', -- 12345678
 	null,
