@@ -14,7 +14,6 @@ flask run --cert=../cert.pem --key=../key.pem
 ## TODO list
 
 General:
- - Fix dates in db
  - Fix pending buttons when someone is waiting for a connection to be done
  - Add image in user's profile
  - Fix admin's page routing

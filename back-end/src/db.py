@@ -88,7 +88,7 @@ class PostComment(db.Model):
     postId = db.Column("post_id", db.Integer, db.ForeignKey("posts.post_id"), nullable=False)
     userId = db.Column("user_id", db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     comment = db.Column("comment", db.String, nullable=False)
-
+    created = db.Column("created", db.DateTime, nullable=False, default=datetime.datetime.now())
 
 class PostLike(db.Model):
     __tablename__ = "post_likes"

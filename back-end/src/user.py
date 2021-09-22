@@ -80,19 +80,18 @@ def get_user_posts():
     external_posts = Post.query.join(user_connections, Post.userId == user_connections.c.user_id). \
         join(PostLike, PostLike.postId == Post.postId). \
         filter(user_connections.c.user_id != user.userId, user_connections.c.follower_id != user.userId). \
-        order_by(db.desc(Post.updated)). \
         limit(limit). \
         all()
 
-    user_posts = Post.query.join(User, Post.userId == user.userId).order_by(db.desc(Post.updated)).limit(limit).all()
+    user_posts = Post.query.join(User, Post.userId == user.userId).limit(limit).all()
 
     connected_user_posts = Post.query.join(user_connections, Post.userId == user_connections.c.follower_id). \
         filter(user_connections.c.user_id == user.userId). \
-        order_by(db.desc(Post.updated)). \
         limit(limit). \
         all()
 
     posts = list(set(user_posts).union(set(connected_user_posts)).union(set(external_posts)))
+    posts.sort(reverse=True, key=lambda x: x.updated)
 
     return make_response(PostSchema().dumps(posts, many=True))
 

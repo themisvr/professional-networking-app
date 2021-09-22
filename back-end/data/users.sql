@@ -141,22 +141,27 @@ INSERT INTO USER_CONNECTIONS (
 INSERT INTO POSTS (
     post_id,
     user_id,
-    content
+    content,
+    created,
+    updated
 ) VALUES (
     nextval('post_id_seq'),
     2,
-    'Facebook is hiring Software Engineers'
+    'Facebook is hiring Software Engineers',
+    now(),
+    now()
 ) ON CONFLICT DO NOTHING;
-
 
 INSERT INTO POST_COMMENTS (
     comment_id,
     post_id,
     user_id,
-    comment
+    comment,
+    created
 ) VALUES (
     nextval('post_comment_id_seq'),
     1,
     3,
-    'This is a very nice post!'
+    'This is a very nice post!',
+    now()
 ) ON CONFLICT DO NOTHING;

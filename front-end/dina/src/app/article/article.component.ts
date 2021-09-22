@@ -51,7 +51,6 @@ export class ArticleComponent implements OnInit {
     newComment.comment = comment;
     newComment.postId = this.article.postId;
     newComment.userId = this.authService.currentUserValue?.userId || -1;
-    newComment.date = new Date();
     this.newComment = "";
     this.articleService.addComment(this.article.postId, newComment)
       .subscribe(

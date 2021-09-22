@@ -1,4 +1,5 @@
 import io
+from datetime import datetime
 
 from flask import Blueprint, request, send_file
 from http_constants.status import HttpStatus
@@ -19,6 +20,7 @@ def add_post_comment(post_id):
     schema = PostCommentSchema()
     post_comment = schema.load(content, session=db.session)
     post.comments.append(post_comment)
+    post.updated = datetime.now()
     return commit_db_session_and_return_successful_response(db, PostSchema(), post)
 
 
@@ -44,6 +46,7 @@ def like_post(post_id):
     else:
         db.session.delete(post_like)
 
+    post.updated = datetime.now()
     return commit_db_session_and_return_successful_response(db, PostSchema(), post)
 
 
@@ -65,6 +68,7 @@ def upload_post_media(post_id):
         media.data = media_file.read()
         post.multimedia.append(media)
 
+    post.updated = datetime.now()
     return commit_db_session_and_return_successful_response(db, PostSchema(), post)
 
 
