@@ -1,18 +1,15 @@
-<mat-sidenav-container>
-    <mat-sidenav style="width: 15%" #sidenav [opened]="true" [mode]="'side'">
-       <mat-nav-list>
-         <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
-           Member
-         </a>
-         <a mat-list-item [routerLink]="'/provideLink'" routerLinkActive="active-list-item">
-           Member
-         </a>
-       </mat-nav-list>
-    </mat-sidenav>
-  <!-- Content or body of your page -->
-    <mat-sidenav-content>
-    <div style="height: 85vh">
-    <p> Chat </p>
+<mat-card class="card" *ngIf="chattingWith">
+  <mat-card-header>
+    <mat-card-title>Chatting with {{ chattingWith.fullName }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="card-content">
+    <div [ngClass]="msg.to == chattingWith.userId ? 'message_to' : 'message_from' "
+        *ngFor="let msg of messages">
+      {{msg.message}}
+      <span style="color: lightblue; font-size: 10px; font-style: italic;">{{msg.date | date: "HH:mm:ss"}}</span>
     </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+  </mat-card-content>
+  <mat-form-field class="full-width">
+    <textarea matInput placeholder="Message" [(ngModel)]="messageText" (keydown.enter)="sendMessage()"></textarea>
+  </mat-form-field>
+</mat-card>

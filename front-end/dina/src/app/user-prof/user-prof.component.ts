@@ -1,6 +1,6 @@
 import { UserService } from './../_services/user.service';
 import { AuthenticationService } from './../_services/authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonalInfoModel } from '../_models/personalInfo';
@@ -26,7 +26,8 @@ export class UserProfComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private router: Router) {
       this.personalInfoForm = fb.group({
         workExperience: [''],
         education: [''],
@@ -76,7 +77,7 @@ export class UserProfComponent implements OnInit {
     }
 
     onMessage() {
-      return;
+      this.router.navigate(['/chat', {chatUserId: this.personalInfo.userId}]);
     }
 
     onConnect() {

@@ -51,6 +51,11 @@ import { NotificationComponent } from './notification/notification.component';
 import { AlertComponent } from './alert/alert.component';
 import { NewsFeedComponent } from './news-feed/news-feed.component';
 import { ArticlesComponent } from './articles/articles.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from '../environments/environment.prod';
+
+
+const config: SocketIoConfig = { url: environment.backendUrl, options: {} };
 
 @NgModule({
   declarations: [
@@ -105,6 +110,7 @@ import { ArticlesComponent } from './articles/articles.component';
     MatListModule,
     MatCardModule,
     MatCheckboxModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }

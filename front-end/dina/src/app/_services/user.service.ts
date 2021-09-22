@@ -20,6 +20,10 @@ export class UserService {
     return this.http.get<UserModel[]>(`${environment.backendUrl}/users`);
   }
 
+  getUserById(userId: number) {
+    return this.http.get<UserModel>(`${environment.backendUrl}/users/${userId}`);
+  }
+
   getUserByEmail(email: string) {
     return this.http.get<UserModel>(`${environment.backendUrl}/users`, {
       params: {

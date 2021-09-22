@@ -1,4 +1,5 @@
 import os
+import chat
 import db
 import admin
 import auth
@@ -8,6 +9,7 @@ import jobPosts
 import search
 from flask import Flask
 from flask_cors import CORS
+from flask_socketio import SocketIO
 
 
 def create_app(test_config=None):
@@ -15,6 +17,7 @@ def create_app(test_config=None):
     CORS(app)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:DinaRules@localhost:5432/DiNa'
+    app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
     db.db.init_app(app)
 
     if test_config is None:
@@ -36,3 +39,10 @@ def create_app(test_config=None):
     app.register_blueprint(admin.bp)
 
     return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    socketio = SocketIO(app, cors_allowed_origins="*")
+    chat.init_chat_endpoints(socketio)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True, ssl_context=('../cert.pem', '../key.pem'))

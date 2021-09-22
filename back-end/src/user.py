@@ -1,6 +1,6 @@
 from flask import Blueprint, request
-from article_recommender import *
-import numpy as np
+# from article_recommender import *
+# import numpy as np
 from http_constants.status import HttpStatus
 from utils import make_response, make_response_error, commit_db_session_and_return_successful_response, \
     commit_db_session_or_return_error_response, get_user_with_email_or_return_error, get_user_with_id_or_return_error
@@ -22,6 +22,16 @@ def get_users():
 
     users = User.query.filter_by(isAdmin=False).all()
     return make_response(UserSchema().dumps(users, many=True))
+
+
+@bp.route("/<user_id>", methods=["GET"])
+def get_user_by_id(user_id):
+    user, err = get_user_with_id_or_return_error(user_id)
+
+    if not user:
+        return err
+
+    return make_response(UserSchema().dumps(user))
 
 
 @bp.route("/changeEmail", methods=['PUT'])
@@ -95,7 +105,6 @@ def get_user_posts():
     # latent_semantic_model = MatrixFactorization(X, K=3, h=0.001)
     # latent_semantic_model.train_model()
     # values_predicted = latent_semantic_model.X_predicted()
-
 
     user_posts = Post.query.join(User, Post.userId == user.userId).limit(limit).all()
 
