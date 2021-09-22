@@ -1,3 +1,4 @@
+import { Router, ROUTES, RoutesRecognized } from '@angular/router';
 import { RegisterUserModel } from './../_models/registerUser';
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
@@ -13,7 +14,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<Nullable<UserModel>>;
   public currentUser: Observable<Nullable<UserModel>>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     let storageUser = localStorage.getItem('currentUser');
     if (storageUser) {
       this.currentUserSubject = new BehaviorSubject<Nullable<UserModel>>(JSON.parse(storageUser));

@@ -3,7 +3,7 @@
         <mat-icon>language</mat-icon> DiNa
     </span>
     <div class="spacer"></div>
-    <div *ngIf="!isLoggedIn">
+    <div *ngIf="!loggedIn">
         <a mat-button routerLink="login" routerLinkActive="active">
             <mat-icon>login</mat-icon>Sign in
         </a>
@@ -12,11 +12,11 @@
         </a>
     </div>
 
-    <div *ngIf="isLoggedIn && !isAdmin">
+    <div *ngIf="loggedIn && !admin">
         <app-navbar></app-navbar>
     </div>
 
-    <button *ngIf="isLoggedIn" mat-button routerLink="logout" routerLinkActive="active">
+    <button *ngIf="loggedIn" mat-button routerLink="logout" routerLinkActive="active">
         <mat-icon>logout</mat-icon>Logout
     </button>
 </mat-toolbar>

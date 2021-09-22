@@ -22,8 +22,6 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
-  // TODO(gliontos): Add this route dynamically after we have made sure that the user
-  // is an admin user
   { path: 'admin', component: AdminPageComponent, canActivate: [AuthGuard] },
   { path: 'welcome', component: WelcomeComponent },
   { path: 'home', component: UserHomeComponent, canActivate: [AuthGuard] },

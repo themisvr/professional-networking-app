@@ -8,24 +8,15 @@ import { AuthenticationService } from '../_services/authentication.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  private loggedIn: boolean = false;
-  private admin: boolean = false;
+  loggedIn: boolean = false;
+  admin: boolean = false;
 
   constructor(private authService: AuthenticationService) {}
 
   ngOnInit(): void {
-    const currentUser: Nullable<UserModel> = this.authService.currentUserValue;
-    this.loggedIn = currentUser != null;
-    this.admin = this.loggedIn && (currentUser || false) && currentUser.isAdmin;
-    this.authService.currentUser.subscribe(user => this.loggedIn = user != null);
-  }
-
-
-  get isLoggedIn(): boolean {
-    return this.loggedIn;
-  }
-
-  get isAdmin(): boolean {
-    return this.admin;
+    this.authService.currentUser.subscribe(user => {
+      this.loggedIn = user != null;
+      this.admin = (user || false) && user.isAdmin;
+    });
   }
 }

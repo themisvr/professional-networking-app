@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { ArticleService } from './../_services/article.service';
 import { ArticleModel } from './../_models/article';
 import { Component, OnInit } from '@angular/core';
@@ -21,7 +20,6 @@ export class UploadPostComponent implements OnInit {
   selectedFile: any = null;
 
   constructor(private authService: AuthenticationService,
-              private router: Router,
               private articleService: ArticleService,
               private alertService: AlertService,
               private formBuilder: FormBuilder) {
