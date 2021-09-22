@@ -18,6 +18,7 @@ General:
  - Fix pending buttons when someone is waiting for a connection to be done
  - Add image in user's profile
  - Fix admin's page routing
+ - Redirect to timeline page after uploading an article
 
 Q7:
  - Back/Front end: Show jobs from not connected users
