@@ -22,10 +22,20 @@ export class ArticleComponent implements OnInit {
               private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    for (let media of this.article.multimedia) {
-      const unsafeImageUrl = URL.createObjectURL(media);
-      this.imageUrls.push(this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl));
-    }
+    this.articleService.getPostMedia(this.article.postId)
+      .subscribe(
+        media => {
+          this.article.multimedia = [];
+          if (media.size) {
+            this.article.multimedia.push(media);
+          }
+          for (let media of this.article.multimedia) {
+            const unsafeImageUrl = URL.createObjectURL(media);
+            this.imageUrls.push(this.sanitizer.bypassSecurityTrustUrl(unsafeImageUrl));
+          }
+        },
+        error => this.alertService.errorResponse(error),
+      );
   }
 
   onLike() {

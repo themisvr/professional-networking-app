@@ -1,11 +1,7 @@
 <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
     <mat-tab label="Recent Posts">
         <ng-template matTabContent>
-            <div>
-            <div *ngFor="let article of articles" class="article-container" >
-              <dina-article [article]="article"></dina-article>
-            </div>
-          </div>
+            <dina-articles></dina-articles>
         </ng-template>
     </mat-tab>
     <mat-tab label="Upload Post">

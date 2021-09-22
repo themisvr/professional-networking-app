@@ -61,11 +61,13 @@ export class UploadPostComponent implements OnInit {
               .subscribe(
                 article => {
                   this.articleModel = article;
+                  window.location.reload();
                   this.alertService.success("Post created successfully");
                 },
                 error => this.alertService.errorResponse(error),
               );
           } else {
+            window.location.reload();
             this.alertService.success("Post created successfully");
           }
         },
