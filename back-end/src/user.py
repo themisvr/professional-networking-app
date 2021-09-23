@@ -1,11 +1,11 @@
 from flask import Blueprint, request
-# from article_recommender import *
-# import numpy as np
+from article_recommender import *
+import numpy as np
 from http_constants.status import HttpStatus
 from utils import make_response, make_response_error, commit_db_session_and_return_successful_response, \
     commit_db_session_or_return_error_response, get_user_with_email_or_return_error, get_user_with_id_or_return_error
 from db import User, db, UserSchema, PostSchema, PersonalInfoSchema, NetworkSchema, JobPostSchema, user_connections, \
-    Post, PostLike, pending_connections
+    Post, PostLike, pending_connections, JobPost
 
 bp = Blueprint("users", __name__, url_prefix="/users")
 
@@ -87,7 +87,7 @@ def get_user_posts():
     if not user:
         return err
 
-    limit = 50
+    limit = 20
 
     external_posts = Post.query.join(user_connections, Post.userId == user_connections.c.user_id). \
         join(PostLike, PostLike.postId == Post.postId). \
@@ -102,7 +102,7 @@ def get_user_posts():
     # X = np.zeros((len(user_ids), len(posts)))
     # # fill X based on likes, comments, reviews
 
-    # latent_semantic_model = MatrixFactorization(X, K=3, h=0.001)
+    # latent_semantic_model = MatrixFactorization(X, K=2, h=0.001)
     # latent_semantic_model.train_model()
     # values_predicted = latent_semantic_model.X_predicted()
 
@@ -186,12 +186,54 @@ def get_available_job_posts():
     if not user:
         return err
 
-    jobPosts = []
+    jobsToShow = []
+    connJobPosts = []
     for connectedUser in user.connections:
-        jobPosts.extend(connectedUser.jobPosts)
+        connJobPosts.extend(connectedUser.jobPosts)
 
-    jobPosts = list(set(jobPosts) - set(user.jobApplications))
-    return make_response(JobPostSchema().dumps(jobPosts, many=True))
+
+    allJobPosts = [job.jobPostId for job in JobPost.query.all()]
+    createdJobPosts = [job.jobPostId for job in user.jobPosts]
+    connectedjobPosts = [job.jobPostId for job in connJobPosts]
+    userjobApplications = [userAppls.jobPostId for userAppls in user.jobApplications]
+    connectedjobPosts = list(set(connectedjobPosts) - set(userjobApplications))
+    notConnectedJobPosts = list(set(allJobPosts) - set(connectedjobPosts) - set(createdJobPosts))
+    jobModels = JobPost.query.all()
+    notConnectedJobPostsModels = list(set(jobModels) - set(connJobPosts) - set(user.jobPosts))
+
+    jobsToShow.extend(connJobPosts)
+
+    if (not notConnectedJobPosts):
+        return make_response(JobPostSchema().dumps(jobsToShow, many=True))
+
+    user_ids = [user.userId for user in User.query.all() if user.isAdmin == False]
+
+    user_mapping = {v: k for k, v in enumerate(user_ids)}
+    job_mapping = {v: k for k, v in enumerate(notConnectedJobPosts)}
+
+    X = np.zeros((len(user_ids), len(notConnectedJobPosts)))
+    for job_id in notConnectedJobPosts:
+        for job in jobModels:
+            if (job.jobPostId == job_id):
+                applicants_ids = [user.userId for user in job.jobApplicants]
+                for applicant in applicants_ids:
+                    X[user_mapping[applicant]][job_mapping[job_id]] += 1
+
+    latent_semantic_model = MatrixFactorization(X, K=2, h=0.001)
+    latent_semantic_model.train_model()
+    values_predicted = latent_semantic_model.X_predicted()
+
+    max_of_each_col = list(np.max(values_predicted, axis=0))
+    k = 2
+    k_max_indexes = []
+    for i in range(k):
+        max_index = max_of_each_col.index(max(max_of_each_col))
+        k_max_indexes.append(max_index+1)
+
+    jobsToShow = [job for job in notConnectedJobPostsModels if job_mapping[job.jobPostId] in k_max_indexes]
+    jobsToShow.extend(connectedjobPosts)
+
+    return make_response(JobPostSchema().dumps(jobsToShow, many=True))
 
 
 @bp.route("/appliedJobs", methods=["GET"])

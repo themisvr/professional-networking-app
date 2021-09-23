@@ -10,8 +10,8 @@ class MatrixFactorization():
         self.n_users, self.n_posts = X.shape
 
     def train_model(self):
-        self.V = distr(size=(self.n_users, self.K))
-        self.F = distr(size=(self.K, self.n_posts))
+        self.V = np.random.uniform(size=(self.n_users, self.K))
+        self.F = np.random.uniform(size=(self.K, self.n_posts))
         known_values = np.count_nonzero(self.X)
         rmse_prev = -2
         rmse = -1
@@ -22,7 +22,7 @@ class MatrixFactorization():
             # Iterate over each known element of X xij
             for i, j in zip(xs, ys):
                 # Compute e_ij
-                error_ij = self.R[i,j] - self.V[i,:].dot(self.F[:,j])
+                error_ij = self.X[i,j] - self.V[i,:].dot(self.F[:,j])
                 # Compute the gradient of (e_ij)^2
                 total_square_error += pow(error_ij, 2)
                 # Update the ith row of V and the jth column of F according to the below equations
