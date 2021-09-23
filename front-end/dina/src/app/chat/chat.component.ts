@@ -47,17 +47,6 @@ export class ChatComponent implements OnInit {
         this.chat.getMessage().subscribe(message => this.messages.push(message));
       });
     });
-
-    // this.chat.getMessagedUsers(userId).subscribe(users => {
-    //   this.users = users;
-    //   if (!this.chatUserId) {
-    //     this.chatUserId = this.users[0].userId;
-    //   }
-    //   this.chattingWith = this.users.find(user => user.userId == this.chatUserId) || new UserModel;
-    //   this.chat.beginChat(userId);
-    //   this.chat.getMessages(userId, this.chatUserId).subscribe(messages => this.messages = messages);
-    //   this.chat.getMessage().subscribe(message => this.messages.push(message));
-    // });
   }
 
   sendMessage() {
