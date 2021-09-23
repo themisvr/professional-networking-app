@@ -18,10 +18,6 @@ General:
  - Add image in user's profile
  - Images scaling based on mat-cards template
 
-Q7:
- - Back/Front end: Show jobs from not connected users
- - Back/Front end: Show job posts based on personal skills (Bonus: Matrix Factorization Collaborative Filtering)
-
 Q12:
  - Implement bonus
 
