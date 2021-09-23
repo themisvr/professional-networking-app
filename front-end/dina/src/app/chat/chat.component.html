@@ -3,7 +3,7 @@
     <mat-card-title>Chatting with {{ chattingWith.fullName }}</mat-card-title>
   </mat-card-header>
   <mat-card-content class="card-content">
-    <div [ngClass]="msg.to == chattingWith.userId ? 'message_to' : 'message_from' "
+    <div [ngClass]="msg.receiverId == chattingWith.userId ? 'message_to' : 'message_from' "
         *ngFor="let msg of messages">
       {{msg.message}}
       <span style="color: lightblue; font-size: 10px; font-style: italic;">{{msg.date | date: "HH:mm:ss"}}</span>

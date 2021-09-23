@@ -1,13 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment.prod';
 import { MessageModel } from '../_models/message';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  constructor(private socket: Socket) { }
+  constructor(private socket: Socket, private http: HttpClient) { }
 
   beginChat(userId: number) {
     this.socket.emit("begin", userId);
@@ -17,8 +19,13 @@ export class ChatService {
     this.socket.emit("message", message);
   }
 
-  getMessages(fromUserId: number, toUserId: number) {
-    return [];
+  getMessages(firstUserId: number, secondUserId: number) {
+    return this.http.get<MessageModel[]>(`${environment.backendUrl}/chat/messages`, {
+      params: {
+        first: firstUserId,
+        second: secondUserId,
+      }
+    });
   }
 
   getMessage() {

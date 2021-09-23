@@ -37,6 +37,7 @@ def create_app(test_config=None):
     app.register_blueprint(jobPosts.bp)
     app.register_blueprint(search.bp)
     app.register_blueprint(admin.bp)
+    app.register_blueprint(chat.bp)
 
     return app
 

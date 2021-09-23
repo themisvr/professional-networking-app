@@ -72,6 +72,16 @@ class User(db.Model):
         return bcrypt.checkpw(raw_pass.encode(), self.password.encode())
 
 
+class ChatMessage(db.Model):
+    __tablename__ = "chat_messages"
+
+    messageId = db.Column("message_id", db.Integer, db.Sequence("message_id_seq"), primary_key=True)
+    senderId = db.Column("sender_id", db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    receiverId = db.Column("receiver_id", db.Integer, db.ForeignKey("users.user_id"), nullable=False)
+    message = db.Column("message", db.String, nullable=False)
+    date = db.Column("date", db.DateTime, nullable=False, default=datetime.datetime.now())
+
+
 class BasicUserInfoSchema(marshmallow.Schema):
     userId = fields.fields.Integer()
     firstName = fields.fields.String()
@@ -89,6 +99,7 @@ class PostComment(db.Model):
     userId = db.Column("user_id", db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     comment = db.Column("comment", db.String, nullable=False)
     created = db.Column("created", db.DateTime, nullable=False, default=datetime.datetime.now())
+
 
 class PostLike(db.Model):
     __tablename__ = "post_likes"
@@ -157,6 +168,14 @@ class UserSchema(SQLAlchemyAutoSchema):
     def pre_load(self, data, **kwargs):
         data['fullName'] = f"{data['firstName']} {data['lastName']}"
         return data
+
+
+class ChatMessageSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = ChatMessage
+        unknown = EXCLUDE
+        load_instance = True
+        include_fk = True
 
 
 class PostCommentSchema(SQLAlchemyAutoSchema):

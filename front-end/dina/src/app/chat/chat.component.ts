@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit {
     });
     this.userService.getUserById(this.chatUserId).subscribe(user => this.chattingWith = user);
     this.chat.beginChat(userId);
-    // this.chat.getMessages(userId, this.chatUserId).subscribe((messages: MessageModel[]) => this.messages = messages);
+    this.chat.getMessages(userId, this.chatUserId).subscribe(messages => this.messages = messages);
     this.chat.getMessage().subscribe(message => { console.log(message); this.messages.push(message); });
   }
 
@@ -43,7 +43,8 @@ export class ChatComponent implements OnInit {
     }
     this.message = new MessageModel();
     this.message.message = this.messageText;
-    this.message.to = this.chattingWith.userId;
+    this.message.senderId = this.authService.currentUserValue?.userId || -1;
+    this.message.receiverId = this.chattingWith.userId;
     this.message.date = new Date();
     this.messageText = ''
     this.chat.sendMessage(this.message)

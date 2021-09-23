@@ -35,4 +35,8 @@ export class NetworkComponent implements OnInit {
   onView(email: string) {
     this.router.navigate(['/personalInfo', { email: email}])
   }
+
+  onMessage(userId: number) {
+    this.router.navigate(['/chat', {chatUserId: userId}]);
+  }
 }

@@ -1,6 +1,6 @@
 export class MessageModel {
-    from?: number;
-    to: number;
+    senderId?: number;
+    receiverId: number;
     message: string;
     date: Date
 };
