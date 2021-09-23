@@ -4,6 +4,7 @@ import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment.prod';
 import { MessageModel } from '../_models/message';
+import { UserModel } from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class ChatService {
     this.socket.emit("message", message);
   }
 
+  getMessagedUsers(userId: number) {
+    return this.http.get<UserModel[]>(`${environment.backendUrl}/chat/messagedUsers/${userId}`);
+  }
+
   getMessages(firstUserId: number, secondUserId: number) {
     return this.http.get<MessageModel[]>(`${environment.backendUrl}/chat/messages`, {
       params: {
@@ -29,6 +34,6 @@ export class ChatService {
   }
 
   getMessage() {
-    return this.socket.fromEvent('message').pipe(map((data: any) => {console.log(data); return data;}));
+    return this.socket.fromEvent('message').pipe(map((data: any) => data));
   }
 }

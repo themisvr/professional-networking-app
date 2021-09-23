@@ -13,6 +13,7 @@ import { UserService } from '../_services/user.service';
 })
 export class ChatComponent implements OnInit {
   @Input() chatUserId: number;
+  users: UserModel[] = [];
   chattingWith: UserModel;
   messages: MessageModel[] = [];
   message: MessageModel;
@@ -30,17 +31,33 @@ export class ChatComponent implements OnInit {
     const userId = this.authService.currentUserValue?.userId || -1;
     this.route.paramMap.subscribe(params => {
       this.chatUserId = Number(params.get("chatUserId")) || this.chatUserId;
+      this.chat.getMessagedUsers(userId).subscribe(users => {
+        this.users = users;
+        if (!this.chatUserId) {
+          this.chatUserId = this.users[0].userId;
+        }
+        const chattingUser = this.users.find(user => user.userId == this.chatUserId);
+        if (!chattingUser) {
+          this.userService.getUserById(this.chatUserId).subscribe(user => this.chattingWith = user);
+        } else {
+          this.chattingWith = chattingUser;
+        }
+        this.chat.beginChat(userId);
+        this.chat.getMessages(userId, this.chatUserId).subscribe(messages => this.messages = messages);
+        this.chat.getMessage().subscribe(message => this.messages.push(message));
+      });
     });
-    this.userService.getUserById(this.chatUserId).subscribe(user => this.chattingWith = user);
-    this.chat.beginChat(userId);
-    this.chat.getMessages(userId, this.chatUserId).subscribe(messages => this.messages = messages);
-    this.chat.getMessage().subscribe(message => { console.log(message); this.messages.push(message); });
   }
 
   sendMessage() {
     if (!this.messageText.length) {
       return;
     }
+
+    if (!this.users.find(user => user.userId === this.chattingWith.userId)) {
+      this.users.push(this.chattingWith);
+    }
+
     this.message = new MessageModel();
     this.message.message = this.messageText;
     this.message.senderId = this.authService.currentUserValue?.userId || -1;
@@ -48,5 +65,13 @@ export class ChatComponent implements OnInit {
     this.message.date = new Date();
     this.messageText = ''
     this.chat.sendMessage(this.message)
+  }
+
+  onSelectedUser(selectedUserId: number) {
+    this.chatUserId = selectedUserId;
+    this.chattingWith = this.users.find(user => user.userId == this.chatUserId) || new UserModel;
+    this.messageText = '';
+    const userId = this.authService.currentUserValue?.userId || -1;
+    this.chat.getMessages(userId, selectedUserId).subscribe(messages => this.messages = messages);
   }
 }

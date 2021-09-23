@@ -22,9 +22,6 @@ Q7:
  - Back/Front end: Show jobs from not connected users
  - Back/Front end: Show job posts based on personal skills (Bonus: Matrix Factorization Collaborative Filtering)
 
-Q8:
- - Create chat page as well as chat functionality
-
 Q12:
  - Implement bonus
 
