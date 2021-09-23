@@ -1,6 +1,8 @@
 from flask import request, Blueprint
+from sqlalchemy import select
+from sqlalchemy.sql.expression import func, desc
 
-from db import ChatMessage, ChatMessageSchema, db
+from db import ChatMessage, ChatMessageSchema, db, User, UserSchema
 from utils import make_response
 
 bp = Blueprint("chat", __name__, url_prefix="/chat")
@@ -17,6 +19,23 @@ def get_messages_for_chat():
         all()
 
     return make_response(ChatMessageSchema().dumps(messages, many=True))
+
+
+@bp.route("/messagedUsers/<user_id>", methods=["GET"])
+def get_messaged_users(user_id):
+    u1 = select([ChatMessage.receiverId.label("user_id"), func.max(ChatMessage.date).label("last_msg_date")]). \
+        join(User, User.userId == ChatMessage.senderId). \
+        filter(User.userId == user_id). \
+        group_by(ChatMessage.receiverId)
+
+    u2 = select([ChatMessage.senderId.label("user_id"), func.max(ChatMessage.date).label("last_msg_date")]). \
+        join(User, User.userId == ChatMessage.receiverId). \
+        filter(User.userId == user_id). \
+        group_by(ChatMessage.senderId)
+
+    sub = u1.union(u2).order_by(desc("last_msg_date")).subquery()
+    users = User.query.join(sub, User.userId == sub.c.user_id).distinct().all()
+    return make_response(UserSchema().dumps(users, many=True))
 
 
 user_sessions = {}

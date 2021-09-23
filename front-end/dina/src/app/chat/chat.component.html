@@ -1,15 +1,26 @@
-<mat-card class="card" *ngIf="chattingWith">
-  <mat-card-header>
-    <mat-card-title>Chatting with {{ chattingWith.fullName }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content class="card-content">
-    <div [ngClass]="msg.receiverId == chattingWith.userId ? 'message_to' : 'message_from' "
+<mat-sidenav-container autosize>
+  <mat-sidenav #sidenav mode="side" opened="true">
+    <mat-nav-list>
+      <mat-list-item *ngFor="let user of users" (click)="onSelectedUser(user.userId)">
+        <p style="color: white;">
+          {{user.fullName}}
+        </p>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-card class="card" *ngIf="chattingWith">
+    <mat-card-header>
+      <mat-card-title>Chatting with {{ chattingWith.fullName }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="card-content">
+      <div [ngClass]="msg.receiverId == chattingWith.userId ? 'message_to' : 'message_from' "
         *ngFor="let msg of messages">
-      {{msg.message}}
-      <span style="color: lightblue; font-size: 10px; font-style: italic;">{{msg.date | date: "HH:mm:ss"}}</span>
-    </div>
-  </mat-card-content>
-  <mat-form-field class="full-width">
-    <textarea matInput placeholder="Message" [(ngModel)]="messageText" (keydown.enter)="sendMessage()"></textarea>
-  </mat-form-field>
-</mat-card>
+        {{msg.message}}
+        <span style="color: lightblue; font-size: 10px; font-style: italic;">{{msg.date | date: "HH:mm:ss"}}</span>
+      </div>
+    </mat-card-content>
+    <mat-form-field class="full-width">
+      <textarea matInput placeholder="Message" [(ngModel)]="messageText" (keydown.enter)="sendMessage()"></textarea>
+    </mat-form-field>
+  </mat-card>
+</mat-sidenav-container>
