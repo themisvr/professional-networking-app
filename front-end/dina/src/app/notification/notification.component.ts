@@ -28,11 +28,19 @@ export class NotificationComponent implements OnInit {
 
   onAccept(userId: number, username: string) {
     this.userService.acceptConnection(this.authService.currentUserValue?.userId || -1, userId).subscribe(() => {});
+    const pendingUserIndex = this.requestedConnections.findIndex(user => user.userId === userId);
+    if (pendingUserIndex !== -1) {
+      this.requestedConnections.splice(pendingUserIndex, 1);
+    }
     this.alertService.success(`You are are now connected with ${username}`);
   }
 
   onReject(userId: number, username: string) {
     this.userService.rejectConnection(this.authService.currentUserValue?.userId || -1, userId).subscribe(() => {});
+    const pendingUserIndex = this.requestedConnections.findIndex(user => user.userId === userId);
+    if (pendingUserIndex !== -1) {
+      this.requestedConnections.splice(pendingUserIndex, 1);
+    }
     this.alertService.error(`You rejected connection with ${username}`);
   }
 }

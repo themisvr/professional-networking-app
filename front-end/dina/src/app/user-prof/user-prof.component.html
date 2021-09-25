@@ -19,10 +19,13 @@
         }
       </style>
       <h1 *ngIf="isLoggedInUser">
-        <div>{{fullName}}</div>
+        <div>{{personalInfo.fullName}}</div>
         Edit Personal Information
       </h1>
-      <h1 *ngIf="!isLoggedInUser">Personal Information</h1>
+      <h1 *ngIf="!isLoggedInUser">
+        <div>{{personalInfo.fullName}}</div>
+        Personal Information
+      </h1>
       <form [formGroup]="personalInfoForm" class="personal-info-form">
         <section *ngIf="isLoggedInUser">
           <p>
@@ -66,8 +69,10 @@
         <button mat-stroked-button *ngIf="isLoggedInUser;else content" (click)="onUpdate()">Update</button>
         <ng-template #content>
           <button mat-raised-button color="primary" (click)="onMessage()">Message</button>
-          <button *ngIf="!isConnectedUser && !isPendingUser" mat-raised-button color="primary" (click)="onConnect()">Connect</button>
-          <button *ngIf="isPendingUser" [disabled]="isPendingUser" mat-raised-button color="primary">Pending...</button>
+          <button *ngIf="!isConnectedUser && !connReqSent && !isPendingConn" mat-raised-button color="primary" (click)="onConnect()">Connect</button>
+          <button *ngIf="connReqSent" [disabled]="connReqSent" mat-raised-button color="primary">Connection Request Sent</button>
+          <button *ngIf="isPendingConn" mat-raised-button color="primary" (click)="onAccept(personalInfo.userId)">Accept</button>
+          <button *ngIf="isPendingConn" mat-raised-button color="primary" (click)="onReject(personalInfo.userId)">Reject</button>
         </ng-template>
       </form>
     </div>

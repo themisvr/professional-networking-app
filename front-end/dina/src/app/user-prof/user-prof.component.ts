@@ -16,8 +16,8 @@ export class UserProfComponent implements OnInit {
   personalInfo: PersonalInfoModel = new PersonalInfoModel();
   isLoggedInUser: boolean = false;
   isConnectedUser: boolean = false;
-  isPendingUser: boolean = false;
-  fullName: string;
+  connReqSent: boolean = false;
+  isPendingConn: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -40,7 +40,6 @@ export class UserProfComponent implements OnInit {
       this.route.paramMap.subscribe(params => {
         const email = params.get("email") || this.authService.currentUserValue?.email || "";
         this.isLoggedInUser = email === (this.authService.currentUserValue?.email || "");
-        this.fullName = this.authService.currentUserValue?.fullName || "";
 
         this.userService
           .getUserPersonalInfo(email)
@@ -58,7 +57,17 @@ export class UserProfComponent implements OnInit {
                         .subscribe(
                           pendingRequests => {
                             const myEmail = this.authService.currentUserValue?.email || "";
-                            this.isPendingUser = pendingRequests.find(pendingUser => pendingUser.email === myEmail) ? true : false;
+                            this.connReqSent = pendingRequests.find(pendingUser => pendingUser.email === myEmail) ? true : false;
+                            if (!this.connReqSent) {
+                              this.userService.getConnectionRequests(this.authService.currentUserValue?.userId || -1)
+                                .subscribe(
+                                  myPendingRequests => {
+                                    this.isPendingConn = myPendingRequests.find(pendingUser => pendingUser.userId === this.personalInfo.userId) ? true : false;
+                                    console.log(this.isPendingConn);
+                                  },
+                                  error => this.alertService.errorResponse(error),
+                                );
+                            }
                           },
                           error => this.alertService.errorResponse(error),
                         );
@@ -97,10 +106,26 @@ export class UserProfComponent implements OnInit {
       this.userService.connect(connectorId, this.personalInfo.userId)
         .subscribe(
           () => {
-            this.isPendingUser = true;
+            this.connReqSent = true;
             this.alertService.success("Connection request sent successfully");
           },
           error => this.alertService.errorResponse(error)
         );
+    }
+
+    onAccept(userId: number) {
+      this.isConnectedUser = true;
+      this.connReqSent = false;
+      this.isPendingConn = false;
+      this.userService.acceptConnection(this.authService.currentUserValue?.userId || -1, userId).subscribe(() => {});
+      this.alertService.success(`You are are now connected with ${this.personalInfo.fullName}`);
+    }
+  
+    onReject(userId: number) {
+      this.isConnectedUser = false;
+      this.connReqSent = false;
+      this.isPendingConn = false;
+      this.userService.rejectConnection(this.authService.currentUserValue?.userId || -1, userId).subscribe(() => {});
+      this.alertService.error(`You rejected connection with ${this.personalInfo.fullName}`);
     }
 }

@@ -223,6 +223,8 @@ class PersonalInfoSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
 
+    fullName = mas_fields.Pluck(BasicUserInfoSchema(), 'fullName', attribute='user')
+
 
 class JobPostSchema(SQLAlchemyAutoSchema):
     class Meta:
