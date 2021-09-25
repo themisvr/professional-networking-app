@@ -13,6 +13,8 @@ class MatrixFactorization():
         self.V = np.random.uniform(size=(self.n_users, self.K))
         self.F = np.random.uniform(size=(self.K, self.n_posts))
         known_values = np.count_nonzero(self.X)
+        if (known_values == 0):
+            known_values = 1
         rmse_prev = -2
         rmse = -1
         # Terminate the loop when the RMSE does not decrease during two iterations

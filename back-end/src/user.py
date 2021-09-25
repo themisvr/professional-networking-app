@@ -89,34 +89,42 @@ def get_user_posts():
 
     limit = 20
 
-    external_posts = Post.query.join(user_connections, Post.userId == user_connections.c.user_id). \
-        join(PostLike, PostLike.postId == Post.postId). \
-        filter(user_connections.c.user_id != user.userId, user_connections.c.follower_id != user.userId). \
-        limit(limit). \
-        all()
+    user_models = [user for user in User.query.all() if user.isAdmin == False]
+    user_ids = [user.userId for user in user_models]
+    article_posts_ids = [post.postId for post in Post.query.all()]
 
-    # user_ids = [user.userId for user in User.query.all() if user.userId != 1]
-    # posts = [post.postId for post in Post.query.all()]
-    # # ratings = query here
-
-    # X = np.zeros((len(user_ids), len(posts)))
-    # # fill X based on likes, comments, reviews
-
-    # latent_semantic_model = MatrixFactorization(X, K=2, h=0.001)
-    # latent_semantic_model.train_model()
-    # values_predicted = latent_semantic_model.X_predicted()
+    users_mapping = {v: k for k, v in enumerate(user_ids)}
+    articles_mapping = {v: k for k, v in enumerate(article_posts_ids)}
 
     user_posts = Post.query.join(User, Post.userId == user.userId).limit(limit).all()
+    all_posts = Post.query.limit(limit).all()
 
-    connected_user_posts = Post.query.join(user_connections, Post.userId == user_connections.c.follower_id). \
-        filter(user_connections.c.user_id == user.userId). \
-        limit(limit). \
-        all()
+    X = np.zeros((len(user_models), len(article_posts_ids)))
 
-    posts = list(set(user_posts).union(set(connected_user_posts)).union(set(external_posts)))
-    posts.sort(reverse=True, key=lambda x: x.updated)
+    for user in user_models:
+        for likedPost in user.likedPosts:
+            X[users_mapping[user.userId]][articles_mapping[likedPost.postId]] += 1
+        for postComment in user.postComments:
+            X[users_mapping[user.userId]][articles_mapping[postComment.postId]] += 1
 
-    return make_response(PostSchema().dumps(posts, many=True))
+    latent_semantic_model = MatrixFactorization(X, K=2, h=0.001)
+    latent_semantic_model.train_model()
+    values_predicted = latent_semantic_model.X_predicted()
+
+    max_of_each_col = list(np.max(values_predicted, axis=0))
+    k = 1
+    k_max_indexes = []
+    for i in range(k):
+        max_index = max_of_each_col.index(max(max_of_each_col))
+        k_max_indexes.append(max_index+1)
+
+    articlesToShow = [article for article in all_posts if article.postId in k_max_indexes]
+    if (not user_posts):
+        articlesToShow.extend(user_posts)
+
+    articlesToShow.sort(reverse=True, key=lambda x: x.updated)
+
+    return make_response(PostSchema().dumps(articlesToShow, many=True))
 
 
 @bp.route("/posts", methods=["POST"])
