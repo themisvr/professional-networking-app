@@ -60,6 +60,10 @@ export class UserService {
     return this.http.post<PersonalInfoModel>(`${environment.backendUrl}/users/personalInfo`, personalInfo);
   }
 
+  insertAvatar(userId: number, avatar: FormData) {
+    return this.http.put<UserModel>(`${environment.backendUrl}/users/${userId}/uploadAvatar`, avatar);
+  }
+
   getUserNetwork(email: string) {
     return this.http.get<ConnectionModel[]>(`${environment.backendUrl}/users/network`, {
       params: {

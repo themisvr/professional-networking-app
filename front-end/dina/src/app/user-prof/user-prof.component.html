@@ -9,7 +9,6 @@
       </a>
     </mat-nav-list>
   </mat-sidenav>
-  <!-- Content or body of your page -->
   <mat-sidenav-content>
     <div style="height: 85vh">
 
@@ -67,6 +66,9 @@
         </mat-form-field>
 
         <button mat-stroked-button *ngIf="isLoggedInUser;else content" (click)="onUpdate()">Update</button>
+        <input #avatar hidden="true" type="file" onclick="this.value=null" (change)="onImageSelected($event)" accept="image/*"/>
+        <button *ngIf="isLoggedInUser;else content" mat-flat-button color="primary" (click)="avatar.click()">Insert Avatar</button>
+
         <ng-template #content>
           <button mat-raised-button color="primary" (click)="onMessage()">Message</button>
           <button *ngIf="!isConnectedUser && !connReqSent && !isPendingConn" mat-raised-button color="primary" (click)="onConnect()">Connect</button>

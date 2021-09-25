@@ -34,6 +34,20 @@ def get_user_by_id(user_id):
     return make_response(UserSchema().dumps(user))
 
 
+@bp.route("/<user_id>/uploadAvatar", methods=["PUT"])
+def insertAvatar(user_id):
+    user, err = get_user_with_id_or_return_error(user_id)
+
+    if not user:
+        return err
+
+    if not request.files:
+        return make_response_error("No image was sent for upload", HttpStatus.BAD_REQUEST)
+
+    # Your code goes here!
+
+    return make_response(UserSchema().dumps(user))
+
 @bp.route("/changeEmail", methods=['PUT'])
 def change_email():
     content = request.get_json()
@@ -112,15 +126,15 @@ def get_user_posts():
     values_predicted = latent_semantic_model.X_predicted()
 
     max_of_each_col = list(np.max(values_predicted, axis=0))
-    k = 1
+    k = 5
     k_max_indexes = []
     for i in range(k):
         max_index = max_of_each_col.index(max(max_of_each_col))
         k_max_indexes.append(max_index+1)
 
     articlesToShow = [article for article in all_posts if article.postId in k_max_indexes]
-    if (not user_posts):
-        articlesToShow.extend(user_posts)
+    articlesToShow.extend(user_posts)
+    articlesToShow = list(set(articlesToShow))
 
     articlesToShow.sort(reverse=True, key=lambda x: x.updated)
 
@@ -232,7 +246,7 @@ def get_available_job_posts():
     values_predicted = latent_semantic_model.X_predicted()
 
     max_of_each_col = list(np.max(values_predicted, axis=0))
-    k = 2
+    k = 5
     k_max_indexes = []
     for i in range(k):
         max_index = max_of_each_col.index(max(max_of_each_col))

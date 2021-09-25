@@ -42,6 +42,7 @@ class User(db.Model):
     _password = db.Column("password", db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     phoneNumber = db.Column("phone_number", db.String, nullable=True)
+    avatar = db.Column("user_avatar", db.LargeBinary, nullable=True)
     isAdmin = db.Column("is_admin", db.Boolean, nullable=False, default=False)
     posts = db.relationship("Post", backref="user")
     jobPosts = db.relationship("JobPost", backref="user")
@@ -116,7 +117,6 @@ class PostMultimedia(db.Model):
     postId = db.Column("post_id", db.ForeignKey("posts.post_id"), nullable=False)
     mimeType = db.Column("mime_type", db.String, nullable=False)
     data = db.Column(db.LargeBinary)
-
 
 class Post(db.Model):
     __tablename__ = "posts"

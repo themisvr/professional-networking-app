@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PersonalInfoModel } from '../_models/personalInfo';
 import { AlertService } from '../_services/alert.service';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'dina-user-prof',
@@ -18,6 +20,9 @@ export class UserProfComponent implements OnInit {
   isConnectedUser: boolean = false;
   connReqSent: boolean = false;
   isPendingConn: boolean = false;
+  avatarSelected: any = null;
+  imageUrls: SafeUrl[] = [];
+
 
   constructor(
     private authService: AuthenticationService,
@@ -92,6 +97,21 @@ export class UserProfComponent implements OnInit {
           personalInfo => {
             this.personalInfo = personalInfo;
             this.alertService.success("Personal info updated successfully");
+          },
+          error => this.alertService.errorResponse(error),
+        );
+    }
+
+    onImageSelected(event: any) {
+      this.avatarSelected = <File>event.target.files[0];
+      const avatar = new FormData();
+      avatar.append('avatar', this.avatarSelected, this.avatarSelected.name);
+      const userId = this.authService.currentUserValue?.userId || -1;
+      this.userService.insertAvatar(userId, avatar)
+        .subscribe(
+          () => {
+            window.location.reload();
+            this.alertService.success("Avatar uploaded successfully");
           },
           error => this.alertService.errorResponse(error),
         );

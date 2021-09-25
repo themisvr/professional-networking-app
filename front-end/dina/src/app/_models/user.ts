@@ -5,6 +5,7 @@ export class UserModel {
     fullName: string;
     email: string;
     phoneNumber: string;
+    avatar: Blob[];
     isAdmin: boolean;
     token?: string;
 }

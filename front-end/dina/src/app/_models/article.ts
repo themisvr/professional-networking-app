@@ -1,5 +1,4 @@
 import { CommentModel } from "./comment";
-import { MultimediaModel } from "./multimedia";
 
 export class ArticleModel {
     postId: number;

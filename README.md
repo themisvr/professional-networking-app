@@ -15,5 +15,4 @@ flask run --cert=../cert.pem --key=../key.pem
 
 General:
  - Add image in user's profile
- - Images scaling based on mat-cards template
 
