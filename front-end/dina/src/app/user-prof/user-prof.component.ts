@@ -17,9 +17,7 @@ export class UserProfComponent implements OnInit {
   isLoggedInUser: boolean = false;
   isConnectedUser: boolean = false;
   isPendingUser: boolean = false;
-  loggedInFirstName: string;
-  loggedInLastName: string;
-
+  fullName: string;
 
   constructor(
     private authService: AuthenticationService,
@@ -42,30 +40,44 @@ export class UserProfComponent implements OnInit {
       this.route.paramMap.subscribe(params => {
         const email = params.get("email") || this.authService.currentUserValue?.email || "";
         this.isLoggedInUser = email === (this.authService.currentUserValue?.email || "");
-        this.loggedInFirstName = this.authService.currentUserValue?.firstName || "";
-        this.loggedInLastName = this.authService.currentUserValue?.lastName || "";
-        this.userService
-          .getUserNetwork(this.authService.currentUserValue?.email || "")
-          .subscribe(
-            connectedUsers => {
-              this.isConnectedUser = connectedUsers.find((user) => user.email === email) ? true : false;
-            },
-            error => {
-              this.alertService.error("An error occured while retrieving user network");
-              this.alertService.errorResponse(error);
-            }
-          );
+        this.fullName = this.authService.currentUserValue?.fullName || "";
 
         this.userService
           .getUserPersonalInfo(email)
           .subscribe(
-            personalInfo => this.personalInfo = personalInfo,
+            personalInfo => {
+              this.personalInfo = personalInfo;
+              if (!this.isLoggedInUser) {
+                this.userService
+                .getUserNetwork(this.authService.currentUserValue?.email || "")
+                .subscribe(
+                  connectedUsers => {
+                    this.isConnectedUser = connectedUsers.find((user) => user.email === email) ? true : false;
+                    if (!this.isConnectedUser) {
+                      this.userService.getConnectionRequests(personalInfo.userId)
+                        .subscribe(
+                          pendingRequests => {
+                            const myEmail = this.authService.currentUserValue?.email || "";
+                            this.isPendingUser = pendingRequests.find(pendingUser => pendingUser.email === myEmail) ? true : false;
+                          },
+                          error => this.alertService.errorResponse(error),
+                        );
+                    }
+                  },
+                  error => {
+                    this.alertService.error("An error occured while retrieving user network");
+                    this.alertService.errorResponse(error);
+                  }
+                );
+              }
+
+            },
             error => this.alertService.errorResponse(error),
           );
       });
     }
 
-    onSubmit() {
+    onUpdate() {
       this.userService.updateUserPersonalInfo(this.personalInfo)
         .subscribe(
           personalInfo => {
@@ -86,7 +98,7 @@ export class UserProfComponent implements OnInit {
         .subscribe(
           () => {
             this.isPendingUser = true;
-            this.alertService.success("Connection request sent successfully")
+            this.alertService.success("Connection request sent successfully");
           },
           error => this.alertService.errorResponse(error)
         );

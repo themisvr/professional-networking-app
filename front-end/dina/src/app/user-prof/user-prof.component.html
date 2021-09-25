@@ -19,11 +19,11 @@
         }
       </style>
       <h1 *ngIf="isLoggedInUser">
-        <div>{{loggedInFirstName}} {{loggedInLastName}}</div>
+        <div>{{fullName}}</div>
         Edit Personal Information
       </h1>
       <h1 *ngIf="!isLoggedInUser">Personal Information</h1>
-      <form [formGroup]="personalInfoForm" class="personal-info-form" (ngSubmit)="onSubmit()">
+      <form [formGroup]="personalInfoForm" class="personal-info-form">
         <section *ngIf="isLoggedInUser">
           <p>
             <mat-checkbox formControlName="workExperiencePublic" [(ngModel)]="personalInfo.workExperiencePublic">
@@ -63,7 +63,7 @@
             </textarea>
         </mat-form-field>
 
-        <button mat-stroked-button *ngIf="isLoggedInUser;else content">Update</button>
+        <button mat-stroked-button *ngIf="isLoggedInUser;else content" (click)="onUpdate()">Update</button>
         <ng-template #content>
           <button mat-raised-button color="primary" (click)="onMessage()">Message</button>
           <button *ngIf="!isConnectedUser && !isPendingUser" mat-raised-button color="primary" (click)="onConnect()">Connect</button>
