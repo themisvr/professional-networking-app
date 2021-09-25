@@ -14,7 +14,6 @@ flask run --cert=../cert.pem --key=../key.pem
 ## TODO list
 
 General:
- - Fix pending buttons when someone is waiting for a connection to be done
  - Add image in user's profile
  - Images scaling based on mat-cards template
 
