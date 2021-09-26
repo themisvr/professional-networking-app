@@ -33,18 +33,20 @@ export class ChatComponent implements OnInit {
       this.chatUserId = Number(params.get("chatUserId")) || this.chatUserId;
       this.chat.getMessagedUsers(userId).subscribe(users => {
         this.users = users;
-        if (!this.chatUserId) {
-          this.chatUserId = this.users[0].userId;
+        if (this.users.length) {
+          if (!this.chatUserId) {
+            this.chatUserId = this.users[0].userId;
+          }
+          this.chattingWith = this.users.find(user => user.userId == this.chatUserId) || new UserModel;
         }
-        const chattingUser = this.users.find(user => user.userId == this.chatUserId);
-        if (!chattingUser) {
-          this.userService.getUserById(this.chatUserId).subscribe(user => this.chattingWith = user);
-        } else {
-          this.chattingWith = chattingUser;
+        if (this.chatUserId) {
+          if (!this.chattingWith) {
+            this.userService.getUserById(this.chatUserId).subscribe(user => this.chattingWith = user);
+          }
+          this.chat.beginChat(userId);
+          this.chat.getMessages(userId, this.chatUserId).subscribe(messages => this.messages = messages);
+          this.chat.getMessage().subscribe(message => this.messages.push(message));
         }
-        this.chat.beginChat(userId);
-        this.chat.getMessages(userId, this.chatUserId).subscribe(messages => this.messages = messages);
-        this.chat.getMessage().subscribe(message => this.messages.push(message));
       });
     });
   }
