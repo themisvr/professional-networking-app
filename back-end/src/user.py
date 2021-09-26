@@ -1,4 +1,6 @@
-from flask import Blueprint, request
+import io
+
+from flask import Blueprint, request, send_file
 from article_recommender import *
 import numpy as np
 from http_constants.status import HttpStatus
@@ -34,8 +36,8 @@ def get_user_by_id(user_id):
     return make_response(UserSchema().dumps(user))
 
 
-@bp.route("/<user_id>/uploadAvatar", methods=["PUT"])
-def insertAvatar(user_id):
+@bp.route("/<user_id>/avatar", methods=["POST", "PUT"])
+def upload_avatar(user_id):
     user, err = get_user_with_id_or_return_error(user_id)
 
     if not user:
@@ -44,9 +46,28 @@ def insertAvatar(user_id):
     if not request.files:
         return make_response_error("No image was sent for upload", HttpStatus.BAD_REQUEST)
 
-    # Your code goes here!
+    avatar = next(request.files.values(), None)
+    if not avatar:
+        return make_response_error("No image was sent for upload", HttpStatus.BAD_REQUEST)
 
-    return make_response(UserSchema().dumps(user))
+    user.avatarMimeType = avatar.mimetype
+    user.avatar = avatar.read()
+
+    return commit_db_session_and_return_successful_response(db, UserSchema(), user)
+
+
+@bp.route("/<user_id>/avatar", methods=["GET"])
+def get_user_avatar(user_id):
+    user, err = get_user_with_id_or_return_error(user_id)
+
+    if not user:
+        return err
+
+    if user.avatar:
+        return send_file(io.BytesIO(user.avatar), mimetype=user.avatarMimeType)
+
+    return b''
+
 
 @bp.route("/changeEmail", methods=['PUT'])
 def change_email():
@@ -130,7 +151,7 @@ def get_user_posts():
     k_max_indexes = []
     for i in range(k):
         max_index = max_of_each_col.index(max(max_of_each_col))
-        k_max_indexes.append(max_index+1)
+        k_max_indexes.append(max_index + 1)
 
     articlesToShow = [article for article in all_posts if article.postId in k_max_indexes]
     articlesToShow.extend(user_posts)
@@ -213,7 +234,6 @@ def get_available_job_posts():
     for connectedUser in user.connections:
         connJobPosts.extend(connectedUser.jobPosts)
 
-
     allJobPosts = [job.jobPostId for job in JobPost.query.all()]
     createdJobPosts = [job.jobPostId for job in user.jobPosts]
     connectedjobPosts = [job.jobPostId for job in connJobPosts]
@@ -250,7 +270,7 @@ def get_available_job_posts():
     k_max_indexes = []
     for i in range(k):
         max_index = max_of_each_col.index(max(max_of_each_col))
-        k_max_indexes.append(max_index+1)
+        k_max_indexes.append(max_index + 1)
 
     jobsToShow = [job for job in notConnectedJobPostsModels if job_mapping[job.jobPostId] in k_max_indexes]
     jobsToShow.extend(connectedjobPosts)

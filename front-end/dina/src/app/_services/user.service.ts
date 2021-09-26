@@ -60,8 +60,12 @@ export class UserService {
     return this.http.post<PersonalInfoModel>(`${environment.backendUrl}/users/personalInfo`, personalInfo);
   }
 
-  insertAvatar(userId: number, avatar: FormData) {
-    return this.http.put<UserModel>(`${environment.backendUrl}/users/${userId}/uploadAvatar`, avatar);
+  uploadAvatar(userId: number, avatar: FormData) {
+    return this.http.put<UserModel>(`${environment.backendUrl}/users/${userId}/avatar`, avatar);
+  }
+
+  getAvatar(userId: number) {
+    return this.http.get<Blob>(`${environment.backendUrl}/users/${userId}/avatar`, {responseType: 'blob' as 'json'});
   }
 
   getUserNetwork(email: string) {

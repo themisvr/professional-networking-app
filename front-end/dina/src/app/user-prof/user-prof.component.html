@@ -67,7 +67,7 @@
 
         <button mat-stroked-button *ngIf="isLoggedInUser;else content" (click)="onUpdate()">Update</button>
         <input #avatar hidden="true" type="file" onclick="this.value=null" (change)="onImageSelected($event)" accept="image/*"/>
-        <button *ngIf="isLoggedInUser;else content" mat-flat-button color="primary" (click)="avatar.click()">Insert Avatar</button>
+        <button *ngIf="isLoggedInUser;else content" mat-flat-button color="primary" (click)="avatar.click()">Change Avatar</button>
 
         <ng-template #content>
           <button mat-raised-button color="primary" (click)="onMessage()">Message</button>

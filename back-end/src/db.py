@@ -42,8 +42,9 @@ class User(db.Model):
     _password = db.Column("password", db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     phoneNumber = db.Column("phone_number", db.String, nullable=True)
-    avatar = db.Column("user_avatar", db.LargeBinary, nullable=True)
     isAdmin = db.Column("is_admin", db.Boolean, nullable=False, default=False)
+    avatarMimeType = db.Column("avatar_mime_type", db.String, nullable=True)
+    avatar = db.Column("user_avatar", db.LargeBinary, nullable=True)
     posts = db.relationship("Post", backref="user")
     jobPosts = db.relationship("JobPost", backref="user")
     connections = db.relationship("User", secondary=user_connections, lazy="subquery",
@@ -118,6 +119,7 @@ class PostMultimedia(db.Model):
     mimeType = db.Column("mime_type", db.String, nullable=False)
     data = db.Column(db.LargeBinary)
 
+
 class Post(db.Model):
     __tablename__ = "posts"
 
@@ -159,7 +161,7 @@ class UserSchema(SQLAlchemyAutoSchema):
         model = User
         unknown = EXCLUDE
         load_instance = True
-        exclude = ("__ts_vector__",)
+        exclude = ("__ts_vector__", "avatar",)
         load_only = ("_password",)
 
     _password = auto_field(data_key="password", attribute="password")
@@ -201,6 +203,7 @@ class PostSchema(SQLAlchemyAutoSchema):
         unknown = EXCLUDE
         load_instance = True
 
+    userId = fields.fields.Integer()
     creator = mas_fields.Pluck(BasicUserInfoSchema(), 'fullName', attribute='user')
     comments = fields.Nested(PostCommentSchema, many=True)
     likeCount = fields.fields.Integer()

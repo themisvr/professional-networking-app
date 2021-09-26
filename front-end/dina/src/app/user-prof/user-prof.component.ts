@@ -107,7 +107,7 @@ export class UserProfComponent implements OnInit {
       const avatar = new FormData();
       avatar.append('avatar', this.avatarSelected, this.avatarSelected.name);
       const userId = this.authService.currentUserValue?.userId || -1;
-      this.userService.insertAvatar(userId, avatar)
+      this.userService.uploadAvatar(userId, avatar)
         .subscribe(
           () => {
             window.location.reload();

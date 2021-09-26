@@ -1,5 +1,6 @@
 <mat-card>
     <mat-card-header>
+        <div mat-card-avatar [style.background-image]="avatar" style="background-size: cover"></div>
         <mat-card-title>{{comment.writer}}</mat-card-title>
         <mat-card-subtitle>{{comment.created | date:'dd/MM/yyyy HH:MM'}}</mat-card-subtitle>
     </mat-card-header>

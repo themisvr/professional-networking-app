@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-header>
-        <div mat-card-avatar style="background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg'); background-size: cover;"></div>
+        <div mat-card-avatar [style.background-image]="avatar" style="background-size: cover"></div>
         <mat-card-title>{{article.creator}}</mat-card-title>
         <mat-card-subtitle>{{article.created | date :'dd/MM/yyyy HH:MM'}}</mat-card-subtitle>
     </mat-card-header>
