@@ -87,7 +87,10 @@ This is the profile page. A user can modify his information about his personal i
 
 ## Network
 
+This is the network page. In this page a user can see its network, the users that his connected to. For each connected user can either choose to view the user's profile or chat with him. The network page is shown as a grid of connencted users.
 ![network](./readme-images/network.png)
+
+Each time a user can search for another user by simply using the search bar in the navbar menu. The results of the searching are shown as a list of users. If there is no user with such name the application shows a corresponding message.
 
 ## Chat
 
@@ -96,6 +99,7 @@ This is the profile page. A user can modify his information about his personal i
 
 ## Settings
 
+This is the settings page. In this page the user can either choose to change his email or his password. Each time he chooses the right box and then he completes the necessary information.
 ![settings](./readme-images/settings.png)
 
 
