@@ -93,14 +93,25 @@ This is the profile page. A user can modify his information about his personal i
 
 ## Job Posts
 
+The job posts page consists of four tabs each one having a different category of job bosts. Each tab loads its content lazily for better performance.
+
+First, we have the available job posts tab:
+
+In this tab we will find a list of available job posts recommended to us (the connected user) based on the job posts that have been created by people in our network as well as job posts from people outside of our network based on some metrics (e.g popularity).
+
 ![avail-jobs](./readme-images/avail-jobs.png)
+
+Secondly, the next tab shows us the job posts that we have already applied to:
 
 ![applied-jobs](./readme-images/applied-jobs.png)
 
+Thirdly, the next tab shows us the job posts that we have created. For each job post that we have created, we can also see a list of the applicants to this job post by clicking "Show Applicants":
+
 ![created-jobs](./readme-images/created-jobs.png)
 
-![create-new-jobs](./readme-images/create-new-jobs.png)
+Finally, we have a page where we can create a new job post for the world to see:
 
+![create-new-jobs](./readme-images/create-new-jobs.png)
 
 ## Network
 
@@ -111,9 +122,11 @@ Each time a user can search for another user by simply using the search bar in t
 
 ## Chat
 
+The chat is a page where you can see the users that you last contacted with. The first user of the list on the left is the user you last contacted with (or they have contacted you). On the center of the page you will find the chat which contains the messages of the selected user in chronological order that they were sent.
+
+The implementation of the chat was achieved using a traditional REST API for getting the users as well as each user's messages but we also used websockets in order to have real time messaging between the users. However, the sockets use the REST rules for their resource endpoints.
 
 ![chat](./readme-images/chat.png)
-
 
 ## Settings
 
