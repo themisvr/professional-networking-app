@@ -71,8 +71,11 @@ This is the profile page. A user can modify his information about his personal i
 
 ## Notifications
 
-![notifications](./readme-images/notifications.png)
 
+This is the notifications page. In this page the user can see his connection requests. He can accept or reject the connection request or he can just view the user's profile.
+
+At the bottom of this page, the news feed section, the user can see notifications about comments or likes on his posts.
+![notifications](./readme-images/notifications.png)
 
 ## Job Posts
 
