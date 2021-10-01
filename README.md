@@ -16,29 +16,46 @@ DiNA is a professional networking application like LinkedIn
 - Docker
 - Various NPM dependencies (package.json)
 
-## Start Docker
+## Database Installation
+Our database is in docker (we would dockerize the rest of the components as well be we didn't have the time to).
 
-```
-```
-
-## How to run back-end
-
-```
-cd /back-end/src
-source ../venv/bin/activate
-flask init-db # this is needed only once to initialize schema and insert static data
-python3 app.py
+In order to install and create the database, you just need to run:
+```bash
+docker-compose -f dina_docker.yml up -d
 ```
 
-## How to run front-end
+NOTE: This assumes that you have docker and docker-compose installed and you can run docker without sudo
 
+## Back End Installation
+```bash
+cd back-end
+source venv/bin/activate
+pip install -r requirements.txt
+flask init-db # initializes database schema and static data
 ```
-cd /front-end/dina
+
+## Front End Installation
+```bash
+cd front-end/dina
 npm install
+```
+
+## How to run Back End
+
+```bash
+cd back-end/src
+source ../venv/bin/activate
+python app.py
+```
+
+## How to run Front End
+
+```bash
+cd front-end/dina
 npm start
+```
 
 Then browse to https://localhost:4200/welcome
-```
 
 
 ## Sign Up
@@ -90,6 +107,7 @@ This is the profile page. A user can modify his information about his personal i
 ![network](./readme-images/network.png)
 
 ## Chat
+
 
 ![chat](./readme-images/chat.png)
 
